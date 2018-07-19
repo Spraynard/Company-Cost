@@ -1,14 +1,11 @@
-const React = require("react");
-const ReactDOM = require("react-dom");
+import React from "react";
+import ReactDOM from "react-dom";
+import Store from "./store";
 
 const { render } = ReactDOM;
-
 const Business_Calculator = require("./components/Business_Calculator");
 
-let default_state = require("../data/default_state.json");
-default_state = JSON.parse(JSON.stringify(default_state));
-
 render(
-	<Business_Calculator data={default_state} />,
+	<Business_Calculator />,
 	document.getElementById("app-mount")
 );
