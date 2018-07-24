@@ -10,6 +10,7 @@
     "build-dev": "./node_modules/.bin/webpack -d"
   },
   "jest" : {
+    "setupTestFrameworkScriptFile" : "./local_storage_mock.js",
     "testEnvironment" : "node",
     "verbose" : true
   },

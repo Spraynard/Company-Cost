@@ -3,13 +3,13 @@ import {
 	removeExpenseGroup,
 	addExpenseGroupChild,
 	RemoveExpenseGroupChild
-} from '../../src/actions';
+} from "../../src/actions";
 
 describe("Action Tests", () => {
 	test("addExpenseGroup", () => {
 
-	})
-	test("removeExpenseGroup", () => {})
-	test("addExpenseGroupChild", () => {})
-	test("removeExpenseGroupChild", () => {})
+	});
+	test("removeExpenseGroup", () => {});
+	test("addExpenseGroupChild", () => {});
+	test("removeExpenseGroupChild", () => {});
 });

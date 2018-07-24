@@ -1,48 +1,5 @@
 const C = require("./constants.js");
 
-// // Controller reducer!!!
-// export const expenseGroupController = ( state={}, action ) => {
-// 	if ( ( typeof action.type ) === "undefined" )
-// 	{
-// 		return state;
-// 	}
-
-// 	if ( action.type === C.ADD_EXPENSE_GROUP ||
-// 		action.type === C.REMOVE_EXPENSE_GROUP )
-// 	{
-// 		return {
-// 			...state,
-// 			expense_groups : expenseGroups(state["expense_groups"], action),
-// 			expense_group_by_id : expenseGroup(state["expense_groups_by_id"], action),
-// 			expense_groups_expense_group_children : expenseGroupsChildren(
-// 				state["expense_groups_expense_group_children"],
-// 				action
-// 			)
-// 		};
-// 	}
-// 	return state;
-// };
-
-// // Abstracts addition of expense group child operations
-// export const expenseGroupChildController = ( state={}, action ) => {
-// 	if ( ( typeof action.type ) === "undefined" )
-// 	{
-// 		return state;
-// 	}
-// 	if ( action.type === C.ADD_EXPENSE_GROUP_CHILD ||
-// 		action.type === C.REMOVE_EXPENSE_GROUP_CHILD )
-// 	{
-// 		return {
-// 			...state,
-// 			expense_group_children : expenseGroupChildren( state["expense_group_children"], action ),
-// 			expense_group_child_by_id : expenseGroupChild( state["expense_group_child_by_id"], action ),
-// 			expense_group_children_xref : expenseGroupXrefferee( state["expense_group_children_xref"], action ),
-// 		}
-// 	}
-
-// 	return state;
-// }
-
 // Reducer for "expense_groups_expense_group_children"
 export const expense_groups_expense_group_children = ( state={}, action ) => {
 	if ( ( typeof action.type ) === "undefined" )
@@ -57,7 +14,7 @@ export const expense_groups_expense_group_children = ( state={}, action ) => {
 				state = {
 					...state,
 					[action.parentID] : []
-				}
+				};
 			}
 			return {
 				...state,
@@ -196,7 +153,7 @@ export const expense_group_children_xref = ( state={}, action ) => {
 				state = {
 					...state,
 					[ action.parentID ] : []
-				}
+				};
 			}
 
 			return {
@@ -210,9 +167,9 @@ export const expense_group_children_xref = ( state={}, action ) => {
 			state = {
 				...state,
 				[ action.parentID ] : state[action.parentID].filter( item => {
-					return item !== action.id
+					return item !== action.id;
 				})
-			}
+			};
 
 			/* Complete removal from this state if there are no more references left for a parent */
 			if ( state[ action.parentID ].length === 0 )
