@@ -123,7 +123,8 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 					description : action.description,
 					cost : action.cost,
 					costUOM : action.costUOM,
-					timestamp : action.timestamp
+					timestamp : action.timestamp,
+					parentID : action.parentID
 				}
 			};
 

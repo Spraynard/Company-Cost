@@ -16,10 +16,10 @@ import {
 const logger = store => next => action => {
 	let result;
 	console.groupCollapsed("Dispatching: ", action.type);
-	console.log("Prev State: ", store.getState());
-	console.log("Action: ", action);
+	console.log("Prev State: ", JSON.stringify(store.getState(), null, 4));
+	console.log("Action: ", JSON.stringify(action, null, 4));
 	result = next(action);
-	console.log("Next State: ", store.getState());
+	console.log("Next State: ", JSON.stringify(store.getState(), null, 4));
 	console.groupEnd();
 	return result;
 };
