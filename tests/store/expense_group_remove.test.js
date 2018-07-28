@@ -14,10 +14,10 @@ var title = "A Test Expense Group";
 
 beforeAll(() => {
 	test_store = store(defaultState);
-	action = addExpenseGroup(title);
+	action = addExpenseGroup({ title });
 	id = action.id;
 	test_store.dispatch(action);// Adding an expense group
-	test_store.dispatch(removeExpenseGroup(id)) // Removing an expense group
+	test_store.dispatch(removeExpenseGroup({ id })); // Removing an expense group
 });
 
 describe("Expense Groups", () => {

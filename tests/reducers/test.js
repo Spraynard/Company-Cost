@@ -1,94 +1,98 @@
 import C from "../../src/constants";
+
 import {
-	expense_groups_expense_group_children,
 	expense_groups,
 	expense_group_by_id,
+	// expense_groups_expense_group_children
+} from "../../src/reducers/expense_group_reducers";
+
+import {
 	expense_group_children,
 	expense_group_child_by_id,
-	expense_group_children_xref
-} from "../../src/reducers.js";
+	expense_group_children_xref,
+} from "../../src/reducers/expense_group_children_reducers";
 
-describe("Expense Groups Expense Group Children", () => {
-	var state;
+// describe("Expense Groups Expense Group Children", () => {
+// 	var state;
 
-	beforeEach(() => {
-		state = {};
-	});
+// 	beforeEach(() => {
+// 		state = {};
+// 	});
 
-	test("Returns state on action not having a type", () => {
-		var action = {
-			id : 0,
-			childID : 1,
-		};
+// 	test("Returns state on action not having a type", () => {
+// 		var action = {
+// 			id : 0,
+// 			childID : 1,
+// 		};
 
-		var results = expense_groups_expense_group_children( state, action );
+// 		var results = expense_groups_expense_group_children( state, action );
 
-		expect( results ).toEqual({});
-	});
+// 		expect( results ).toEqual({});
+// 	});
 
-	test("Will add an expense group child to uninitialized state.", () => {
-		var action = {
-			type : C.ADD_EXPENSE_GROUP_CHILD,
-			parentID : 0,
-			id : 1
-		};
+// 	test("Will add an expense group child to uninitialized state.", () => {
+// 		var action = {
+// 			type : C.ADD_EXPENSE_GROUP_CHILD,
+// 			parentID : 0,
+// 			id : 1
+// 		};
 
-		var results = expense_groups_expense_group_children( state, action );
+// 		var results = expense_groups_expense_group_children( state, action );
 
-		expect( results ).toEqual({
-			0 : [ 1 ]
-		});
-	});
+// 		expect( results ).toEqual({
+// 			0 : [ 1 ]
+// 		});
+// 	});
 
-	test("Will add an expense group child to initialized state.", () => {
-		state["0"] = [ 2 ];
+// 	test("Will add an expense group child to initialized state.", () => {
+// 		state["0"] = [ 2 ];
 
-		var action = {
-			type : C.ADD_EXPENSE_GROUP_CHILD,
-			parentID : 0,
-			id : 1
-		};
+// 		var action = {
+// 			type : C.ADD_EXPENSE_GROUP_CHILD,
+// 			parentID : 0,
+// 			id : 1
+// 		};
 
-		var results = expense_groups_expense_group_children( state, action );
+// 		var results = expense_groups_expense_group_children( state, action );
 
-		expect( results ).toEqual({
-			0 : [ 2, 1 ]
-		});
-	});
+// 		expect( results ).toEqual({
+// 			0 : [ 2, 1 ]
+// 		});
+// 	});
 
-	test("Will remove an expense group from the state", () => {
-		state = {
-			0 : [ 1, 2, 3, 4 ]
-		};
+// 	test("Will remove an expense group from the state", () => {
+// 		state = {
+// 			0 : [ 1, 2, 3, 4 ]
+// 		};
 
-		var action = {
-			type : C.REMOVE_EXPENSE_GROUP,
-			id : 0
-		};
+// 		var action = {
+// 			type : C.REMOVE_EXPENSE_GROUP,
+// 			id : 0
+// 		};
 
-		var results = expense_groups_expense_group_children( state, action );
+// 		var results = expense_groups_expense_group_children( state, action );
 
-		expect( results ).toEqual({});
-	});
+// 		expect( results ).toEqual({});
+// 	});
 
-	test("Will remove an expense group child from the state", () => {
-		state = {
-			0 : [ 1, 2, 3, 4 ]
-		};
+// 	test("Will remove an expense group child from the state", () => {
+// 		state = {
+// 			0 : [ 1, 2, 3, 4 ]
+// 		};
 
-		var action = {
-			type : C.REMOVE_EXPENSE_GROUP_CHILD,
-			parentID : 0,
-			id : 3
-		};
+// 		var action = {
+// 			type : C.REMOVE_EXPENSE_GROUP_CHILD,
+// 			parentID : 0,
+// 			id : 3
+// 		};
 
-		var results = expense_groups_expense_group_children( state, action );
+// 		var results = expense_groups_expense_group_children( state, action );
 
-		expect( results ).toEqual({
-			0 : [ 1, 2, 4 ]
-		});
-	});
-});
+// 		expect( results ).toEqual({
+// 			0 : [ 1, 2, 4 ]
+// 		});
+// 	});
+// });
 
 describe("Expense Groups", () => {
 	var state;
@@ -326,7 +330,7 @@ describe("Expense GroupChild", () => {
 	});
 });
 
-describe("Expense Group XRefferee", () => {
+describe("Expense Group Children XREF", () => {
 	var state;
 
 	beforeEach(() => {
@@ -349,6 +353,21 @@ describe("Expense Group XRefferee", () => {
 			id: 0,
 			parentID: 1
 		};
+
+		var results = expense_group_children_xref( state, action );
+
+		expect( results ).toEqual({});
+	});
+
+	test("Returns original state object when we're trying to delete an expense group that doesn't have children", () => {
+		var action = {
+			type : C.REMOVE_EXPENSE_GROUP,
+			id : 0
+		};
+
+		var results = expense_group_children_xref( state, action );
+
+		expect( results ).toEqual({});
 	});
 
 	test("Adding Expense Group Child", () => {
@@ -394,5 +413,34 @@ describe("Expense Group XRefferee", () => {
 		var results = expense_group_children_xref( state, action);
 
 		expect( results ).toEqual({});
+	});
+
+	test("Removes an expense group and all of its children when we get a valid expense group removal action", () => {
+		state = {
+			1 : [ 0, 1, 2 ]
+		};
+		var action = {
+			type : C.REMOVE_EXPENSE_GROUP,
+			id : 1
+		};
+
+		var results = expense_group_children_xref( state, action );
+		expect( results ).toEqual({});
+	});
+
+	test("Removes an expense group and all of it's children when specified in a multiple expense group array", () => {
+		state = {
+			1 : [ 0, 1, 2],
+			2 : [ 3, 4, 5]
+		};
+		var action = {
+			type : C.REMOVE_EXPENSE_GROUP,
+			id : 2
+		};
+
+		var results = expense_group_children_xref( state, action );
+		expect( results ).toEqual({
+			1 : [ 0, 1, 2]
+		});
 	});
 });

@@ -1,4 +1,3 @@
-import C from "../../src/constants";
 import store from "../../src/store";
 import {
 	addExpenseGroup,
@@ -14,7 +13,7 @@ var title = "A Test Expense Group";
 
 beforeAll(() => {
 	test_store = store(defaultState);
-	action = addExpenseGroup(title);
+	action = addExpenseGroup({ title });
 	id = action.id;
 	test_store.dispatch(action);
 });

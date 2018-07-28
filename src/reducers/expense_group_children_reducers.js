@@ -1,93 +1,10 @@
-const C = require("./constants.js");
+import C from "../constants.js";
 
-// Reducer for "expense_groups_expense_group_children"
-export const expense_groups_expense_group_children = ( state={}, action ) => {
-	if ( ( typeof action.type ) === "undefined" )
-	{
-		return state;
-	}
-	switch ( action.type ) {
-		case C.ADD_EXPENSE_GROUP_CHILD:
-			if ( typeof ( state[action.parentID] ) === "undefined" )
-			{
-				// Giving the state the initialized array so we can just add onto it.
-				state = {
-					...state,
-					[action.parentID] : []
-				};
-			}
-			return {
-				...state,
-				[ action.parentID ] : [
-					...state[action.parentID],
-					action.id
-				]
-			};
-
-		case C.REMOVE_EXPENSE_GROUP:
-			let { [ action.id.toString() ] : deleted, ...newState } = state;
-			return newState;
-
-		case C.REMOVE_EXPENSE_GROUP_CHILD:
-			return {
-				...state,
-				[ action.parentID ] : state[action.parentID].filter(
-					item => item !== action.id
-				)
-			};
-
-		default:
-			return state;
-	}
-};
-
-// Reducer for "expense_groups"
-export const expense_groups = ( state=[], action ) => {
-	if ( ( typeof action.type ) === "undefined" )
-	{
-		return state;
-	}
-	switch ( action.type ) {
-		case C.ADD_EXPENSE_GROUP:
-			return [
-				...state,
-				action.id
-			];
-		case C.REMOVE_EXPENSE_GROUP:
-			return state.filter(
-				item => action.id !== item
-			);
-		default:
-			return state;
-	}
-};
-
-// Reducer for "exense_group_by_id"
-export const expense_group_by_id = ( state={}, action ) => {
-	if ( ( typeof action.type ) === "undefined" )
-	{
-		return state;
-	}
-	switch ( action.type ) {
-		case C.ADD_EXPENSE_GROUP:
-			return {
-				...state,
-				[ action.id ] : {
-					title : action.title,
-					timestamp : action.timestamp
-				}
-			};
-
-		case C.REMOVE_EXPENSE_GROUP:
-			let { [action.id.toString()] : deleted, ...newState} = state;
-			return newState;
-
-		default:
-			return state;
-	}
-};
-
-// Reducer for "expense_group_children"
+/**
+ * Reducer for "expense_group_children"
+ * This is meant to provide a pool of all the expense group children in our
+ * application's state.
+ */
 export const expense_group_children = ( state=[], action ) => {
 	if ( ( typeof action.type ) === "undefined" )
 	{
@@ -108,7 +25,10 @@ export const expense_group_children = ( state=[], action ) => {
 	}
 };
 
-// Reducer for "expense_group_child_by_id"
+/**
+ * Reducer for "expense_group_child_by_id"
+ * This is meant to hold all of the expense group children's data, per ID.
+ */
 export const expense_group_child_by_id = ( state={}, action ) => {
 	if ( ( typeof action.type ) === "undefined" )
 	{
@@ -137,7 +57,11 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 	}
 };
 
-// Reducer for "expense_group_children_xref"
+/**
+ * Reducer for "expense_group_children_xref"
+ * This is mean to provide a cross reference between an expense group child
+ * and the parent expense group that contains it.
+ */
 export const expense_group_children_xref = ( state={}, action ) => {
 	if ( ( typeof action.type ) === "undefined" )
 	{
@@ -181,7 +105,18 @@ export const expense_group_children_xref = ( state={}, action ) => {
 
 			return state;
 
+		case C.REMOVE_EXPENSE_GROUP:
+			// This is checking to see if there's even an expense group witin this
+			// portion of the state in the first place. If not, then we're just return the regular unchanged state.
+			if ( typeof state[action.id] === "undefined" )
+			{
+				return state;
+			}
+
+			let { [ action.id.toString() ] : deleted, ...newState } = state;
+			return newState;
+
 		default:
 			return state;
 	}
-}
+};

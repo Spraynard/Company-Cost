@@ -4,14 +4,18 @@ import {
 	applyMiddleware
 } from "redux";
 import stateData from "../data/default_state.json";
+
 import {
 	expense_groups,
 	expense_group_by_id,
+	// expense_groups_expense_group_children
+} from "./reducers/expense_group_reducers";
+
+import {
 	expense_group_children,
 	expense_group_child_by_id,
 	expense_group_children_xref,
-	expense_groups_expense_group_children
-} from "./reducers";
+} from "./reducers/expense_group_children_reducers";
 
 const logger = store => next => action => {
 	let result;
@@ -38,7 +42,7 @@ const store = (initialState=stateData) =>
 			expense_group_children,
 			expense_group_child_by_id,
 			expense_group_children_xref,
-			expense_groups_expense_group_children
+			// expense_groups_expense_group_children
 		}),
 		(localStorage["company_cost_store"]) ?
 			JSON.parse(localStorage["company_cost_store"]) :

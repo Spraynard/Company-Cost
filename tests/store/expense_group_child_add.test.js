@@ -67,7 +67,9 @@ describe("Expense Group Child By ID", () => {
 	});
 
 	test("Adds an object with a UUID key", () => {
-		expect(Object.keys(expense_group_child_by_id)[0].length).toBe(36);
+		let id_key = Object.keys(expense_group_child_by_id)[0];
+		expect(id_key.length).toBe(36);
+		expect(id_key).toBe(expense_group_child_id);
 	});
 
 	test("Adds a title", () => {
@@ -90,5 +92,25 @@ describe("Expense Group Child By ID", () => {
 		expect(expense_group_child_by_id[expense_group_child_id].parentID).toBe(expense_group_id);
 	});
 });
-describe("Expense Group Children XREF", () => {});
-describe("Expense Groups Expense Group CHildren", () => {});
+
+describe("Expense Group Children XREF", () => {
+	var expense_group_children_xref;
+
+	beforeEach(() => {
+		expense_group_children_xref = test_store.getState()["expense_group_children_xref"];
+	});
+
+	test("Adds Parent UUID as a key", () => {
+		let id_key = Object.keys(expense_group_children_xref)[0];
+		expect(id_key.length).toBe(36);
+		expect(id_key).toBe(expense_group_id);
+	});
+
+	test("Adds childID into parentID keyed array", () => {
+		let expense_group_children_xref_child_array = expense_group_children_xref[expense_group_id];
+		expect(expense_group_children_xref_child_array[0].length).toBe(36);
+		expect(expense_group_children_xref_child_array[0]).toBe(expense_group_child_id);
+	});
+});
+
+// describe("Expense Groups Expense Group Children", () => {});
