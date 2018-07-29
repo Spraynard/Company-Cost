@@ -88,7 +88,21 @@ export const expense_group_children_xref = ( state={}, action ) => {
 					action.id
 				]
 			};
+		/**
+		 * I want to base my expense group child remove on the least amount of overhead possible.
+		 * This means that, since I have access to the state with this reducer, that I have the chance
+		 * to get a "parentID" from the "expense_group_child_by_id" object.
+		 * I don't want to force this behavior, though, so I'll check and see if we are getting a supplied
+		 * value or if we have to look for it.
+		 */
 		case C.REMOVE_EXPENSE_GROUP_CHILD:
+			console.log("This is our state right here my man", state);
+			console.log("This is our state object right here my man", state.expense_group_child_by_id);
+			if ( typeof action.parentID === "undefined" && typeof state.expense_group_child_by_id === "object" )
+			{
+				// This is where we try and find the parent ID.
+				action.parentID = state.expense_group_child_by_id[action.id].parentID;
+			}
 			state = {
 				...state,
 				[ action.parentID ] : state[action.parentID].filter( item => {
