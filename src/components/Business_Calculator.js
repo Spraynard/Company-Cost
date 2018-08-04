@@ -1,8 +1,8 @@
-const React = require('react');
-const Hashids = require('hashids');
+const React = require("react");
+const Hashids = require("hashids");
 
-const Expense_Group = require('./Expense_Group.js');
-const Stats_Window = require('./Stats_Window.js');
+const Expense_Group = require("./Expense_Group.js");
+const Stats_Window = require("./Stats_Window.js");
 
 const { Component } = React;
 

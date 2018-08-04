@@ -44,7 +44,8 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 					cost : action.cost,
 					costUOM : action.costUOM,
 					timestamp : action.timestamp,
-					parentID : action.parentID
+					parentID : action.parentID,
+
 				}
 			};
 

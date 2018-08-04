@@ -58,8 +58,7 @@ const expense_group_child_remove_helper = store => next => action => {
 		// Now we inject the parentID into the action
 		action.parentID = childrens_parent_id;
 	}
-	// Now we perform the action. Notice how it is being performed outside of the control statement
-	// so that we are returning the action even if there isn't any reason for this function to exists at the time in the program.
+
 	return next(action);
 };
 
