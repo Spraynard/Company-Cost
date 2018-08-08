@@ -37,7 +37,8 @@ export const expense_group_by_id = ( state={}, action ) => {
 				...state,
 				[ action.id ] : {
 					title : action.title,
-					timestamp : action.timestamp
+					timestamp : action.timestamp,
+					edit : action.edit
 				}
 			};
 

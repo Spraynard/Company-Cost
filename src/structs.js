@@ -1,19 +1,46 @@
-class ExpenseBase {
-	constructor( initial = { title , timestamp } ) {
+class Expense_Base {
+	constructor( initial ) {
+		this.NameSpace = "Expense_Base";
 		this.initial = initial;
+
+		if ( typeof this.initial.timestamp === "undefined" )
+		{
+			this.initial.timestamp = new Date().toString()
+		}
+	}
+
+	set_struct() {
 		this.struct = {
-			...initial
-		};
+			...[this.initial]
+		}
 	}
 
 	output() {
 		return this.struct;
 	}
+
+	default() {
+		var group = new this.NameSpace( this.initial, false );
+		return group.output();
+	}
 }
 
-class Expense_Group extends ExpenseBase {
+class Expense_Group extends Expense_Base {
 	constructor( initial, edit ) {
 		super(initial);
+		this.NameSpace = "Expense_Group";
+		this.struct = {
+			...this.initial,
+			edit
+		};
+		this.edit = this.struct.edit;
+	}
+}
+
+class Expense_Group_Child extends Expense_Base {
+	constructor( initial, edit ) {
+		super(initial);
+		this.NameSpace = "Expense_Group_Child";
 		this.struct = {
 			...this.initial,
 			edit
@@ -21,24 +48,10 @@ class Expense_Group extends ExpenseBase {
 		this.edit = this.struct.edit;
 	}
 
-	default_expense_group () {
-		var group = new Expense_Group( this.initial, false );
-		return group.output();
-	}
 }
 
-class Expense_Group_Child extends ExpenseBase {
-	constructor( initial, edit ) {
-		super(initial);
-		this.struct = {
-			...this.initial,
-			edit
-		};
-		this.edit = this.struct.edit;
-	}
-
-	default_expense_group_child () {
-		var group = new Expense_Group_Child( this.initial, false );
-		return group.output();
-	}
-}
+module.exports = {
+	Expense_Base,
+	Expense_Group,
+	Expense_Group_Child
+};

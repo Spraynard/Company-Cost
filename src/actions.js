@@ -5,7 +5,8 @@ export const addExpenseGroup = ({ title }) => ({
 	type : C.ADD_EXPENSE_GROUP,
 	id : v4(),
 	title,
-	timestamp : new Date().toString()
+	timestamp : new Date().toString(),
+	edit : false
 });
 
 export const removeExpenseGroup = ({ id }) => ({
@@ -21,7 +22,8 @@ export const addExpenseGroupChild = ({ title, description, cost, costUOM, parent
 	description,
 	cost,
 	costUOM,
-	timestamp : new Date().toString()
+	timestamp : new Date().toString(),
+	edit : false
 });
 
 export const removeExpenseGroupChild = ({ id }) => ({
