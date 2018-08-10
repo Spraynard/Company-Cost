@@ -3,7 +3,6 @@ import C from "../../src/constants";
 import {
 	expense_groups,
 	expense_group_by_id,
-	// expense_groups_expense_group_children
 } from "../../src/reducers/expense_group_reducers";
 
 import {
@@ -11,6 +10,14 @@ import {
 	expense_group_child_by_id,
 	expense_group_children_xref,
 } from "../../src/reducers/expense_group_children_reducers";
+
+// Importing actions to use. These should work and be tested out correctly.
+import {
+	addExpenseGroup,
+	removeExpenseGroup,
+	addExpenseGroupChild,
+	removeExpenseGroupChild
+} from "../../src/actions";
 
 describe("Expense Groups", () => {
 	var state;
