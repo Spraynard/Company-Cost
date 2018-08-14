@@ -278,10 +278,6 @@ describe("Expense GroupChild", () => {
 			}
 		};
 
-		// var action = {
-		// 	type : C.REMOVE_EXPENSE_GROUP_CHILD,
-		// 	id : 0
-		// };
 		var action = removeExpenseGroupChild({ id : 0 });
 
 		var results = expense_group_child_by_id( state, action );
@@ -305,11 +301,6 @@ describe("Expense Group Children XREF", () => {
 	});
 
 	test("Returns state object when fed an undefined type", () => {
-		// var action = {
-		// 	type: "ADD_UR_MOM",
-		// 	id: 0,
-		// 	parentID: 1
-		// };
 
 		var action = addExpenseGroupChild( expense_group_child_action_helper );
 		action.type = "ADD_UR_MOM";
@@ -319,10 +310,6 @@ describe("Expense Group Children XREF", () => {
 	});
 
 	test("Returns original state object when we're trying to delete an expense group that doesn't have children", () => {
-		// var action = {
-		// 	type : C.REMOVE_EXPENSE_GROUP,
-		// 	id : 0
-		// };
 
 		var action = removeExpenseGroup({ id : 0 });
 
@@ -331,11 +318,6 @@ describe("Expense Group Children XREF", () => {
 	});
 
 	test("Adding Expense Group Child", () => {
-		// var action = {
-		// 	type: C.ADD_EXPENSE_GROUP_CHILD,
-		// 	id: 0,
-		// 	parentID: 1
-		// };
 
 		var parent_action = addExpenseGroup({ title : "A Test Expense Group" });
 		var action = addExpenseGroupChild({

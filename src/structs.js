@@ -1,3 +1,6 @@
+/**
+ * This whole file is probably deprecated - Kellan M.
+ */
 class Expense_Base {
 	constructor( initial ) {
 		this.NameSpace = "Expense_Base";
@@ -5,14 +8,14 @@ class Expense_Base {
 
 		if ( typeof this.initial.timestamp === "undefined" )
 		{
-			this.initial.timestamp = new Date().toString()
+			this.initial.timestamp = new Date().toString();
 		}
 	}
 
 	set_struct() {
 		this.struct = {
 			...[this.initial]
-		}
+		};
 	}
 
 	output() {

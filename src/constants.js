@@ -11,7 +11,7 @@ const constants = {
 	/* Constants used for item editing */
 	EDIT_ENTITY : "EDIT_ENTITY",
 	SAVE_ENTITY : "SAVE_ENTITY",
-	ENTITY_CANCEL_EDIT : "ENTITY_CANCEL_EDIT"
+	CANCEL_EDIT_ENTITY : "CANCEL_EDIT_ENTITY"
 };
 
 module.exports = constants;
