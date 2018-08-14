@@ -18,9 +18,16 @@ import {
 	expense_group_children_xref,
 } from "./reducers/expense_group_children_reducers";
 
+const enable_logger = false;
+
 // Log actions to the console as we dispatch them
 const logger = store => next => action => {
 	let result;
+
+	if ( ! enable_logger )
+	{
+		return next(action);
+	}
 	console.groupCollapsed("Dispatching: ", action.type);
 	console.log("Prev State: ", JSON.stringify(store.getState(), null, 4));
 	console.log("Action: ", JSON.stringify(action, null, 4));

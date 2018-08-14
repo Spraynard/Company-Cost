@@ -26,7 +26,8 @@ export const addExpenseGroupChild = ({ title, description, cost, costUOM, parent
 	edit : false
 });
 
-export const removeExpenseGroupChild = ({ id }) => ({
+export const removeExpenseGroupChild = ({ id, parentID }) => ({
 	type : C.REMOVE_EXPENSE_GROUP_CHILD,
-	id
+	id,
+	parentID
 });

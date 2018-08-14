@@ -97,13 +97,18 @@ export const expense_group_children_xref = ( state={}, action ) => {
 		 * value or if we have to look for it.
 		 */
 		case C.REMOVE_EXPENSE_GROUP_CHILD:
-			console.log("This is our state right here my man", state);
-			console.log("This is our state object right here my man", state.expense_group_child_by_id);
 			if ( typeof action.parentID === "undefined" && typeof state.expense_group_child_by_id === "object" )
 			{
 				// This is where we try and find the parent ID.
 				action.parentID = state.expense_group_child_by_id[action.id].parentID;
 			}
+
+			// This is where we return a state object even on epic fail.
+			if ( typeof action.parentID === "undefined" )
+			{
+				return state;
+			}
+
 			state = {
 				...state,
 				[ action.parentID ] : state[action.parentID].filter( item => {
