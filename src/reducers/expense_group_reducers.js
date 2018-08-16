@@ -46,6 +46,48 @@ export const expense_group_by_id = ( state={}, action ) => {
 			let { [action.id.toString()] : deleted, ...newState} = state;
 			return newState;
 
+		// todo
+		case C.EDIT_ENTITY:
+			// Checking if ID is in this portion of state.
+			if ( typeof state[ action.id ] === "undefined" )
+			{
+				return state;
+			}
+
+			return {
+				...state,
+				[ action.id ] : {
+					...state[action.id],
+					edit : true
+				}
+			};
+
+		// todo... have no idea how to implement this.
+		case C.SAVE_ENTITY:
+			// Checking if ID is in this portion of state.
+			if ( typeof state[ action.id ] === "undefined" )
+			{
+				return state;
+			}
+
+			return state;
+
+		// todo
+		case C.CANCEL_EDIT_ENTITY:
+			// Checking if ID is in this portion of state.
+			if ( typeof state[ action.id ] === "undefined" )
+			{
+				return state;
+			}
+
+			return {
+				...state,
+				[ action.id ] : {
+					...state[action.id],
+					edit : false
+				}
+			};
+
 		default:
 			return state;
 	}

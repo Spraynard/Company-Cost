@@ -152,11 +152,6 @@ describe("Expense GroupChildren", () => {
 	test("Will remove an expense group ID from the state array", () => {
 		state = [ 1, 2, 3, 4 ];
 
-		// var action = {
-		// 	type: C.REMOVE_EXPENSE_GROUP_CHILD,
-		// 	id : 2
-		// };
-
 		var action = removeExpenseGroupChild({ id : 2 });
 
 		var results = expense_group_children( state, action );
@@ -172,10 +167,6 @@ describe("Expense GroupChild", () => {
 	});
 
 	test("Returns state on action not having a type", () => {
-		// var action = {
-		// 	id : 0,
-		// 	childID : 1,
-		// };
 
 		var action = addExpenseGroupChild( expense_group_child_action_helper );
 		action.type = undefined;
@@ -185,15 +176,6 @@ describe("Expense GroupChild", () => {
 	});
 
 	test("Will add an expense group child to uninitialized state.", () => {
-		// var action = {
-		// 	type : C.ADD_EXPENSE_GROUP_CHILD,
-		// 	id : 0,
-		// 	title : "test",
-		// 	description : "this is a test",
-		// 	cost : 12.03,
-		// 	costUOM : "hour"
-		// };
-
 		var action = addExpenseGroupChild({
 			title : "test",
 			description : "this is a test",

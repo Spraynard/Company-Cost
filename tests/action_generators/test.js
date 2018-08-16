@@ -3,7 +3,10 @@ import {
 	addExpenseGroup,
 	removeExpenseGroup,
 	addExpenseGroupChild,
-	removeExpenseGroupChild
+	removeExpenseGroupChild,
+	editEntity,
+	saveEntity,
+	cancelEditEntity
 } from "../../src/actions";
 
 // Importing Constants
@@ -82,3 +85,56 @@ describe("Remove Expense Group Child", () => {
 		expect(action.id).toBe(actionObject.id);
 	});
 });
+
+/////////////////////////
+// Actions for editing //
+/////////////////////////
+import { v4 } from "uuid";
+describe("Enabling edit mode", () => {
+	var expenseGroupID;
+	var action;
+
+	beforeEach(() => {
+		expenseGroupID = v4();
+	});
+
+	test("Sends out an expense group edit action", () => {
+		action = editEntity({ id : expenseGroupID });
+
+		expect(action.type).toBe(C.EDIT_ENTITY);
+		expect(action.id).toBe(expenseGroupID);
+	});
+});
+
+describe("Cancelling edit mode", () => {
+	var expenseGroupID;
+	var action;
+
+	beforeEach(() => {
+		expenseGroupID = v4();
+	});
+
+	test("Sends out an expense group edit cancel action", () => {
+		action = cancelEditEntity({ id : expenseGroupID });
+
+		expect(action.type).toBe(C.CANCEL_EDIT_ENTITY);
+		expect(action.id).toBe(expenseGroupID);
+	});
+});
+
+describe("Saving Edit Mode Changes", () => {
+	var expenseGroupID;
+	var action;
+
+	beforeEach(() => {
+		expenseGroupID = v4();
+	});
+
+	test("Sends out an expense group edit save action", () => {
+		action = saveEntity({ id : expenseGroupID });
+
+		expect(action.type).toBe(C.SAVE_ENTITY);
+		expect(action.id).toBe(expenseGroupID);
+	});
+});
+
