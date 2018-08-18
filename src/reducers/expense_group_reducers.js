@@ -46,7 +46,6 @@ export const expense_group_by_id = ( state={}, action ) => {
 			let { [action.id.toString()] : deleted, ...newState} = state;
 			return newState;
 
-		// todo
 		case C.EDIT_ENTITY:
 			// Checking if ID is in this portion of state.
 			if ( typeof state[ action.id ] === "undefined" )
@@ -72,7 +71,6 @@ export const expense_group_by_id = ( state={}, action ) => {
 
 			return state;
 
-		// todo
 		case C.CANCEL_EDIT_ENTITY:
 			// Checking if ID is in this portion of state.
 			if ( typeof state[ action.id ] === "undefined" )

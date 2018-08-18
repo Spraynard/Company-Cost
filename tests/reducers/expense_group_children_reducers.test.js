@@ -212,8 +212,6 @@ describe("Expense Group Child By ID", () => {
 	test("Will enable editing when there is a valid expense group object", () => {
 		var action = addExpenseGroupChild( expense_group_child_action_helper );
 
-		// var action_id = action.id;
-
 		state = expense_group_child_by_id( state, action );
 
 		var action_2 = editEntity( action );

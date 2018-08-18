@@ -12,7 +12,18 @@ export const items_edited = ( state = {}, action ) => {
 		 * we consider editable as a value to the item's I.D.-based key
 		 */
 		case C.EDIT_ENTITY:
-			return state;
+			// extract items that shouldn't be in here.
+			let {
+				[ action.id.toString() ] : deleted,
+				[ action.edit ] : deleted,
+				...rest
+			} = action;
+			return {
+				...state,
+				[ action.id ] : {
+
+				}
+			}
 
 		/**
 		 * Currently have no idea how I'm going to share the data between
