@@ -11,6 +11,7 @@ const constants = {
 	/* Constants used for item editing */
 	EDIT_ENTITY : 					"EDIT_ENTITY",
 	SAVE_ENTITY : 					"SAVE_ENTITY",
+	UPDATE_ENTITY : 				"UPDATE_ENTITY",
 	CANCEL_EDIT_ENTITY : 			"CANCEL_EDIT_ENTITY"
 };
 
