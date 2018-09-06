@@ -91,7 +91,6 @@ const store = (initialState=stateData) =>
 			expense_group_child_by_id,
 			expense_group_children_xref,
 			expense_group_entity_edit,
-			// expense_groups_expense_group_children
 		}),
 		(localStorage["company_cost_store"]) ?
 			JSON.parse(localStorage["company_cost_store"]) :

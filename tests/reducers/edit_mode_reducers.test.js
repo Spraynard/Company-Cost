@@ -25,15 +25,17 @@ beforeEach(() => {
 
 // Inserts
 describe("Edit Entity", () => {
-	var actionID = v4();
-	var action = editEntity({ id : actionID, title : "Hello there" });
+	test("Will add an entity with id key and ...rest values",() => {
+		var actionID = v4();
+		var action = editEntity({ id : actionID, title : "Hello there" });
 
-	var results = expense_group_entity_edit( state, action );
+		var results = expense_group_entity_edit( state, action );
 
-	expect( results ).toEqual({
-		[ actionID ] : {
-			title : "Hello there"
-		}
+		expect( results ).toEqual({
+			[ actionID ] : {
+				title : "Hello there"
+			}
+		});
 	});
 });
 

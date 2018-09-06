@@ -1,4 +1,5 @@
 import store from "../../src/store";
+
 import {
 	addExpenseGroup,
 	addExpenseGroupChild
@@ -39,8 +40,9 @@ beforeAll(() => {
 
 	action_2 = addExpenseGroupChild(action_2_params);
 	expense_group_child_id = action_2.id;
-
+	console.log("Default State", defaultState );
 	test_store = store(defaultState);
+	console.log("Test Store", test_store);
 	// Adding the expense group
 	test_store.dispatch(action_1);
 	// Adding the expense group child
