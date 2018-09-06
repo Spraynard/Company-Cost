@@ -38,16 +38,14 @@ export const removeExpenseGroupChild = ({ id, parentID }) => ({
 ///////////////////////////////
 // User control edit actions //
 ///////////////////////////////
-export const editEntity = ({ id, ...rest }) => ({
-	type : C.EDIT_ENTITY,
-	id,
-	...rest
+export const editEntity = ( input_object ) => ({
+	...input_object,
+	type : C.EDIT_ENTITY
 });
 
-export const updateEntity = ({ id, ...rest }) => ({
-	type : C.UPDATE_ENTITY,
-	id,
-	...rest
+export const updateEntity = ( input_object ) => ({
+	...input_object,
+	type : C.UPDATE_ENTITY
 });
 
 export const saveEntity = ({ id }) => ({

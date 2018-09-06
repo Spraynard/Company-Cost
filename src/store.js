@@ -6,17 +6,30 @@ import {
 } from "redux";
 import stateData from "../data/default_state.json";
 
+////////////////////////////
+// Expense Group Reducers //
+////////////////////////////
 import {
 	expense_groups,
 	expense_group_by_id,
 	// expense_groups_expense_group_children
 } from "./reducers/expense_group_reducers";
 
+//////////////////////////////////
+// Expense Group Child Reducers //
+//////////////////////////////////
 import {
 	expense_group_children,
 	expense_group_child_by_id,
 	expense_group_children_xref,
 } from "./reducers/expense_group_children_reducers";
+
+////////////////////////////////////////
+// Expense Group Entity Edit Reducers //
+////////////////////////////////////////
+import {
+	expense_group_entity_edit
+} from "./reducers/edit_mode_reducers";
 
 const enable_logger = false;
 
@@ -77,6 +90,7 @@ const store = (initialState=stateData) =>
 			expense_group_children,
 			expense_group_child_by_id,
 			expense_group_children_xref,
+			expense_group_entity_edit,
 			// expense_groups_expense_group_children
 		}),
 		(localStorage["company_cost_store"]) ?

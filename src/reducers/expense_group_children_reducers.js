@@ -30,6 +30,7 @@ export const expense_group_children = ( state=[], action ) => {
  * This is meant to hold all of the expense group children's data, per ID.
  */
 export const expense_group_child_by_id = ( state={}, action ) => {
+
 	if ( ( typeof action.type ) === "undefined" )
 	{
 		return state;
