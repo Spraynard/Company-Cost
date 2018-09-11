@@ -28,9 +28,13 @@ export const expense_group_entity_edit = ( state = {}, action ) => {
 			type,
 			...rest
 		} = action;
+
+		var oldState = state[id];
+
 		return {
 			...state,
 			[ id ] : {
+				...oldState,
 				...rest
 			}
 		};
