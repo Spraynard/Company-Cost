@@ -78,7 +78,13 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 				return state;
 			}
 
-			return state;
+			return {
+				...state,
+				[ action.id ] : {
+					...state[action.id],
+					edit : false
+				}
+			};
 
 		// todo
 		case C.CANCEL_EDIT_ENTITY:

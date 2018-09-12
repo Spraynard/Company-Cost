@@ -69,7 +69,13 @@ export const expense_group_by_id = ( state={}, action ) => {
 				return state;
 			}
 
-			return state;
+			return {
+				...state,
+				[ action.id ] : {
+					...state[action.id],
+					edit : false
+				}
+			};
 
 		case C.CANCEL_EDIT_ENTITY:
 			// Checking if ID is in this portion of state.

@@ -113,4 +113,148 @@ describe("Expense Group By ID", () => {
 		var results = expense_group_by_id( state, action );
 		expect( results ).toEqual({});
 	});
+
+	///////////////////////
+	// Edit Mode Testing //
+	///////////////////////
+
+	test("Will initialize an expense group with a false edit", () => {
+		var action = addExpenseGroup( expense_group_child_action_helper );
+		var action_id = action.id;
+
+		var results = expense_group_by_id( state, action );
+		expect(results[action_id].edit).toBe(false);
+	});
+
+	/////////////////////////
+	// EDIT ENTITY ACTIONS //
+	/////////////////////////
+	test("Will return initial state on editEntity action when we don't have specific entity", () => {
+		var action_1 = addExpenseGroup( expense_group_child_action_helper );
+		var action_2 = addExpenseGroup( expense_group_child_action_helper );
+
+		var action_1_id = action_1.id;
+		var action_2_id = action_2.id;
+
+		// Insert the first actio into the state, but not the second.
+		state = expense_group_by_id( state, action_1 );
+
+		// Now we do an "editEntity" action with action_2's id, hopefully getting back the same state that we had before.
+		var action_3 = editEntity({ id : action_2_id });
+		var results = expense_group_by_id( state, action_3 );
+
+		expect( typeof results[action_2_id] ).toBe("undefined");
+		expect( results[action_1_id].edit ).toBe(false);
+		expect( Object.keys(results).length ).toBe(1);
+	});
+
+	test("Will enable editing when there is a valid expense group object", () => {
+		var action = addExpenseGroup( expense_group_child_action_helper );
+		state = expense_group_by_id( state, action );
+		var action_2 = editEntity( action );
+		var results = expense_group_by_id( state, action_2 );
+
+		expect( results[action.id].edit ).toBe(true);
+	});
+
+	////////////////////////
+	// Save Edit Actions  //
+	////////////////////////
+	test("Will return initial state on cancelEditEntity action when we don't have specific entity", () => {
+		var action_1 = addExpenseGroup( expense_group_child_action_helper );
+		state = expense_group_by_id( state, action_1 );
+
+		// Enable editing on expense group
+		var action_2 = editEntity( action_1 );
+		state = expense_group_by_id( state, action_2 );
+
+
+		// Expect that we have an item in edit mode.
+		expect( state[ action_1.id ].edit ).toBeTruthy();
+
+		// Spawn a separate expense_group_child
+		var action_3 = addExpenseGroup( expense_group_child_action_helper );
+
+		// Spawn a save edit action on the separate expense_group_child
+		var action_4 = saveEntity( action_3 );
+
+		// Now apply the action to the current state
+		var results = expense_group_by_id( state, action_4 );
+
+		expect(Object.keys(results).length).toBe(1);
+
+		expect( results[action_1.id].edit ).toBeTruthy();
+	});
+
+	test("Will successfully save an edit and revert to non-edit mode for that item", () => {
+		// Feeding expense groups into state.
+		var action_1 = addExpenseGroup( expense_group_child_action_helper );
+		state = expense_group_by_id( state, action_1 );
+
+		// Enable editing on expense group
+		var action_2 = editEntity( action_1 );
+		state = expense_group_by_id( state, action_2 );
+
+		// Check and see that the editEntry action currently works
+		expect(state[action_1.id].edit).toBeTruthy();
+
+		// Cancel editing on expense group
+		var action_3 = saveEntity( action_1 );
+
+		// Now apply the cancel edit action to the state
+		var results = expense_group_by_id( state, action_3 );
+
+		// Check to see that we have successfully canceled an edit.
+		expect(results[action_1.id].edit).toBeFalsy();
+	});
+
+	////////////////////////////////
+	// CANCEL EDIT ENTITY ACTIONS //
+	////////////////////////////////
+	test("Will return initial state on cancelEditEntity action when we don't have specific entity", () => {
+		// Feeding expense groups into state.
+		var action_1 = addExpenseGroup( expense_group_child_action_helper );
+		state = expense_group_by_id( state, action_1 );
+
+		// Enable editing on expense group
+		var action_2 = editEntity( action_1 );
+		state = expense_group_by_id( state, action_2 );
+
+		// Spawn a separate expense_group_child
+		var action_3 = addExpenseGroup( expense_group_child_action_helper );
+
+		// Spawn a cancel cancelEditEntity action on the separate expense_group_child
+		var action_4 = cancelEditEntity( action_3 );
+
+		// Now apply the action to the current state
+		var results = expense_group_by_id( state, action_4 );
+
+		// Should only have a length of one.
+		expect(Object.keys(results).length).toBe(1);
+
+		// Object in results should be currently editing
+		expect(results[action_1.id].edit).toBeTruthy();
+	});
+
+	test("Will successfully cancel edit on a file currently set for edit", () => {
+		// Feeding expense groups into state.
+		var action_1 = addExpenseGroup( expense_group_child_action_helper );
+		state = expense_group_by_id( state, action_1 );
+
+		// Enable editing on expense group
+		var action_2 = editEntity( action_1 );
+		state = expense_group_by_id( state, action_2 );
+
+		// Check and see that the editEntry action currently works
+		expect(state[action_1.id].edit).toBeTruthy();
+
+		// Cancel editing on expense group
+		var action_3 = cancelEditEntity( action_1 );
+
+		// Now apply the cancel edit action to the state
+		var results = expense_group_by_id( state, action_3 );
+
+		// Check to see that we have successfully canceled an edit.
+		expect(results[action_1.id].edit).toBeFalsy();
+	});
 });

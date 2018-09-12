@@ -82,8 +82,45 @@ const expense_group_child_remove_helper = store => next => action => {
 	return next(action);
 };
 
-const store = (initialState=stateData) =>
-	applyMiddleware(logger, saver, expense_group_child_remove_helper)(createStore)(
+/**
+ * Middleware that is specifically used when a users saves their edit.
+ * Basically we're going to take the material that has been edited in the
+ * expense_group_entity_edit state, and overwrite the specifically id'd expense
+ * group item in the main state depending on what type of
+ */
+const expense_group_edit_save_helper = store => next => action => {
+	// Looking for a save edit action...
+	if ( action.type === C.SAVE_ENTITY )
+	{
+		let state = store.getState();
+
+		// Grab the portion of the state that we want
+		let expense_group_edit_obj = state.expense_group_entity_edit;
+		let expense_group_by_id = state.expense_group_by_id;
+		let expense_group_child_by_id = state.expense_group_child_by_id;
+
+		// content of the item that we are going to save into specific state.
+		let edited_item_content = expense_group_edit_obj[action.id];
+
+		// Insert the edited content from expense_group_edit_obj into specific state
+		if ( expense_group_by_id.hasOwnProperty( action.id ) )
+		{
+			// We're saving an expense group edit
+
+		}
+		else if ( expense_group_child_by_id.hasOwnProperty( action.id ) )
+		{
+			// We're saving an expense group child edit
+
+		}
+	}
+
+	// Returning the next action should delete the item out of the expense_group_edit_obj state
+	return next(action);
+};
+
+const store = ( initialState=stateData ) =>
+	applyMiddleware( logger, saver, expense_group_child_remove_helper )( createStore )(
 		combineReducers({
 			expense_groups,
 			expense_group_by_id,
@@ -92,8 +129,8 @@ const store = (initialState=stateData) =>
 			expense_group_children_xref,
 			expense_group_entity_edit,
 		}),
-		(localStorage["company_cost_store"]) ?
-			JSON.parse(localStorage["company_cost_store"]) :
+		( localStorage["company_cost_store"] ) ?
+			JSON.parse( localStorage["company_cost_store"] ) :
 			initialState
 	);
 
