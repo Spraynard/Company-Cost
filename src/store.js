@@ -88,10 +88,14 @@ const expense_group_child_remove_helper = store => next => action => {
  * expense_group_entity_edit state, and overwrite the specifically id'd expense
  * group item in the main state depending on what type of
  */
+
+// TODO: FIX THIS. MOST LIKELY I HAVE TO DISPATCH SOME ACTIONS THAT WILL
+// 		THEN TAKE IN THE EDITS. I'M NOT SURE, BUT YEAH
 const expense_group_edit_save_helper = store => next => action => {
 	// Looking for a save edit action...
 	if ( action.type === C.SAVE_ENTITY )
 	{
+		console.log( action );
 		let state = store.getState();
 
 		// Grab the portion of the state that we want
@@ -105,14 +109,32 @@ const expense_group_edit_save_helper = store => next => action => {
 		// Insert the edited content from expense_group_edit_obj into specific state
 		if ( expense_group_by_id.hasOwnProperty( action.id ) )
 		{
+			console.log( "We are trying to save edits on an expense group" );
 			// We're saving an expense group edit
+			store.expense_group_by_id = {
+				...store.expense_group_by_id,
+				[ action.id ] : {
+					...store.expense_group_by_id[ action.id ],
+					...edited_item_content
+				}
+			};
 
 		}
 		else if ( expense_group_child_by_id.hasOwnProperty( action.id ) )
 		{
+			console.log( "We are trying to save edits on an expense group child" );
+			console.lg
+			console.log( "Portion of the state", store.expense_group_child_by_id );
 			// We're saving an expense group child edit
-
+			store.expense_group_child_by_id = {
+				...store.expense_group_child_by_id,
+				[ action.id ] : {
+					...store.expense_group_child_by_id[ action.id ],
+					...edited_item_content
+				}
+			};
 		}
+		console.log( "Store", store );
 	}
 
 	// Returning the next action should delete the item out of the expense_group_edit_obj state
@@ -120,7 +142,12 @@ const expense_group_edit_save_helper = store => next => action => {
 };
 
 const store = ( initialState=stateData ) =>
-	applyMiddleware( logger, saver, expense_group_child_remove_helper )( createStore )(
+	applyMiddleware(
+		logger,
+		saver,
+		expense_group_child_remove_helper,
+		expense_group_edit_save_helper
+	)( createStore )(
 		combineReducers({
 			expense_groups,
 			expense_group_by_id,
