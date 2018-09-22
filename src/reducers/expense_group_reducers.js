@@ -6,6 +6,7 @@ import C from "../constants.js";
  * that are in the current state.
  */
 export const expense_groups = ( state=[], action ) => {
+
 	if ( ( typeof action.type ) === "undefined" )
 	{
 		return state;
@@ -25,7 +26,6 @@ export const expense_groups = ( state=[], action ) => {
 				item => action.id !== item
 			);
 
-
 		default:
 			return state;
 	}
@@ -33,10 +33,12 @@ export const expense_groups = ( state=[], action ) => {
 
 // Reducer for "exense_group_by_id"
 export const expense_group_by_id = ( state={}, action ) => {
+
 	if ( ( typeof action.type ) === "undefined" )
 	{
 		return state;
 	}
+
 	switch ( action.type ) {
 		// Adds data to the expense_group_by_id state with specific values that are needed in order to have a basic expense group,
 		// along with initializer values.

@@ -95,7 +95,6 @@ const expense_group_edit_save_helper = store => next => action => {
 	// Looking for a save edit action...
 	if ( action.type === C.SAVE_ENTITY )
 	{
-		console.log( action );
 		let state = store.getState();
 
 		// Grab the portion of the state that we want
@@ -106,35 +105,16 @@ const expense_group_edit_save_helper = store => next => action => {
 		// content of the item that we are going to save into specific state.
 		let edited_item_content = expense_group_edit_obj[action.id];
 
-		// Insert the edited content from expense_group_edit_obj into specific state
-		if ( expense_group_by_id.hasOwnProperty( action.id ) )
+		// Checking to see if there are any entities available with given ID before we start inserting all this data
+		// in an action.
+		if ( expense_group_by_id.hasOwnProperty( action.id ) ||  expense_group_child_by_id.hasOwnProperty( action.id ) )
 		{
-			console.log( "We are trying to save edits on an expense group" );
-			// We're saving an expense group edit
-			store.expense_group_by_id = {
-				...store.expense_group_by_id,
-				[ action.id ] : {
-					...store.expense_group_by_id[ action.id ],
-					...edited_item_content
-				}
-			};
-
-		}
-		else if ( expense_group_child_by_id.hasOwnProperty( action.id ) )
-		{
-			console.log( "We are trying to save edits on an expense group child" );
-			console.lg
-			console.log( "Portion of the state", store.expense_group_child_by_id );
-			// We're saving an expense group child edit
-			store.expense_group_child_by_id = {
-				...store.expense_group_child_by_id,
-				[ action.id ] : {
-					...store.expense_group_child_by_id[ action.id ],
-					...edited_item_content
-				}
+			// Insert edited item content into the action. This is a much needed procedure.
+			action = {
+				...action,
+				...edited_item_content
 			};
 		}
-		console.log( "Store", store );
 	}
 
 	// Returning the next action should delete the item out of the expense_group_edit_obj state

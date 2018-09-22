@@ -78,15 +78,17 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 				return state;
 			}
 
+			let { id, ...action_data } = action;
+
 			return {
 				...state,
 				[ action.id ] : {
 					...state[action.id],
+					...action_data,
 					edit : false
 				}
 			};
 
-		// todo
 		case C.CANCEL_EDIT_ENTITY:
 			// Checking if ID is in this portion of state.
 			if ( typeof state[ action.id ] === "undefined" )

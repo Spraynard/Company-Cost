@@ -40,11 +40,10 @@
 		"ReactDOM" : "true",
 		"Hashids" : "true",
 		"__dirname" : "true",
-        "describe" : "true", // mocha
-        "it" : "true", // mocha
         "test" : "true",
-        "beforeEach" : "true", //mocha
-        "expect" : "true", //mocha
-        "toEqual" : "true" //mocha
+        "beforeAll" : "true",
+        "beforeEach" : "true",
+        "expect" : "true",
+        "describe" : "true"
 	}
 }
