@@ -9,10 +9,10 @@
     "dev": "webpack-dev-server --mode development",
     "build-dev": "./node_modules/.bin/webpack -d"
   },
-  "jest" : {
-    "setupTestFrameworkScriptFile" : "./local_storage_mock.js",
-    "testEnvironment" : "node",
-    "verbose" : true
+  "jest": {
+    "setupTestFrameworkScriptFile": "./local_storage_mock.js",
+    "testEnvironment": "node",
+    "verbose": true
   },
   "keywords": [
     "Operating",
@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "hashids": "^1.1.4",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "redux": "^4.0.0",
