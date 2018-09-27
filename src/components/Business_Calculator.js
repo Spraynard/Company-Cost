@@ -1,8 +1,15 @@
-import { PropTypes, Component } from "react";
+import { Component } from "react";
+import { PropTypes } from "prop-types";
+import {
+	resetAppData,
+	addExpenseGroup
+} from "../actions";
 
-const Expense_Group = require("./Expense_Group.js");
-const Stats_Window = require("./Stats_Window.js");
+import Stats_Window from "./Stats_Window";
+import Groups_Window from "./Groups_Window";
 
+// CSS Import
+import Colors from "./styles/Colors.less";
 /**
  * Overall controller for the App.
  */
@@ -12,6 +19,10 @@ class Business_Calculator extends Component {
 		return {
 			store : this.props.store
 		};
+	}
+
+	componentDidCatch(error, info) {
+		console.error(error, info);
 	}
 
 	componentWillMount() {
@@ -24,18 +35,22 @@ class Business_Calculator extends Component {
 		this.unsubscribe();
 	}
 
-	render() {
-		let store = this.props.store;
+	componentDidMount() {
+		store.dispatch(resetAppData());
+		store.dispatch(addExpenseGroup({ title : "Hello There" } ));
+	}
 
+	render() {
 		return (
-			<div class="business-calculator">
-				<Stats_Window store={store} />
+			<div className="business-calculator background-color-primary-0">
+				<Stats_Window />
+				<Groups_Window />
 			</div>
 		);
 	}
 }
 
-Business_Calculator.PropTypes = {
+Business_Calculator.propTypes = {
 	store: PropTypes.object.isRequired
 };
 

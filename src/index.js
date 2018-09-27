@@ -1,15 +1,16 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { store } from "./store";
+import { render } from "react-dom";
+import store from "./store";
 
 const Business_Calculator = require("./components/Business_Calculator");
 
-const render = () =>
-	ReactDOM.render(
-		<Business_Calculator store={ store }/>,
-		document.getElementById("app-mount")
-	);
 
-store.subscribe(render);
-render();
+const store_data = store();
 
+window.store = store_data;
+window.React = React;
+
+render(
+	<Business_Calculator store={store_data} />,
+	document.getElementById("app-mount")
+);

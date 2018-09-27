@@ -4,6 +4,7 @@ import {
 	combineReducers,
 	applyMiddleware
 } from "redux";
+
 import stateData from "../data/default_state.json";
 
 ////////////////////////////
@@ -121,6 +122,24 @@ const expense_group_edit_save_helper = store => next => action => {
 	return next(action);
 };
 
+const appReducer = combineReducers({
+	expense_groups,
+	expense_group_by_id,
+	expense_group_children,
+	expense_group_child_by_id,
+	expense_group_children_xref,
+	expense_group_entity_edit,
+});
+
+const rootReducer = (state, action) => {
+	if ( action.type === C.RESET_DATA )
+	{
+		state = undefined;
+	}
+
+	return appReducer( state, action );
+};
+
 const store = ( initialState=stateData ) =>
 	applyMiddleware(
 		logger,
@@ -128,14 +147,7 @@ const store = ( initialState=stateData ) =>
 		expense_group_child_remove_helper,
 		expense_group_edit_save_helper
 	)( createStore )(
-		combineReducers({
-			expense_groups,
-			expense_group_by_id,
-			expense_group_children,
-			expense_group_child_by_id,
-			expense_group_children_xref,
-			expense_group_entity_edit,
-		}),
+		rootReducer,
 		( localStorage["company_cost_store"] ) ?
 			JSON.parse( localStorage["company_cost_store"] ) :
 			initialState

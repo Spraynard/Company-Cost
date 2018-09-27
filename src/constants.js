@@ -12,7 +12,10 @@ const constants = {
 	EDIT_ENTITY : 					"EDIT_ENTITY",
 	SAVE_ENTITY : 					"SAVE_ENTITY",
 	UPDATE_ENTITY : 				"UPDATE_ENTITY",
-	CANCEL_EDIT_ENTITY : 			"CANCEL_EDIT_ENTITY"
+	CANCEL_EDIT_ENTITY : 			"CANCEL_EDIT_ENTITY",
+
+	/* App Level Action Types */
+	RESET_DATA : "RESET_DATA",
 };
 
 module.exports = constants;

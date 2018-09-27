@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require("path");
 
 const config = {
 	entry : "./src/index.js",
@@ -6,20 +6,28 @@ const config = {
 		filename: "public/main.js",
 		path: path.resolve(__dirname, "dist")
 	},
-	devtool: 'inline-source-map',
+	devtool: "inline-source-map",
 	module : {
 		rules : [{
 			test: /\.js$/,
 			exclude: /(node_modules)/,
-			use : 'babel-loader'
-		},
-		{
+			use : "babel-loader"
+		}, {
 			test: /\.html$/,
-			use : 'html-loader'
+			use : "html-loader"
+		}, {
+			test: /\.less$/,
+			use : [{
+				loader : "style-loader"
+			}, {
+				loader : "css-loader"
+			}, {
+				loader : "less-loader"
+			}]
 		}]
 	},
 	devServer : {
-		contentBase: './dist/',
+		contentBase: "./dist/",
 		historyApiFallback: true
 	}
 };

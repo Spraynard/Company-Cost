@@ -57,3 +57,10 @@ export const cancelEditEntity = ({ id }) => ({
 	type : C.CANCEL_EDIT_ENTITY,
 	id
 });
+
+///////////////////////
+// APP LEVEL ACTIONS //
+///////////////////////
+export const resetAppData = () => ({
+	type : C.RESET_DATA
+});
