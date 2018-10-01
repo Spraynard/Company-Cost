@@ -43,7 +43,7 @@ class Business_Calculator extends Component {
 
 	render() {
 		return (
-			<div className="business-calculator background-color-primary-0">
+			<div className="business-calculator">
 				<Stats_Window />
 				<Groups_Window />
 			</div>

@@ -1,5 +1,8 @@
 import { PropTypes } from "prop-types";
+import { addExpenseGroup } from "../actions";
 import Expense_Group from "./Expense_Group";
+import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
+
 
 const Groups_Window = (props, { store }) => {
 
@@ -17,6 +20,13 @@ const Groups_Window = (props, { store }) => {
 					return <Expense_Group key={expense_group_id} id={expense_group_id} { ...expense_group_data } />;
 				})
 			}
+			<Entity_Manipulation_Button
+				dispatchAction={ addExpenseGroup({
+					"title" : "Expense Group"
+				})}
+				text={"Add Expense Group"}
+				extraClasses={["expense-group-add-button"]}
+			/>
 		</section>
 	);
 };

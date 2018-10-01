@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import store from "./store";
 import "normalize.css"; // Normalize CSS
+import "./components/styles/Base.less";
 
 const Business_Calculator = require("./components/Business_Calculator");
 
