@@ -4,10 +4,10 @@ import { v4 } from "uuid";
 ///////////////////////////
 // Expense Group Actions //
 ///////////////////////////
-export const addExpenseGroup = ({ title }) => ({
+export const addExpenseGroup = ( _obj ) => ({
 	type : C.ADD_EXPENSE_GROUP,
 	id : v4(),
-	title,
+	title : _obj.title,
 	timestamp : new Date().toString(),
 	edit : false
 });
@@ -17,14 +17,14 @@ export const removeExpenseGroup = ({ id }) => ({
 	id
 });
 
-export const addExpenseGroupChild = ({ title, description, cost, costUOM, parentID }) => ({
+export const addExpenseGroupChild = ( _obj ) => ({
 	type : C.ADD_EXPENSE_GROUP_CHILD,
 	id : v4(),
-	parentID,
-	title,
-	description,
-	cost,
-	costUOM,
+	parentID : _obj.parentID,
+	title : _obj.title,
+	description: _obj.description,
+	cost: _obj.cost,
+	costUOM: _obj.costUOM,
 	timestamp : new Date().toString(),
 	edit : false
 });

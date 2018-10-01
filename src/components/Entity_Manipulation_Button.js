@@ -13,7 +13,6 @@ const Entity_Manipulation_Button = ( props, { store } ) => {
 
 	if ( typeof props.extraClasses !== "undefined" )
 	{
-		// Code
 		button_classes += ` ${props.extraClasses.join(" ")}`;
 	}
 
@@ -26,11 +25,12 @@ const Entity_Manipulation_Button = ( props, { store } ) => {
 	);
 };
 
-
+// Default Values
 Entity_Manipulation_Button.defaultProps = {
 	text : "Click Me!"
 };
 
+// Type Checking
 Entity_Manipulation_Button.propTypes = {
 	text : PropTypes.string,
 	extraClasses : PropTypes.array,

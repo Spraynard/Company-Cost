@@ -32,7 +32,7 @@ import {
 	expense_group_entity_edit
 } from "./reducers/edit_mode_reducers";
 
-const enable_logger = false;
+const enable_logger = true;
 
 // Log actions to the console as we dispatch them
 const logger = store => next => action => {
