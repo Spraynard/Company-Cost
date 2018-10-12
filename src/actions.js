@@ -22,10 +22,10 @@ export const addExpenseGroupChild = ( _obj ) => ({
 	type : C.ADD_EXPENSE_GROUP_CHILD,
 	id : v4(),
 	parentID : _obj.parentID,
-	title : _obj.title,
-	description: _obj.description,
+	title : _obj.title || "",
+	description: _obj.description || "",
 	cost: _obj.cost || 0,
-	costUOM: _obj.costUOM,
+	costUOM: _obj.costUOM || "",
 	timestamp : new Date().toString(),
 	edit : false
 });

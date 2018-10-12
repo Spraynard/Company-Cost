@@ -17,11 +17,9 @@ const Entity_Manipulation_Button = ( props, { store } ) => {
 	}
 
 	return (
-		<div className={ button_classes }>
-			<button onClick={() => store.dispatch(props.dispatchAction)}>
-				{ props.text }
-			</button>
-		</div>
+		<button className={button_classes} onClick={() => store.dispatch(props.dispatchAction)}>
+			{ props.text }
+		</button>
 	);
 };
 

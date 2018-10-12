@@ -13,7 +13,7 @@ import {
 
 const Entity_Edit_Field = ( props, { store } ) => {
 
-	let { id, timestamp, edit, updateListener, ...editableValues } = props;
+	let { id, timestamp, edit, parentID, updateListener, ...editableValues } = props;
 	const { expense_group_entity_edit } = store.getState();
 
 	return (
