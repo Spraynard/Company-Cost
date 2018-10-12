@@ -7,7 +7,8 @@ import { v4 } from "uuid";
 export const addExpenseGroup = ( _obj ) => ({
 	type : C.ADD_EXPENSE_GROUP,
 	id : v4(),
-	title : _obj.title,
+	title : _obj.title || "",
+	description : _obj.description || "",
 	timestamp : new Date().toString(),
 	edit : false
 });
@@ -23,7 +24,7 @@ export const addExpenseGroupChild = ( _obj ) => ({
 	parentID : _obj.parentID,
 	title : _obj.title,
 	description: _obj.description,
-	cost: _obj.cost,
+	cost: _obj.cost || 0,
 	costUOM: _obj.costUOM,
 	timestamp : new Date().toString(),
 	edit : false

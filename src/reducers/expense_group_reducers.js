@@ -1,5 +1,5 @@
 import C from "../constants.js";
-
+import { extract_action_data } from "../helpers/helpers";
 /**
  * Reducer for "expense_groups".
  * This is meant to provide an array listing of all of the expense groups
@@ -39,16 +39,18 @@ export const expense_group_by_id = ( state={}, action ) => {
 		return state;
 	}
 
+	let actionData = extract_action_data( action );
+
 	switch ( action.type ) {
 		// Adds data to the expense_group_by_id state with specific values that are needed in order to have a basic expense group,
 		// along with initializer values.
+
 		case C.ADD_EXPENSE_GROUP:
+
 			return {
 				...state,
 				[ action.id ] : {
-					title : action.title,
-					timestamp : action.timestamp,
-					edit : action.edit
+					...actionData
 				}
 			};
 
@@ -85,7 +87,7 @@ export const expense_group_by_id = ( state={}, action ) => {
 				return state;
 			}
 
-			let { id, ...action_data } = action;
+			let { id, type, ...action_data } = action;
 
 			return {
 				...state,
