@@ -14,26 +14,26 @@ import {
 const Entity_Edit_Field = ( props, { store } ) => {
 
 	let { id, timestamp, edit, parentID, updateListener, ...editableValues } = props;
+
+	console.log( "Editable Values", editableValues );
 	const { expense_group_entity_edit } = store.getState();
 
 	return (
 		<form className="entity-edit-field">
 			<h4>Editing { props.title }</h4>
 			<p>Creation Date: { timestamp }</p>
-			{
-				Object.keys( editableValues ).map( ( editable_value, index ) => {
-					let input_value = expense_group_entity_edit[id][editable_value];
-					let input_type = obtain_input_type( input_value );
+			{Object.keys( editableValues ).map( ( editable_value, index ) => {
+				let input_value = expense_group_entity_edit[id][editable_value];
+				let input_type = obtain_input_type( input_value );
 
-					return ( <Entity_Edit_Input
-						key={index}
-						title={editable_value}
-						value={input_value}
-						input_type={input_type}
-						updateListener={updateListener}
-					/> );
-				})
-			}
+				return ( <Entity_Edit_Input
+					key={index}
+					title={editable_value}
+					value={input_value}
+					input_type={input_type}
+					updateListener={updateListener}
+				/> );
+			})}
 			<Entity_Manipulation_Button
 				dispatchAction={saveEntity({
 					id : id

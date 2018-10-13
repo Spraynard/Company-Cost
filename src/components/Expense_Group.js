@@ -44,6 +44,8 @@ const Expense_Group = ( props, { store } ) => {
 								{
 								...expense_group_child_by_id[filtered_group_child_id]
 								}
+
+								id={filtered_group_child_id}
 							/>
 						)}
 					</ul>

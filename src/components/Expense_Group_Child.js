@@ -8,7 +8,7 @@ import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
 import Entity_Edit_Field from "./Entity_Edit_Field";
 
 const Expense_Group_Child = (props, { store }) => {
-	console.log( props );
+	let { timestamp, parentID, edit, ...editValues } = props;
 	return (
 		<li className="expense-group-child">
 			{ props.edit ?
@@ -16,11 +16,7 @@ const Expense_Group_Child = (props, { store }) => {
 				<div className="expense-group-child-content">
 					<h5>{props.title}</h5>
 					<Entity_Manipulation_Button
-						dispatchAction={ editEntity({
-							id : props.id,
-							title : props.title,
-							description : props.description
-						})}
+						dispatchAction={ editEntity({...editValues})}
 						text="Edit"
 						extraClasses={["expense-group-child-edit-button"]}
 					/>
