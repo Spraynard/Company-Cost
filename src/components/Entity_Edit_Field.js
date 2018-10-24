@@ -1,6 +1,10 @@
 import { PropTypes } from "prop-types";
 import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
-import { Entity_Edit_Input } from "./Entity_Edit_Input";
+import {
+	Entity_Edit_Input,
+	Entity_Edit_Select,
+	Entity_Edit_Textarea
+} from "./Entity_Edit_Types";
 
 import {
 	saveEntity,
@@ -8,14 +12,14 @@ import {
 } from "../actions";
 
 import {
-	obtainEditableValues
+	obtainEditableValues,
+	edit_value_type_list,
 } from "../helpers/editHelpers";
 
 const Entity_Edit_Field = ( props, { store } ) => {
 
-	// let { id, timestamp, edit, parentID, updateListener, ...editableValues } = props;
+	let { id, timestamp, updateListener } = props;
 	let editableValues = obtainEditableValues( props );
-	console.log( "Editable Values", editableValues );
 	const { expense_group_entity_edit } = store.getState();
 
 	return (
@@ -23,16 +27,35 @@ const Entity_Edit_Field = ( props, { store } ) => {
 			<h4>Editing { props.title }</h4>
 			<p>Creation Date: { timestamp }</p>
 			{Object.keys( editableValues ).map( ( editable_value, index ) => {
-				// let input_value = expense_group_entity_edit[id][editable_value];
-				// let input_type = obtain_input_type( input_value );
-				console.log( editable_value );
-				return ( <Entity_Edit_Input
-					key={index}
-					title={editable_value}
-					value={input_value}
-					input_type={input_type}
-					updateListener={updateListener}
-				/> );
+				let input_value = expense_group_entity_edit[id][editable_value];
+				let input_type = edit_value_type_list()[editable_value];
+
+				if ( input_type === "select" ) {
+					// Output a select
+					return ( <Entity_Edit_Select
+						key={index}
+						title={editable_value}
+						value={input_value}
+						updateListener={updateListener}
+					/> )
+				} else if ( input_type === "textarea" ) {
+					// Output a textarea
+					return ( <Entity_Edit_Textarea
+						key={index}
+						title={editable_value}
+						value={input_value}
+						updateListener={updateListener}
+					/> )
+				} else {
+					// Text or Number type
+					return ( <Entity_Edit_Input
+						key={index}
+						title={editable_value}
+						value={input_value}
+						input_type={input_type}
+						updateListener={updateListener}
+					/> );
+				}
 			})}
 			<Entity_Manipulation_Button
 				dispatchAction={saveEntity({
