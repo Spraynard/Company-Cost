@@ -12,7 +12,7 @@ import {
 const Expense_Group = ( props, { store } ) => {
 	const expense_group_children = store.getState().expense_group_children;
 	const expense_group_child_by_id = store.getState().expense_group_child_by_id;
-	const updateEdit = ( event ) => {
+	const updateExpenseGroupEdit = ( event ) => {
 		store.dispatch(updateEntity({
 			id : props.id,
 			[event.target.name] : event.target.value
@@ -22,7 +22,7 @@ const Expense_Group = ( props, { store } ) => {
 		<div className="expense-group">
 			{ ( props.edit ) ?
 				<div className="expense-group-content">
-					<Entity_Edit_Field { ...props } updateListener={updateEdit}/>
+					<Entity_Edit_Field { ...props } updateListener={updateExpenseGroupEdit}/>
 				</div> :
 				<div className="expense-group-content">
 					<Entity_Manipulation_Button
