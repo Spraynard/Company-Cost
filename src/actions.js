@@ -1,5 +1,9 @@
 import C from "./constants";
 import { v4 } from "uuid";
+import {
+	expense_group_editable_values,
+	expense_group_child_editable_values
+} from "./helpers/editHelpers";
 
 ///////////////////////////
 // Expense Group Actions //
@@ -7,10 +11,9 @@ import { v4 } from "uuid";
 export const addExpenseGroup = ( _obj ) => ({
 	type : C.ADD_EXPENSE_GROUP,
 	id : v4(),
-	title : _obj.title || "",
-	description : _obj.description || "",
 	timestamp : new Date().toString(),
-	edit : false
+	edit : false,
+	...expense_group_editable_values( _obj )
 });
 
 export const removeExpenseGroup = ({ id }) => ({
@@ -22,12 +25,9 @@ export const addExpenseGroupChild = ( _obj ) => ({
 	type : C.ADD_EXPENSE_GROUP_CHILD,
 	id : v4(),
 	parentID : _obj.parentID,
-	title : _obj.title || "",
-	description: _obj.description || "",
-	cost: _obj.cost || 0,
-	costUOM: _obj.costUOM || "",
 	timestamp : new Date().toString(),
-	edit : false
+	edit : false,
+	...expense_group_child_editable_values( _obj )
 });
 
 export const removeExpenseGroupChild = ({ id, parentID }) => ({
