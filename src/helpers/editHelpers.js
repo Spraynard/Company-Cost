@@ -38,7 +38,6 @@ export const obtainEditableValues = ( _obj ) => {
 	Object.keys( _obj ).filter( item => {
 		return Object.keys(edit_value_type_list()).includes( item );
 	}).forEach( value => {
-		console.log("Value", value);
 		editable_value_object[value] = {};
 		editable_value_object[value].value = _obj[value];
 		editable_value_object[value].type = edit_value_type_list()[value];

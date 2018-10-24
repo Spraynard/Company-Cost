@@ -39,9 +39,12 @@ export const Entity_Edit_Select = ( { title, value, input_type, updateListener }
 
 	return (
 		<label>{ capitalizeFirstLetter( title ) }
-			<select>{ inner_option_array.map( ( option, index ) => {
-				return <option key={index}>{ capitalizeFirstLetter( option ) }</option>
-			})}</select>
+			<select onChange={updateListener} value={value} name={title}>
+			<option value="">Select a value</option>
+			{ inner_option_array.map( ( option, index ) => {
+				return <option key={index} value={option}>{ capitalizeFirstLetter( option ) }</option>
+			})}
+			</select>
 		</label>
 	)
 }
@@ -55,7 +58,7 @@ export const Entity_Edit_Textarea = ( { title, value, input_type, updateListener
 
 	return (
 		<label>{ capitalizeFirstLetter( title ) }
-			<textarea>{textarea_placeholder_text}</textarea>
+			<textarea name={title} value={value} onChange={updateListener} />
 		</label>
 	)
 }

@@ -78,7 +78,7 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 				return state;
 			}
 
-			let { id, ...action_data } = action;
+			let { id, type, ...action_data } = action;
 
 			return {
 				...state,
