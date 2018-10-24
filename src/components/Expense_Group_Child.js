@@ -1,7 +1,8 @@
 import { PropTypes } from "prop-types";
 import {
 	editEntity,
-	removeExpenseGroupChild
+	removeExpenseGroupChild,
+	updateEntity,
 } from "../actions";
 
 import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
@@ -9,10 +10,18 @@ import Entity_Edit_Field from "./Entity_Edit_Field";
 
 const Expense_Group_Child = (props, { store }) => {
 	let { timestamp, parentID, edit, ...editValues } = props;
+
+	const updateExpenseGroupChildEdit = ( event ) => {
+		store.dispatch(updateEntity({
+			id : props.id,
+			[event.target.name] : event.target.value
+		}));
+	};
+
 	return (
 		<li className="expense-group-child">
 			{ props.edit ?
-				<Entity_Edit_Field {...props} /> :
+				<Entity_Edit_Field {...props} updateListener={updateExpenseGroupChildEdit} /> :
 				<div className="expense-group-child-content">
 					<h5>{props.title}</h5>
 					<Entity_Manipulation_Button

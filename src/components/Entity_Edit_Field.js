@@ -8,13 +8,13 @@ import {
 } from "../actions";
 
 import {
-	obtain_input_type
-} from "../helpers/helpers";
+	obtainEditableValues
+} from "../helpers/editHelpers";
 
 const Entity_Edit_Field = ( props, { store } ) => {
 
-	let { id, timestamp, edit, parentID, updateListener, ...editableValues } = props;
-
+	// let { id, timestamp, edit, parentID, updateListener, ...editableValues } = props;
+	let editableValues = obtainEditableValues( props );
 	console.log( "Editable Values", editableValues );
 	const { expense_group_entity_edit } = store.getState();
 
@@ -23,9 +23,9 @@ const Entity_Edit_Field = ( props, { store } ) => {
 			<h4>Editing { props.title }</h4>
 			<p>Creation Date: { timestamp }</p>
 			{Object.keys( editableValues ).map( ( editable_value, index ) => {
-				let input_value = expense_group_entity_edit[id][editable_value];
-				let input_type = obtain_input_type( input_value );
-
+				// let input_value = expense_group_entity_edit[id][editable_value];
+				// let input_type = obtain_input_type( input_value );
+				console.log( editable_value );
 				return ( <Entity_Edit_Input
 					key={index}
 					title={editable_value}
