@@ -20,7 +20,10 @@ const Entity_Edit_Field = ( props, { store } ) => {
 
 	let { id, timestamp, updateListener } = props;
 	let editableValues = obtainEditableValues( props );
-	const { expense_group_entity_edit } = store.getState();
+	const {
+		expense_group_entity_edit,
+		expense_group_options
+	} = store.getState();
 
 	return (
 		<form className="entity-edit-field">

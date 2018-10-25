@@ -21,9 +21,12 @@ const Expense_Group_Child = (props, { store }) => {
 	return (
 		<li className="expense-group-child">
 			{ props.edit ?
-				<Entity_Edit_Field {...props} updateListener={updateExpenseGroupChildEdit} /> :
+				<Entity_Edit_Field {...props} updateListener={updateExpenseGroupChildEdit} />
+				:
 				<div className="expense-group-child-content">
-					<h5>{props.title}</h5>
+					<h4>{props.title}</h4>
+					<p><i>{props.description}</i></p>
+					<span>{ props.cost ? props.cost + ' ' : '' }{ props.costUOM ? 'per ' + props.costUOM : ''}</span>
 					<Entity_Manipulation_Button
 						dispatchAction={ editEntity({...editValues})}
 						text="Edit"

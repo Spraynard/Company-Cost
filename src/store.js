@@ -29,7 +29,8 @@ import {
 // Expense Group Entity Edit Reducers //
 ////////////////////////////////////////
 import {
-	expense_group_entity_edit
+	expense_group_entity_edit,
+	expense_group_options
 } from "./reducers/edit_mode_reducers";
 
 const enable_logger = true;
@@ -123,6 +124,7 @@ const expense_group_edit_save_helper = store => next => action => {
 };
 
 const appReducer = combineReducers({
+	expense_group_options,
 	expense_groups,
 	expense_group_by_id,
 	expense_group_children,
@@ -134,12 +136,13 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
 	if ( action.type === C.RESET_DATA )
 	{
-		state = undefined;
+		state = stateData; // Reinitialize with initial state
 	}
 
 	return appReducer( state, action );
 };
 
+console.log( stateData );
 const store = ( initialState=stateData ) =>
 	applyMiddleware(
 		logger,
@@ -149,6 +152,7 @@ const store = ( initialState=stateData ) =>
 	)( createStore )(
 		rootReducer,
 		( localStorage["company_cost_store"] ) ?
+			// initialState :
 			JSON.parse( localStorage["company_cost_store"] ) :
 			initialState
 	);
