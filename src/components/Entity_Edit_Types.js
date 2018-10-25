@@ -30,18 +30,14 @@ export const Entity_Edit_Input = ( { title, value, input_type, updateListener } 
 	)
 }
 
-export const Entity_Edit_Select = ( { title, value, input_type, updateListener } ) => {
+export const Entity_Edit_Select = ( { title, value, input_type, options, updateListener } ) => {
 	let inner_option_array = [];
-
-	if ( title === "costUOM" ) {
-		inner_option_array = cost_uom_values();
-	}
 
 	return (
 		<label>{ capitalizeFirstLetter( title ) }
 			<select onChange={updateListener} value={value} name={title}>
 			<option value="">Select a value</option>
-			{ inner_option_array.map( ( option, index ) => {
+			{ options.map( ( option, index ) => {
 				return <option key={index} value={option}>{ capitalizeFirstLetter( option ) }</option>
 			})}
 			</select>

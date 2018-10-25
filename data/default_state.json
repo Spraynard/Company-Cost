@@ -1,5 +1,4 @@
 {
-	"expense_group_options" : { "costUOM" : [ "day", "hour", "week", "month", "year" ] },
 	"expense_groups" : [],
 	"expense_group_by_id" : {},
 	"expense_group_children" : [],

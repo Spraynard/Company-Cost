@@ -16,13 +16,14 @@ import {
 	edit_value_type_list,
 } from "../helpers/editHelpers";
 
+import readOnlyGroupData from "../../data/read_only_group_data.json";
+
 const Entity_Edit_Field = ( props, { store } ) => {
 
 	let { id, timestamp, updateListener } = props;
 	let editableValues = obtainEditableValues( props );
 	const {
 		expense_group_entity_edit,
-		expense_group_options
 	} = store.getState();
 
 	return (
@@ -31,7 +32,9 @@ const Entity_Edit_Field = ( props, { store } ) => {
 			<p>Creation Date: { timestamp }</p>
 			{Object.keys( editableValues ).map( ( editable_value, index ) => {
 				let input_value = expense_group_entity_edit[id][editable_value];
-				let input_type = edit_value_type_list()[editable_value];
+				let input_type = readOnlyGroupData["edit_subject_input_types"][editable_value];
+
+				let possible_options_list = readOnlyGroupData["expense_group_options"][editable_value];
 
 				if ( input_type === "select" ) {
 					// Output a select
@@ -39,6 +42,7 @@ const Entity_Edit_Field = ( props, { store } ) => {
 						key={index}
 						title={editable_value}
 						value={input_value}
+						options={possible_options_list}
 						updateListener={updateListener}
 					/> )
 				} else if ( input_type === "textarea" ) {

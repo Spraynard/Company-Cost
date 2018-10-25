@@ -62,7 +62,3 @@ export const expense_group_entity_edit = ( state = {}, action ) => {
 	///////////////////////////////////////////
 	return state;
 };
-
-export const expense_group_options = ( state = {}, action ) => {
-	return state;
-}
