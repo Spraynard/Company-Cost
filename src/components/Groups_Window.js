@@ -13,7 +13,6 @@ const Groups_Window = (props, { store }) => {
 
 	return (
 		<section className="groups-window">
-			This is where all of the expense groups and everything else will be
 			{
 				Object.keys(expense_group_by_id).map( expense_group_id => {
 					const expense_group_data = expense_group_by_id[expense_group_id];

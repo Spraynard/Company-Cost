@@ -70,7 +70,6 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 				}
 			};
 
-		// todo... have no idea how to implement this.
 		case C.SAVE_ENTITY:
 			// Checking if ID is in this portion of state.
 			if ( typeof state[ action.id ] === "undefined" )

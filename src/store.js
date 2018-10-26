@@ -5,8 +5,6 @@ import {
 	applyMiddleware
 } from "redux";
 
-import stateData from "../data/default_state.json";
-
 ////////////////////////////
 // Expense Group Reducers //
 ////////////////////////////
@@ -107,6 +105,13 @@ const expense_group_edit_save_helper = store => next => action => {
 		// content of the item that we are going to save into specific state.
 		let edited_item_content = expense_group_edit_obj[action.id];
 
+		// Manipulations of the inserted content on save. Want to make sure we're saving numbers
+		// as numbers, not strings.
+		if ( typeof edited_item_content.cost !== "undefined" )
+		{
+			edited_item_content.cost = parseFloat( edited_item_content.cost );
+		}
+
 		// Checking to see if there are any entities available with given ID before we start inserting all this data
 		// in an action.
 		if ( expense_group_by_id.hasOwnProperty( action.id ) ||  expense_group_child_by_id.hasOwnProperty( action.id ) )
@@ -132,10 +137,13 @@ const appReducer = combineReducers({
 	expense_group_entity_edit,
 });
 
+import stateData from "../data/default_state.json";
+import testState from "../data/test_state.json";
+
 const rootReducer = ( state, action ) => {
 	if ( action.type === C.RESET_DATA )
 	{
-		state = stateData; // Reinitialize with initial state
+		state = testState; // Reinitialize with initial state
 	}
 
 	return appReducer( state, action );

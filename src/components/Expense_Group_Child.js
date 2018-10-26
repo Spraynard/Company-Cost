@@ -12,6 +12,16 @@ const Expense_Group_Child = (props, { store }) => {
 	let { timestamp, parentID, edit, ...editValues } = props;
 
 	const updateExpenseGroupChildEdit = ( event ) => {
+		console.log("Our Event", event);
+		if ( event.target.type === "number" )
+		{
+			if ( Number(event.target.value) !== event.target.value )
+			{
+				return;
+			}
+		}
+
+		console.log( event.target.type );
 		store.dispatch(updateEntity({
 			id : props.id,
 			[event.target.name] : event.target.value

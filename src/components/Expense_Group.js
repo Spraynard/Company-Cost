@@ -18,6 +18,22 @@ const Expense_Group = ( props, { store } ) => {
 			[event.target.name] : event.target.value
 		}));
 	};
+
+	const children_of_expense_group = expense_group_children.filter( expense_group_child_id => {
+		return expense_group_child_by_id[expense_group_child_id].parentID === props.id;
+	});
+
+	let cost_of_associated_children = 0;
+
+	console.log( children_of_expense_group );
+	if ( children_of_expense_group.length > 0 ) {
+		cost_of_associated_children = children_of_expense_group.map( child =>
+			expense_group_child_by_id[child].cost )
+		// .reduce( ( accumulator, currentValue ) => {
+		// 		return accumulator + currentValue;
+		// 	});
+	}
+	console.log( cost_of_associated_children );
 	return (
 		<div className="expense-group">
 			{ ( props.edit ) ?
@@ -32,13 +48,11 @@ const Expense_Group = ( props, { store } ) => {
 						text="X"
 						extraClasses={["expense-group-remove-button"]}
 					/>
-					<h3>Expense_Group ID: { props.id }</h3>
 					<h4 className="expense-group-name">{ props.title }</h4>
 					<p className="expense-group-description">{ props.description }</p>
+					<i>{ children_of_expense_group.length } Expenses Associated At A Cost Of { /* cost_of_associated_children */ }</i>
 					<ul className="expense-group-child-list">
-						{ expense_group_children.filter(( expense_group_child_id => {
-							return expense_group_child_by_id[expense_group_child_id].parentID === props.id;
-						})).map( ( filtered_group_child_id, index ) =>
+						{ children_of_expense_group.map( ( filtered_group_child_id, index ) =>
 							<Expense_Group_Child
 								key={index}
 								{

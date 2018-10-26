@@ -1,0 +1,44 @@
+{
+    "expense_groups": [
+        "2f308d80-d1e3-4aaf-80b7-1b9cb3d74d6d"
+    ],
+    "expense_group_by_id": {
+        "2f308d80-d1e3-4aaf-80b7-1b9cb3d74d6d": {
+            "timestamp": "Thu Oct 25 2018 20:06:01 GMT-0400 (Eastern Daylight Time)",
+            "edit": false,
+            "title": "Expense Group",
+            "description": ""
+        }
+    },
+    "expense_group_children": [
+        "29fd0704-851d-4947-b712-0ea158edb0d6",
+        "4679892a-e5d3-47a6-93e5-09639619a48d"
+    ],
+    "expense_group_child_by_id": {
+        "29fd0704-851d-4947-b712-0ea158edb0d6": {
+            "title": "Andrea",
+            "description": "She's a son of a bitch I'll tell ya what",
+            "cost": 15.00,
+            "costUOM": "day",
+            "timestamp": "Thu Oct 25 2018 20:06:01 GMT-0400 (Eastern Daylight Time)",
+            "parentID": "2f308d80-d1e3-4aaf-80b7-1b9cb3d74d6d",
+            "edit": false
+        },
+        "4679892a-e5d3-47a6-93e5-09639619a48d": {
+            "title": "Barry",
+            "description": "He's a son of a bitch I'll tell ya what.",
+            "cost": 12.30,
+            "costUOM": "hour",
+            "timestamp": "Thu Oct 25 2018 20:06:24 GMT-0400 (Eastern Daylight Time)",
+            "parentID": "2f308d80-d1e3-4aaf-80b7-1b9cb3d74d6d",
+            "edit": false
+        }
+    },
+    "expense_group_children_xref": {
+        "2f308d80-d1e3-4aaf-80b7-1b9cb3d74d6d": [
+            "29fd0704-851d-4947-b712-0ea158edb0d6",
+            "4679892a-e5d3-47a6-93e5-09639619a48d"
+        ]
+    },
+    "expense_group_entity_edit": {}
+}
