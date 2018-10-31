@@ -3,8 +3,10 @@ import { render } from "react-dom";
 import store from "./store";
 import stateData from "../data/default_state.json";
 import testStateData from "../data/test_state.json";
-import "normalize.css"; // Normalize CSS
-import "./components/styles/Base.less";
+
+import CssBaseline from '@material-ui/core/CssBaseline';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { myTheme } from './theme';
 
 const Business_Calculator = require("./components/Business_Calculator");
 
@@ -15,6 +17,10 @@ window.store = store_data;
 window.React = React;
 
 render(
-	<Business_Calculator store={store_data} />,
+	<MuiThemeProvider theme={myTheme}>
+	<CssBaseline />
+	<Business_Calculator store={store_data} />
+	</MuiThemeProvider>
+	,
 	document.getElementById("app-mount")
 );

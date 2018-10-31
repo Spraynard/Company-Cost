@@ -1,5 +1,8 @@
 import PropTypes from "prop-types";
 
+// Material UI
+import Button from '@material-ui/core/Button';
+
 /**
  * This button is meant to handle every kind of entity manipulation you can do to an expense group or an expense group child
  */
@@ -17,9 +20,9 @@ const Entity_Manipulation_Button = ( props, { store } ) => {
 	}
 
 	return (
-		<button className={button_classes} onClick={() => store.dispatch(props.dispatchAction)}>
+		<Button color={'primary'} variant={'contained'}/* className={button_classes} */ onClick={() => store.dispatch(props.dispatchAction)}>
 			{ props.text }
-		</button>
+		</Button>
 	);
 };
 

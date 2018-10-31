@@ -9,6 +9,9 @@ import {
 	updateEntity
 } from "../actions";
 
+// MaterialUI
+import Paper from '@material-ui/core/Paper';
+
 const Expense_Group = ( props, { store } ) => {
 	const expense_group_children = store.getState().expense_group_children;
 	const expense_group_child_by_id = store.getState().expense_group_child_by_id;
@@ -25,22 +28,17 @@ const Expense_Group = ( props, { store } ) => {
 
 	let cost_of_associated_children = 0;
 
-	console.log( children_of_expense_group );
 	if ( children_of_expense_group.length > 0 ) {
 		cost_of_associated_children = children_of_expense_group.map( child =>
 			expense_group_child_by_id[child].cost )
-		// .reduce( ( accumulator, currentValue ) => {
-		// 		return accumulator + currentValue;
-		// 	});
 	}
-	console.log( cost_of_associated_children );
 	return (
 		<div className="expense-group">
 			{ ( props.edit ) ?
 				<div className="expense-group-content">
 					<Entity_Edit_Field { ...props } updateListener={updateExpenseGroupEdit}/>
 				</div> :
-				<div className="expense-group-content">
+				<Paper className="expense-group-content">
 					<Entity_Manipulation_Button
 						dispatchAction={ removeExpenseGroup({
 							"id" : props.id
@@ -79,7 +77,7 @@ const Expense_Group = ( props, { store } ) => {
 						text="Edit"
 						extraClasses={["expense-group-edit-button"]}
 					/>
-				</div>
+				</Paper>
 			}
 		</div>
 	);

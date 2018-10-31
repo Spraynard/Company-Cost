@@ -19,13 +19,6 @@ const Groups_Window = (props, { store }) => {
 					return <Expense_Group key={expense_group_id} id={expense_group_id} { ...expense_group_data } />;
 				})
 			}
-			<Entity_Manipulation_Button
-				dispatchAction={ addExpenseGroup({
-					"title" : "Expense Group"
-				})}
-				text={"Add Expense Group"}
-				extraClasses={["expense-group-add-button"]}
-			/>
 		</section>
 	);
 };

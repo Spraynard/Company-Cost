@@ -8,11 +8,28 @@ import {
 import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
 import Entity_Edit_Field from "./Entity_Edit_Field";
 
+
+// Material UI
+import Chip from '@material-ui/core/Chip';
+import { theme } from '../theme';
+import { withStyles } from '@material-ui/core/styles';
+
+
+const styles = theme => ({
+	root: {
+		backgroundColor: theme.palette.secondary.light,
+		'&:hover' : {
+			color : theme.palette.primary.contrastText,
+			backgroundColor: theme.palette.secondary.dark // or theme.palette.primary.main
+		}
+	}
+});
+
 const Expense_Group_Child = (props, { store }) => {
-	let { timestamp, parentID, edit, ...editValues } = props;
+
+	let { timestamp, parentID, edit, classes, ...editValues } = props;
 
 	const updateExpenseGroupChildEdit = ( event ) => {
-		console.log("Our Event", event);
 		if ( event.target.type === "number" )
 		{
 			if ( Number(event.target.value) !== event.target.value )
@@ -21,40 +38,37 @@ const Expense_Group_Child = (props, { store }) => {
 			}
 		}
 
-		console.log( event.target.type );
 		store.dispatch(updateEntity({
 			id : props.id,
 			[event.target.name] : event.target.value
 		}));
 	};
 
+	// title - cost /costUOM
+	const expense_group_chip_label = `${props.title} - ${ props.cost ? `$${props.cost}` : '' } ${ props.costUOM ? `/${props.costUOM}` : ''}`
+
 	return (
 		<li className="expense-group-child">
 			{ props.edit ?
-				<Entity_Edit_Field {...props} updateListener={updateExpenseGroupChildEdit} />
+				<Entity_Edit_Field
+					{...props}
+					updateListener={updateExpenseGroupChildEdit}
+				/>
 				:
-				<div className="expense-group-child-content">
-					<h4>{props.title}</h4>
-					<p><i>{props.description}</i></p>
-					<span>{ props.cost ? props.cost + ' ' : '' }{ props.costUOM ? 'per ' + props.costUOM : ''}</span>
-					<Entity_Manipulation_Button
-						dispatchAction={ editEntity({...editValues})}
-						text="Edit"
-						extraClasses={["expense-group-child-edit-button"]}
-					/>
-					<Entity_Manipulation_Button
-						dispatchAction={removeExpenseGroupChild({
-							id : props.id,
-							parentID : props.parentID
-						})}
-						text="X"
-						extraClasses={["expense-group-child-remove-button"]}
-					/>
-				</div>
+				<Chip
+					color='secondary'
+					label={expense_group_chip_label}
+					onClick={() => store.dispatch(editEntity({...editValues}))}
+					onDelete={() => store.dispatch(removeExpenseGroupChild({
+						id : props.id,
+						parentID : props.parentID
+					}))}
+				/>
 			}
 		</li>
 	);
 };
+
 
 Expense_Group_Child.defaultProps = {
 	title : "Expense Group Child"

@@ -35,6 +35,13 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 	{
 		return state;
 	}
+
+	if ( action.cost )
+	{
+		action.cost = action.cost.toFixed( 2 );
+	}
+
+
 	switch ( action.type ) {
 		case C.ADD_EXPENSE_GROUP_CHILD:
 			return {

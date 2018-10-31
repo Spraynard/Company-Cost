@@ -1,7 +1,8 @@
 import { PropTypes } from "prop-types";
 import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
 import {
-	Entity_Edit_Input,
+	Entity_Edit_Input_Text,
+	Entity_Edit_Input_Number,
 	Entity_Edit_Select,
 	Entity_Edit_Textarea
 } from "./Entity_Edit_Types";
@@ -53,9 +54,18 @@ const Entity_Edit_Field = ( props, { store } ) => {
 						value={input_value}
 						updateListener={updateListener}
 					/> )
-				} else {
+				} else if ( input_type === "text" ) {
 					// Text or Number type
-					return ( <Entity_Edit_Input
+					return ( <Entity_Edit_Input_Text
+						key={index}
+						title={editable_value}
+						value={input_value}
+						input_type={input_type}
+						updateListener={updateListener}
+					/> );
+				} else {
+					// Number Type
+					return ( <Entity_Edit_Input_Number
 						key={index}
 						title={editable_value}
 						value={input_value}
