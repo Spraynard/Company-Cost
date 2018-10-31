@@ -8,6 +8,15 @@ import {
 
 import PropTypes from 'prop-types';
 
+
+// MaterialUI
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+
 const Base_Prop_Types = {
 	title : PropTypes.string,
 	input_type: PropTypes.string,
@@ -17,15 +26,16 @@ const Base_Prop_Types = {
 
 export const Entity_Edit_Input_Text = ( { title, value, input_type, updateListener } ) => {
 	return (
-		<label>Editing { capitalizeFirstLetter( title ) }
-			<input
+		<FormControl>
+		<InputLabel htmlFor={title} >Editing { capitalizeFirstLetter( title ) }</InputLabel>
+			<Input
 				className="entity-edit-input"
 				name={title}
 				type={input_type}
 				value={value}
 				onChange={updateListener}
 			/>
-		</label>
+		</FormControl>
 	)
 }
 
@@ -36,7 +46,7 @@ Entity_Edit_Input_Text.propTypes = {
 export const Entity_Edit_Input_Number = ( { title, value, input_type, updateListener } ) => {
 	return (
 		<label>{ capitalizeFirstLetter( title ) }
-		<input
+		<Input
 			className="entity-edit-input"
 			name={title}
 			type={input_type}
@@ -59,12 +69,12 @@ export const Entity_Edit_Select = ( { title, value, input_type, options, updateL
 
 	return (
 		<label>{ capitalizeFirstLetter( title ) }
-			<select onChange={updateListener} value={value} name={title}>
-			<option value="">Select a value</option>
+			<Select onChange={updateListener} value={value} name={title}>
+			<MenuItem value="">Select a value</MenuItem>
 			{ options.map( ( option, index ) => {
-				return <option key={index} value={option}>{ capitalizeFirstLetter( option ) }</option>
+				return <MenuItem key={index} value={option}>{ capitalizeFirstLetter( option ) }</MenuItem>
 			})}
-			</select>
+			</Select>
 		</label>
 	)
 }
@@ -84,7 +94,7 @@ export const Entity_Edit_Textarea = ( { title, value, input_type, updateListener
 
 	return (
 		<label>{ capitalizeFirstLetter( title ) }
-			<textarea name={title} value={value} onChange={updateListener} />
+			<TextField name={title} value={value} onChange={updateListener} />
 		</label>
 	)
 }

@@ -19,6 +19,9 @@ import {
 
 import readOnlyGroupData from "../../data/read_only_group_data.json";
 
+// MaterialUI
+import Card from '@material-ui/core/Card';
+
 const Entity_Edit_Field = ( props, { store } ) => {
 
 	let { id, timestamp, updateListener } = props;
@@ -28,6 +31,7 @@ const Entity_Edit_Field = ( props, { store } ) => {
 	} = store.getState();
 
 	return (
+		<Card>
 		<form className="entity-edit-field">
 			<h4>Editing { props.title }</h4>
 			<p>Creation Date: { timestamp }</p>
@@ -89,6 +93,7 @@ const Entity_Edit_Field = ( props, { store } ) => {
 				extraClasses={["expense-group-cancel-edit-button"]}
 			/>
 		</form>
+	</Card>
 	);
 };
 

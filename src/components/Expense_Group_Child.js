@@ -45,7 +45,7 @@ const Expense_Group_Child = (props, { store }) => {
 	};
 
 	// title - cost /costUOM
-	const expense_group_chip_label = `${props.title} - ${ props.cost ? `$${props.cost}` : '' } ${ props.costUOM ? `/${props.costUOM}` : ''}`
+	const expense_group_chip_label = `${props.title} ${ props.cost ? `- $${props.cost}` : '' } ${ props.costUOM ? `/${props.costUOM}` : ''}`
 
 	return (
 		<li className="expense-group-child">
