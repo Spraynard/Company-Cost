@@ -24,11 +24,26 @@ const Base_Prop_Types = {
 	value : PropTypes.string
 }
 
+export const Entity_Edit_Input = ( { title, value, input_type, options, input_props, select_props, updateListener } ) => {
+	return (
+		<TextField
+			margin="normal"
+			variant="filled"
+			label={capitalizeFirstLetter(title)}
+			name={title}
+			value={value}
+			onChange={updateListener}
+			inputProps={input_props}
+			selectProps={select_props}
+		/>
+	)
+}
 export const Entity_Edit_Input_Text = ( { title, value, input_type, updateListener } ) => {
 	return (
 		<FormControl>
 		<InputLabel htmlFor={title} >Editing { capitalizeFirstLetter( title ) }</InputLabel>
 			<Input
+				variant="filled"
 				className="entity-edit-input"
 				name={title}
 				type={input_type}
@@ -43,22 +58,27 @@ Entity_Edit_Input_Text.propTypes = {
 	...Base_Prop_Types,
 };
 
+
+const number_input_props = {
+	step : 0.01,
+	type : 'number'
+}
+
 export const Entity_Edit_Input_Number = ( { title, value, input_type, updateListener } ) => {
 	return (
-		<label>{ capitalizeFirstLetter( title ) }
-		<Input
-			className="entity-edit-input"
+		<TextField
+			margin="normal"
+			variant="filled"
+			label={capitalizeFirstLetter(title)}
 			name={title}
-			type={input_type}
-			step="0.01"
 			value={value}
 			onChange={updateListener}
+			inputProps={number_input_props}
 		/>
-		</label>
 	);
 }
 
-Entity_Edit_Input_Text.propTypes = {
+Entity_Edit_Input_Number.propTypes = {
 	...Base_Prop_Types,
 	value : PropTypes.number
 };
@@ -68,18 +88,19 @@ export const Entity_Edit_Select = ( { title, value, input_type, options, updateL
 	let inner_option_array = [];
 
 	return (
-		<label>{ capitalizeFirstLetter( title ) }
+		<FormControl>
+		<InputLabel htmlFor={title}>{ capitalizeFirstLetter( title ) }</InputLabel>
 			<Select onChange={updateListener} value={value} name={title}>
 			<MenuItem value="">Select a value</MenuItem>
 			{ options.map( ( option, index ) => {
 				return <MenuItem key={index} value={option}>{ capitalizeFirstLetter( option ) }</MenuItem>
 			})}
 			</Select>
-		</label>
+		</FormControl>
 	)
 }
 
-Entity_Edit_Input_Text.propTypes = {
+Entity_Edit_Select.propTypes = {
 	...Base_Prop_Types,
 	options : PropTypes.array
 };
@@ -93,12 +114,18 @@ export const Entity_Edit_Textarea = ( { title, value, input_type, updateListener
 	}
 
 	return (
-		<label>{ capitalizeFirstLetter( title ) }
-			<TextField name={title} value={value} onChange={updateListener} />
-		</label>
+		<TextField
+			multiline
+			margin="normal"
+			variant="filled"
+			label={capitalizeFirstLetter(title)}
+			name={title}
+			value={value}
+			onChange={updateListener}
+		/>
 	)
 }
 
-Entity_Edit_Input_Text.propTypes = {
+Entity_Edit_Textarea.propTypes = {
 	...Base_Prop_Types
 };

@@ -17,10 +17,18 @@ import {
 	edit_value_type_list,
 } from "../helpers/editHelpers";
 
+import {
+	capitalizeFirstLetter,
+} from "../helpers/helpers";
+
+
 import readOnlyGroupData from "../../data/read_only_group_data.json";
 
 // MaterialUI
 import Card from '@material-ui/core/Card';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const Entity_Edit_Field = ( props, { store } ) => {
 
@@ -32,68 +40,83 @@ const Entity_Edit_Field = ( props, { store } ) => {
 
 	return (
 		<Card>
-		<form className="entity-edit-field">
-			<h4>Editing { props.title }</h4>
-			<p>Creation Date: { timestamp }</p>
-			{Object.keys( editableValues ).map( ( editable_value, index ) => {
-				let input_value = expense_group_entity_edit[id][editable_value];
-				let input_type = readOnlyGroupData["edit_subject_input_types"][editable_value];
+			<form className="entity-edit-field">
+				<h4>Editing { props.title }</h4>
+				<p>Creation Date: { timestamp }</p>
+				{	Object.keys( editableValues ).map( ( editable_value, index ) => {
 
-				let possible_options_list = readOnlyGroupData["expense_group_options"][editable_value];
+						let input_type = readOnlyGroupData["edit_subject_input_types"][editable_value];
+						let input_value = expense_group_entity_edit[id][editable_value];
 
-				if ( input_type === "select" ) {
-					// Output a select
-					return ( <Entity_Edit_Select
-						key={index}
-						title={editable_value}
-						value={input_value}
-						options={possible_options_list}
-						updateListener={updateListener}
-					/> )
-				} else if ( input_type === "textarea" ) {
-					// Output a textarea
-					return ( <Entity_Edit_Textarea
-						key={index}
-						title={editable_value}
-						value={input_value}
-						updateListener={updateListener}
-					/> )
-				} else if ( input_type === "text" ) {
-					// Text or Number type
-					return ( <Entity_Edit_Input_Text
-						key={index}
-						title={editable_value}
-						value={input_value}
-						input_type={input_type}
-						updateListener={updateListener}
-					/> );
-				} else {
-					// Number Type
-					return ( <Entity_Edit_Input_Number
-						key={index}
-						title={editable_value}
-						value={input_value}
-						input_type={input_type}
-						updateListener={updateListener}
-					/> );
-				}
-			})}
-			<Entity_Manipulation_Button
-				dispatchAction={saveEntity({
-					id : id
-				})}
-				text="Save"
-				extraClasses={["expense-group-save-edit-button"]}
-			/>
-			<Entity_Manipulation_Button
-				dispatchAction={cancelEditEntity({
-					id : id
-				})}
-				text="Cancel"
-				extraClasses={["expense-group-cancel-edit-button"]}
-			/>
-		</form>
-	</Card>
+						let input_prop_object = {
+							margin : 'normal',
+							variant : 'filled',
+							label : capitalizeFirstLetter(editable_value),
+							name : editable_value,
+							onChange : updateListener,
+							value : input_value
+						}
+
+						let possible_options_list = readOnlyGroupData["expense_group_options"][editable_value];
+
+						if ( input_type === "number" )
+						{
+							input_prop_object['inputProps'] = {
+								type : 'number',
+								step : 0.01,
+							}
+
+							input_prop_object['InputProps'] = {
+								startAdornment : <InputAdornment position="start">$</InputAdornment>
+							}
+						}
+
+						if ( input_type === "textarea" )
+						{
+							input_prop_object['multiline'] = true;
+						}
+
+						if ( input_type === "select" )
+						{
+							return (
+								<TextField
+									key={index}
+									{...input_prop_object}
+									select
+								>
+									{ possible_options_list.map( ( option, index ) => {
+										return <MenuItem key={index} value={option}>{option}</MenuItem>
+									})}
+								</TextField>
+							)
+						}
+						else
+						{
+							return (
+								<TextField
+									key={index}
+									{...input_prop_object}
+								/>
+							)
+						}
+					}
+				)}
+				<Entity_Manipulation_Button
+					dispatchAction={saveEntity({
+						id : id
+					})}
+					text="Save"
+					extraClasses={["expense-group-save-edit-button"]}
+				/>
+				<Entity_Manipulation_Button
+					dispatchAction={cancelEditEntity({
+						id : id
+					})}
+					text="Cancel"
+					extraClasses={["expense-group-cancel-edit-button"]}
+				/>
+			</form>
+		</Card>
 	);
 };
 

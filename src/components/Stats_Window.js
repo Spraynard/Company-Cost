@@ -21,7 +21,7 @@ const styles = theme => ({
 	},
 	headerTextStyles : {
 		'color' : theme.palette.primary.contrastText
-	}
+	},
 })
 
 const Stats_Window = ( props, { store } ) => {
@@ -30,35 +30,33 @@ const Stats_Window = ( props, { store } ) => {
 	const { classes } = props;
 	console.log( classes.buttonStyles );
 	return (
-		<section className="stats-window">
-			<AppBar>
-			<Toolbar>
+		<AppBar position="sticky">
+		<Toolbar>
+			<Typography
+				variant="h6"
+				color="inherit"
+			>
+				<span>Company Cost</span>
+			</Typography>
+			<span>You have { expense_groups.length } expense groups</span>
+			<Button
+				color='secondary'
+				variant='contained'
+				size='large'
+				className={classes.buttonStyles}
+				onClick={() => store.dispatch(addExpenseGroup({
+					"title" : "Expense Group"
+				}))}
+			>
+				<AddCircle className={classes.buttonIconStyles}/>
 				<Typography
-					variant="h6"
-					color="inherit"
+					variant="button"
 				>
-					<span>Company Cost</span>
+					Add Expense Group
 				</Typography>
-				<span>You have { expense_groups.length } expense groups</span>
-				<Button
-					color='secondary'
-					variant='contained'
-					size='large'
-					className={classes.buttonStyles}
-					onClick={() => store.dispatch(addExpenseGroup({
-						"title" : "Expense Group"
-					}))}
-				>
-					<AddCircle className={classes.buttonIconStyles}/>
-					<Typography
-						variant="button"
-					>
-						Add Expense Group
-					</Typography>
-				</Button>
-			</Toolbar>
-			</AppBar>
-		</section>
+			</Button>
+		</Toolbar>
+		</AppBar>
 	);
 };
 
