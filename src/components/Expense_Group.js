@@ -11,6 +11,21 @@ import {
 
 // MaterialUI
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import DeleteForever from '@material-ui/icons/DeleteForever';
+
+const styles = theme => ({
+	root : {
+		...theme.mixins.gutters(),
+		paddingTop: theme.spacing.unit * 2,
+		paddingBottom: theme.spacing.unit * 2,
+	},
+	rightAlign: {
+		textAlign: 'right'
+	}
+})
 
 const Expense_Group = ( props, { store } ) => {
 	const expense_group_children = store.getState().expense_group_children;
@@ -21,6 +36,8 @@ const Expense_Group = ( props, { store } ) => {
 			[event.target.name] : event.target.value
 		}));
 	};
+
+	const { classes } = props;
 
 	const children_of_expense_group = expense_group_children.filter( expense_group_child_id => {
 		return expense_group_child_by_id[expense_group_child_id].parentID === props.id;
@@ -35,21 +52,28 @@ const Expense_Group = ( props, { store } ) => {
 	return (
 		<div className="expense-group">
 			{ ( props.edit ) ?
-				<div className="expense-group-content">
+				<Paper className={`expense-group-content ${classes.root}`}>
 					<Entity_Edit_Field { ...props } updateListener={updateExpenseGroupEdit}/>
-				</div> :
-				<Paper className="expense-group-content">
+				</Paper> :
+				<Paper className={`expense-group-content ${classes.root} ${classes.rightAlign}`}>
 					<Entity_Manipulation_Button
 						dispatchAction={ removeExpenseGroup({
 							"id" : props.id
 						})}
-						text="X"
+						icon={<DeleteForever />}
+						variant="outlined"
 						extraClasses={["expense-group-remove-button"]}
 					/>
-					<h4 className="expense-group-name">{ props.title }</h4>
-					<p className="expense-group-description">{ props.description }</p>
-					<i>{ children_of_expense_group.length } Expenses Associated At A Cost Of { /* cost_of_associated_children */ }</i>
-					<ul className="expense-group-child-list">
+					<Typography align="left" component="h2" variant="h5" className="expense-group-name">{props.title}</Typography>
+					<Typography align="left" component="p" variant="subtitle2" className="expense-group-description">{props.description}</Typography>
+					<Typography align="left" component="p" variant="subtitle1">
+					{ children_of_expense_group.length ?
+						`${children_of_expense_group.length} associated ${ children_of_expense_group.length > 1 ? "expenses" : "expense" } at a cost of`
+						:
+						""
+					}
+					</Typography>
+					<Grid container justify="flex-start" className="expense-group-child-list">
 						{ children_of_expense_group.map( ( filtered_group_child_id, index ) =>
 							<Expense_Group_Child
 								key={index}
@@ -60,7 +84,7 @@ const Expense_Group = ( props, { store } ) => {
 								id={filtered_group_child_id}
 							/>
 						)}
-					</ul>
+					</Grid>
 					<Entity_Manipulation_Button
 						dispatchAction={ addExpenseGroupChild({
 							parentID : props.id
@@ -92,4 +116,4 @@ Expense_Group.contextTypes = {
 	store : PropTypes.object.isRequired
 };
 
-export default Expense_Group;
+export default withStyles(styles)(Expense_Group);

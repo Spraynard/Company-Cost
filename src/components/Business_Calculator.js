@@ -34,8 +34,8 @@ class Business_Calculator extends Component {
 	}
 
 	componentDidMount() {
-		store.dispatch(resetAppData());
-		store.dispatch(addExpenseGroup({}));
+		// store.dispatch(resetAppData());
+		// store.dispatch(addExpenseGroup({}));
 	}
 
 	render() {

@@ -11,18 +11,24 @@ import Entity_Edit_Field from "./Entity_Edit_Field";
 
 // Material UI
 import Chip from '@material-ui/core/Chip';
-import { theme } from '../theme';
+import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 
 
 const styles = theme => ({
-	root: {
+	root : {
+		marginBottom : theme.spacing.unit * 2,
+		'& + &:not(:nth-child(odd))' : {
+			marginLeft : theme.spacing.unit
+		}
+	},
+	chip: {
 		backgroundColor: theme.palette.secondary.light,
 		'&:hover' : {
 			color : theme.palette.primary.contrastText,
 			backgroundColor: theme.palette.secondary.dark // or theme.palette.primary.main
 		}
-	}
+	},
 });
 
 const Expense_Group_Child = (props, { store }) => {
@@ -48,24 +54,24 @@ const Expense_Group_Child = (props, { store }) => {
 	const expense_group_chip_label = `${props.title} ${ props.cost ? `- $${props.cost}` : '' } ${ props.costUOM ? `/${props.costUOM}` : ''}`
 
 	return (
-		<li className="expense-group-child">
-			{ props.edit ?
-				<Entity_Edit_Field
-					{...props}
-					updateListener={updateExpenseGroupChildEdit}
-				/>
-				:
-				<Chip
-					color='secondary'
-					label={expense_group_chip_label}
-					onClick={() => store.dispatch(editEntity({...editValues}))}
-					onDelete={() => store.dispatch(removeExpenseGroupChild({
-						id : props.id,
-						parentID : props.parentID
-					}))}
-				/>
-			}
-		</li>
+		<div className={`expense-group-child ${classes.root}`}>
+		{ props.edit ?
+			<Entity_Edit_Field
+				{...props}
+				updateListener={updateExpenseGroupChildEdit}
+			/>
+			:
+			<Chip
+				className={classes.chip}
+				color='secondary'
+				label={expense_group_chip_label}
+				onClick={() => store.dispatch(editEntity({...editValues}))}
+				onDelete={() => store.dispatch(removeExpenseGroupChild({
+					id : props.id,
+					parentID : props.parentID
+				}))}
+			/>}
+		</div>
 	);
 };
 
@@ -78,4 +84,4 @@ Expense_Group_Child.contextTypes = {
 	store : PropTypes.object.isRequired
 };
 
-export default Expense_Group_Child;
+export default withStyles(styles)(Expense_Group_Child);
