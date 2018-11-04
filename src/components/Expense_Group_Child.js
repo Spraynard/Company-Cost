@@ -35,11 +35,20 @@ const Expense_Group_Child = (props, { store }) => {
 
 	let { timestamp, parentID, edit, classes, ...editValues } = props;
 
+	// const { classes, ...fullProps } = props;
+
 	const updateExpenseGroupChildEdit = ( event ) => {
-		if ( event.target.type === "number" )
+
+		if ( event.target.name === 'cost' )
 		{
-			if ( Number(event.target.value) !== event.target.value )
+			function countDecimals( number ) {
+				if ( Math.floor( number ) === number ) return 0;
+				return ( number.toString().split('.').length > 1 ) ? number.toString().split('.')[1].length : 0;
+			}
+
+			if ( countDecimals( event.target.value ) > 2 )
 			{
+				alert("You may only have a maximum of two numbers after the decimal");
 				return;
 			}
 		}
@@ -57,7 +66,8 @@ const Expense_Group_Child = (props, { store }) => {
 		<div className={`expense-group-child ${classes.root}`}>
 		{ props.edit ?
 			<Entity_Edit_Field
-				{...props}
+				{...editValues}
+				timestamp={timestamp}
 				updateListener={updateExpenseGroupChildEdit}
 			/>
 			:
@@ -68,7 +78,7 @@ const Expense_Group_Child = (props, { store }) => {
 				onClick={() => store.dispatch(editEntity({...editValues}))}
 				onDelete={() => store.dispatch(removeExpenseGroupChild({
 					id : props.id,
-					parentID : props.parentID
+					parentID : parentID
 				}))}
 			/>}
 		</div>

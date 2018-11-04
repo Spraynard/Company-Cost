@@ -28,8 +28,11 @@ const styles = theme => ({
 })
 
 const Expense_Group = ( props, { store } ) => {
-	const expense_group_children = store.getState().expense_group_children;
-	const expense_group_child_by_id = store.getState().expense_group_child_by_id;
+	const {
+		expense_group_children,
+		expense_group_child_by_id
+	} = store.getState();
+
 	const updateExpenseGroupEdit = ( event ) => {
 		store.dispatch(updateEntity({
 			id : props.id,
@@ -66,6 +69,7 @@ const Expense_Group = ( props, { store } ) => {
 					/>
 					<Typography align="left" component="h2" variant="h5" className="expense-group-name">{props.title}</Typography>
 					<Typography align="left" component="p" variant="subtitle2" className="expense-group-description">{props.description}</Typography>
+					<hr />
 					<Typography align="left" component="p" variant="subtitle1">
 					{ children_of_expense_group.length ?
 						`${children_of_expense_group.length} associated ${ children_of_expense_group.length > 1 ? "expenses" : "expense" } at a cost of`

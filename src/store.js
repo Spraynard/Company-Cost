@@ -149,7 +149,6 @@ const rootReducer = ( state, action ) => {
 	return appReducer( state, action );
 };
 
-console.log( stateData );
 const store = ( initialState = stateData ) =>
 	applyMiddleware(
 		logger,

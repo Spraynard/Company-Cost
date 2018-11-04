@@ -42,7 +42,7 @@ export const obtainEditableValues = ( _obj ) => {
 	}).forEach( value => {
 		editable_value_object[value] = {};
 		editable_value_object[value].value = _obj[value];
-		editable_value_object[value].type = edit_value_type_list()[value];
+		editable_value_object[value].type = readOnlyGroupData["edit_subject_input_types"][value];
 	});
 
 	return editable_value_object;

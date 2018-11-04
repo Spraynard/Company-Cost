@@ -1,4 +1,9 @@
 {
 	"expense_group_options" : { "costUOM" : [ "day", "hour", "week", "month", "year" ] },
-	"edit_subject_input_types" : { "title" : "text", "description" : "textarea", "cost" : "number", "costUOM" : "select" }
+	"edit_subject_input_types" : {
+		"title" : "text",
+		"description" : "textarea",
+		"cost" : "number",
+		"costUOM" : "select"
+	}
 }

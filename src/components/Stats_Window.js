@@ -28,7 +28,6 @@ const Stats_Window = ( props, { store } ) => {
 
 	const { expense_groups } = store.getState();
 	const { classes } = props;
-	console.log( classes.buttonStyles );
 	return (
 		<AppBar position="sticky">
 		<Toolbar>
