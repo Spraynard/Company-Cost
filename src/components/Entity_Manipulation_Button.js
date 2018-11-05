@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 const Entity_Manipulation_Button = ( props, { store } ) => {
 	let button_classes = "entity-manipulation-button";
 	let button_variant = "contained";
+	let button_color = "primary";
 
 	if ( typeof props.type !== "undefined" )
 	{
@@ -26,8 +27,13 @@ const Entity_Manipulation_Button = ( props, { store } ) => {
 		button_variant = props.variant;
 	}
 
+	if ( typeof props.button_color !== "undefined" )
+	{
+		button_color = props.button_color;
+	}
+
 	return (
-		<Button color={'primary'} variant={button_variant} className={button_classes} onClick={() => store.dispatch(props.dispatchAction)}>
+		<Button color={button_color} variant={button_variant} className={button_classes} onClick={() => store.dispatch(props.dispatchAction)}>
 			{ props.icon ? props.icon
 				:
 				<Typography type="button" color="inherit">{ props.text }</Typography>

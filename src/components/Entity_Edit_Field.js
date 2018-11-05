@@ -84,8 +84,8 @@ const Entity_Edit_Field = ( props, { store } ) => {
 						if ( input_type === "number" )
 						{
 							input_prop_object['inputProps'] = {
-								// type : 'number',
-								// step : 0.01,
+								type : 'number',
+								step : 0.01,
 							}
 
 							input_prop_object['InputProps'] = {
@@ -149,6 +149,7 @@ const Entity_Edit_Field = ( props, { store } ) => {
 							id : id
 						})}
 						text="Save"
+						button_color="secondary"
 						extraClasses={["expense-group-save-edit-button"]}
 					/>
 					<Entity_Manipulation_Button
@@ -156,6 +157,8 @@ const Entity_Edit_Field = ( props, { store } ) => {
 							id : id
 						})}
 						text="Cancel"
+						variant="outlined"
+						button_color="secondary"
 						extraClasses={["expense-group-cancel-edit-button"]}
 					/>
 				</CardActions>

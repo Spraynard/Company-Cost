@@ -9,10 +9,15 @@ import {
 	updateEntity
 } from "../actions";
 
+import { convertNumericalValue } from '../helpers/helpers';
+import readOnlyGroupData from '../../data/read_only_group_data.json';
+
 // MaterialUI
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import DeleteForever from '@material-ui/icons/DeleteForever';
 
@@ -46,12 +51,25 @@ const Expense_Group = ( props, { store } ) => {
 		return expense_group_child_by_id[expense_group_child_id].parentID === props.id;
 	});
 
-	let cost_of_associated_children = 0;
+	let cost_of_associated_children = children_of_expense_group.reduce(
+		( accumulator, currentValue ) => {
+			let expense_data = expense_group_child_by_id[currentValue];
+			let expense_cost = expense_data.cost;
+			let expense_cost_uom = expense_data.costUOM;
+			// Convert the value of the current expenses' costUOM to "day"
+			// and add it to the pile.
 
-	if ( children_of_expense_group.length > 0 ) {
-		cost_of_associated_children = children_of_expense_group.map( child =>
-			expense_group_child_by_id[child].cost )
-	}
+			if ( expense_cost_uom !== 'day' )
+			{
+				expense_cost = convertNumericalValue( expense_cost, expense_cost_uom, 'day' );
+			}
+
+			console.log( "Child Data", expense_data );
+			return accumulator + expense_cost;
+		},
+		0
+	);
+
 	return (
 		<div className="expense-group">
 			{ ( props.edit ) ?
@@ -71,11 +89,26 @@ const Expense_Group = ( props, { store } ) => {
 					<Typography align="left" component="p" variant="subtitle2" className="expense-group-description">{props.description}</Typography>
 					<hr />
 					<Typography align="left" component="p" variant="subtitle1">
-					{ children_of_expense_group.length ?
-						`${children_of_expense_group.length} associated ${ children_of_expense_group.length > 1 ? "expenses" : "expense" } at a cost of`
+					{ children_of_expense_group.length ? `${children_of_expense_group.length}
+							associated ${ children_of_expense_group.length > 1 ? "expenses" : "expense" }
+							at a cost of ${cost_of_associated_children} per`
 						:
 						""
 					}
+					{ children_of_expense_group.length ?
+						<TextField
+							select
+							label="Select Me"
+						>
+							{
+								readOnlyGroupData["expense_group_options"].costUOM.map( ( item, index ) => {
+									return ( <MenuItem value={item}>
+										{item}
+									</MenuItem> );
+								}
+							)}
+						</TextField>
+						: ""}
 					</Typography>
 					<Grid container justify="flex-start" className="expense-group-child-list">
 						{ children_of_expense_group.map( ( filtered_group_child_id, index ) =>
