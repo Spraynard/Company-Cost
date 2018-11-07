@@ -5,6 +5,10 @@ import {
 	expense_group_child_editable_values
 } from "./helpers/editHelpers";
 
+import {
+	expense_group_options_values,
+} from "./helpers/optionsHelpers";
+
 ///////////////////////////
 // Expense Group Actions //
 ///////////////////////////
@@ -13,7 +17,8 @@ export const addExpenseGroup = ( _obj ) => ({
 	id : v4(),
 	timestamp : new Date().toString(),
 	edit : false,
-	...expense_group_editable_values( _obj )
+	...expense_group_editable_values( _obj ),
+	...expense_group_options_values( _obj )
 });
 
 export const removeExpenseGroup = ({ id }) => ({

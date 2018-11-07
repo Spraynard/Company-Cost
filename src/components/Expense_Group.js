@@ -71,7 +71,6 @@ const Expense_Group = ( props, { store } ) => {
 				expense_cost = convertNumericalValue( expense_cost, expense_cost_uom, 'day' );
 			}
 
-			console.log( "Child Data", expense_data );
 			return accumulator + expense_cost;
 		},
 		0
@@ -102,10 +101,9 @@ const Expense_Group = ( props, { store } ) => {
 								header={children_of_expense_group.length}
 								text={ (children_of_expense_group.length === 1 ) ? "Expense" : "Expenses" }
 							/>
-							<Group_Information_Select
+							<Group_Information
 								header="Cost:"
-								text={`${cost_of_associated_children} per`}
-								options={readOnlyGroupData["expense_group_options"]["costUOM"]}
+								text={`${cost_of_associated_children} per ${props.costUOM}`}
 							/>
 						</Grid>
 						:

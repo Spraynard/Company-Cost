@@ -3,7 +3,7 @@ import readOnlyGroupData from '../../data/read_only_group_data.json';
 export const expense_group_editable_values = ( input_object ) => {
 	return {
 		title : input_object.title || "Expense Group",
-		description : input_object.description || ""
+		description : input_object.description || "",
 	};
 };
 

@@ -1,5 +1,7 @@
 import C from "../constants.js";
 import { extract_action_data } from "../helpers/helpers";
+import expense_group_option_defaults from "../../data/expense_group_option_defaults.json";
+
 /**
  * Reducer for "expense_groups".
  * This is meant to provide an array listing of all of the expense groups
@@ -25,6 +27,49 @@ export const expense_groups = ( state=[], action ) => {
 			return state.filter(
 				item => action.id !== item
 			);
+
+		default:
+			return state;
+	}
+};
+
+export const expense_group_options = ( state={}, action ) => {
+	if ( ( typeof action.type ) === "undefined" )
+	{
+		return state;
+	}
+
+	const { id, ...actionData } = action;
+
+	switch ( action.type ) {
+
+		/**
+		 * An expense group gets initialized with default
+		 * option default values
+		 */
+		case C.ADD_EXPENSE_GROUP:
+			return {
+				...state,
+				[ action.id ] : {
+					...expense_group_option_defaults
+				}
+			}
+
+		case C.REMOVE_EXPENSE_GROUP:
+			let { [action.id.toString()] : deleted, ...newState } = state;
+			return newState;
+
+		/**
+		 * When a user makes an options change, we're going to take
+		 * the full form given and update the options based on that.
+		 */
+		case C.OPTIONS_CHANGE:
+			return {
+				...state,
+				[ action.id ] : {
+					...actionData
+				}
+			}
 
 		default:
 			return state;
