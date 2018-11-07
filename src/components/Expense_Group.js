@@ -3,6 +3,10 @@ import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
 import Entity_Edit_Field from "./Entity_Edit_Field";
 import Expense_Group_Child from "./Expense_Group_Child";
 import {
+	Group_Information
+} from './Group_Information';
+
+import {
 	removeExpenseGroup,
 	addExpenseGroupChild,
 	editEntity,
@@ -29,6 +33,9 @@ const styles = theme => ({
 	},
 	rightAlign: {
 		textAlign: 'right'
+	},
+	leftAlign: {
+		textAlign: 'left'
 	}
 })
 
@@ -88,28 +95,22 @@ const Expense_Group = ( props, { store } ) => {
 					<Typography align="left" component="h2" variant="h5" className="expense-group-name">{props.title}</Typography>
 					<Typography align="left" component="p" variant="subtitle2" className="expense-group-description">{props.description}</Typography>
 					<hr />
-					<Typography align="left" component="p" variant="subtitle1">
-					{ children_of_expense_group.length ? `${children_of_expense_group.length}
-							associated ${ children_of_expense_group.length > 1 ? "expenses" : "expense" }
-							at a cost of ${cost_of_associated_children} per`
+					{
+						children_of_expense_group.length ?
+						<Grid container spacing={8} className={`expense-group-information-wrapper ${classes.leftAlign}`}>
+							<Group_Information
+								header={children_of_expense_group.length}
+								text={ (children_of_expense_group.length === 1 ) ? "Expense" : "Expenses" }
+							/>
+							<Group_Information_Select
+								header="Cost:"
+								text={`${cost_of_associated_children} per`}
+								options={readOnlyGroupData["expense_group_options"]["costUOM"]}
+							/>
+						</Grid>
 						:
 						""
 					}
-					{ children_of_expense_group.length ?
-						<TextField
-							select
-							label="Select Me"
-						>
-							{
-								readOnlyGroupData["expense_group_options"].costUOM.map( ( item, index ) => {
-									return ( <MenuItem value={item}>
-										{item}
-									</MenuItem> );
-								}
-							)}
-						</TextField>
-						: ""}
-					</Typography>
 					<Grid container justify="flex-start" className="expense-group-child-list">
 						{ children_of_expense_group.map( ( filtered_group_child_id, index ) =>
 							<Expense_Group_Child
