@@ -14,6 +14,9 @@ const constants = {
 	UPDATE_ENTITY : 				"UPDATE_ENTITY",
 	CANCEL_EDIT_ENTITY : 			"CANCEL_EDIT_ENTITY",
 
+	/* Constants used for Options Handling */
+	EDIT_ENTITY_OPTION: 			"EDIT_ENTITY_OPTION",
+
 	/* App Level Action Types */
 	RESET_DATA : "RESET_DATA",
 };

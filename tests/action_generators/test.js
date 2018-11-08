@@ -6,7 +6,8 @@ import {
 	removeExpenseGroupChild,
 	editEntity,
 	saveEntity,
-	cancelEditEntity
+	cancelEditEntity,
+	editEntityOption,
 } from "../../src/actions";
 
 // Importing Constants
@@ -138,3 +139,27 @@ describe("Saving Edit Mode Changes", () => {
 	});
 });
 
+//////////////////////////////
+// Options Handling Actions //
+//////////////////////////////
+describe("Saving Entity Edit Option Changes", () => {
+	let id;
+	let action;
+
+	beforeEach(() => {
+		id = v4();
+	});
+
+	test("Sends out an expense group option save action", () => {
+		action = editEntityOption({
+			id,
+			costUOM : "day",
+			size : "default"
+		});
+
+		expect( action.type ).toBe(C.EDIT_ENTITY_OPTION);
+		expect(action.id).toBe(id);
+		expect(action.costUOM).toBe("day");
+		expect(action.size).toBe("default");
+	})
+})

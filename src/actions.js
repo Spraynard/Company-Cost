@@ -5,10 +5,6 @@ import {
 	expense_group_child_editable_values
 } from "./helpers/editHelpers";
 
-import {
-	expense_group_options_values,
-} from "./helpers/optionsHelpers";
-
 ///////////////////////////
 // Expense Group Actions //
 ///////////////////////////
@@ -18,7 +14,6 @@ export const addExpenseGroup = ( _obj ) => ({
 	timestamp : new Date().toString(),
 	edit : false,
 	...expense_group_editable_values( _obj ),
-	...expense_group_options_values( _obj )
 });
 
 export const removeExpenseGroup = ({ id }) => ({
@@ -62,6 +57,14 @@ export const saveEntity = ({ id }) => ({
 export const cancelEditEntity = ({ id }) => ({
 	type : C.CANCEL_EDIT_ENTITY,
 	id
+});
+
+//////////////////////////////
+// OPTIONS HANDLING ACTIONS //
+//////////////////////////////
+export const editEntityOption = ( input_object ) => ({
+	...input_object,
+	type : C.EDIT_ENTITY_OPTION
 });
 
 ///////////////////////

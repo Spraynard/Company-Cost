@@ -39,7 +39,7 @@ export const expense_group_options = ( state={}, action ) => {
 		return state;
 	}
 
-	const { id, ...actionData } = action;
+	const { id, type, ...actionData } = action;
 
 	switch ( action.type ) {
 
@@ -63,7 +63,7 @@ export const expense_group_options = ( state={}, action ) => {
 		 * When a user makes an options change, we're going to take
 		 * the full form given and update the options based on that.
 		 */
-		case C.OPTIONS_CHANGE:
+		case C.EDIT_ENTITY_OPTION:
 			return {
 				...state,
 				[ action.id ] : {

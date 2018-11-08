@@ -17,7 +17,7 @@ import {
 	addExpenseGroup,
 	editEntity,
 	saveEntity,
-	cancelEditEntity
+	cancelEditEntity,
 } from "../../src/actions";
 
 var expense_group_child_action_helper = {};

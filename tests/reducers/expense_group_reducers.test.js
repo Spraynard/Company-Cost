@@ -6,6 +6,7 @@ import C from "../../src/constants";
 import {
 	expense_groups,
 	expense_group_by_id,
+	expense_group_options
 } from "../../src/reducers/expense_group_reducers";
 
 
@@ -15,7 +16,8 @@ import {
 	removeExpenseGroup,
 	editEntity,
 	saveEntity,
-	cancelEditEntity
+	cancelEditEntity,
+	editEntityOption,
 } from "../../src/actions";
 
 var expense_group_child_action_helper = {};
@@ -258,3 +260,67 @@ describe("Expense Group By ID", () => {
 		expect(results[action_1.id].edit).toBeFalsy();
 	});
 });
+
+
+///////////////////////////
+// Expense Group Options //
+///////////////////////////
+describe("Expense Group Options", () => {
+	var state;
+
+	beforeEach(() => {
+		state = {};
+	});
+
+	test("Returns given state when updated without an action type", () => {
+		let action = { costUOM : "week", size : "large" };
+
+		state = expense_group_options( state, action );
+
+		expect( state ).toEqual({});
+	});
+
+	test("Add into state on C.EXPENSE_GROUP_ADD with defaults", () => {
+		let action = addExpenseGroup({ title : "Expense Group Options Test Title", description : "Expense Group Options Test Description"});
+
+		state = expense_group_options( state, action );
+
+		expect(state).toEqual({
+			[ action.id ] : {
+				costUOM : "day",
+				size : "default"
+			}
+		});
+	});
+
+	test("Remove from state on C.EXPENSE_GROUP_REMOVE", () => {
+		let action_1 = addExpenseGroup({ title : "Expense Group Options Test Title", description : "Expense Group Options Test Description"});
+		let action_2 = removeExpenseGroup({ id : action_1.id });
+
+		state = expense_group_options( state, action_1 );
+		state = expense_group_options( state, action_2 );
+
+		expect(state).toEqual({});
+	});
+
+	test("Successfully edits items when updated with new values", () => {
+		let action_1 = addExpenseGroup({ title : "Expense Group Options Test Title", description : "Expense Group Options Test Description"});
+		let action_2 = editEntityOption({
+			id : action_1.id,
+			costUOM : "week",
+			size : "large"
+		});
+
+		state = expense_group_options( state, action_1 );
+		state = expense_group_options( state, action_2 );
+
+		expect(state).toEqual({
+			[ action_1.id ] : {
+				costUOM : "week",
+				size : "large"
+			}
+		});
+	});
+
+	// Returns state when not fed a type
+})

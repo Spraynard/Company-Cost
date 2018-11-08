@@ -11,6 +11,7 @@ import {
 import {
 	expense_groups,
 	expense_group_by_id,
+	expense_group_options,
 	// expense_groups_expense_group_children
 } from "./reducers/expense_group_reducers";
 
@@ -28,7 +29,6 @@ import {
 ////////////////////////////////////////
 import {
 	expense_group_entity_edit,
-	expense_group_options
 } from "./reducers/edit_mode_reducers";
 
 const enable_logger = true;
@@ -135,6 +135,7 @@ const appReducer = combineReducers({
 	expense_group_child_by_id,
 	expense_group_children_xref,
 	expense_group_entity_edit,
+	expense_group_options,
 });
 
 import stateData from "../data/default_state.json";
