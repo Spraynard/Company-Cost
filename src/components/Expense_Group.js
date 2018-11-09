@@ -7,6 +7,7 @@ import {
 } from './Group_Information';
 
 import {
+	openExpenseGroupOptionsDialog,
 	removeExpenseGroup,
 	addExpenseGroupChild,
 	editEntity,
@@ -24,6 +25,7 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import DeleteForever from '@material-ui/icons/DeleteForever';
+import MoreHoriz from '@material-ui/icons/MoreHoriz';
 
 const styles = theme => ({
 	root : {
@@ -36,13 +38,20 @@ const styles = theme => ({
 	},
 	leftAlign: {
 		textAlign: 'left'
+	},
+	buttonsContainer: {
+		marginBottom : theme.spacing.unit
+	},
+	removeButton : {
+		marginLeft : 'auto'
 	}
 })
 
 const Expense_Group = ( props, { store } ) => {
 	const {
 		expense_group_children,
-		expense_group_child_by_id
+		expense_group_child_by_id,
+		expense_group_options
 	} = store.getState();
 
 	const updateExpenseGroupEdit = ( event ) => {
@@ -76,6 +85,8 @@ const Expense_Group = ( props, { store } ) => {
 		0
 	);
 
+	const { dialog_open, ...optionsValues } = expense_group_options[props.id];
+
 	return (
 		<div className="expense-group">
 			{ ( props.edit ) ?
@@ -83,14 +94,33 @@ const Expense_Group = ( props, { store } ) => {
 					<Entity_Edit_Field { ...props } updateListener={updateExpenseGroupEdit}/>
 				</Paper> :
 				<Paper className={`expense-group-content ${classes.root} ${classes.rightAlign}`}>
-					<Entity_Manipulation_Button
-						dispatchAction={ removeExpenseGroup({
-							"id" : props.id
-						})}
-						icon={<DeleteForever />}
-						variant="outlined"
-						extraClasses={["expense-group-remove-button"]}
-					/>
+					<Grid container className={classes.buttonsContainer}>
+					{ typeof expense_group_option_object !== "undefined" ?
+						<Grid item>
+							<Entity_Manipulation_Button
+								dispatchAction={ openExpenseGroupOptionsDialog({ id : props.id })}
+								icon={<MoreHoriz />}
+								variant="outlined"
+								extraClasses={["expense-group-options-edit-button"]}
+							/>
+							<Expense_Group_Options_Dialog
+								open={dialog_open},
+								label={props.title}
+								options_values={optionsValues}
+							/>
+						</Grid> : ""
+					}
+						<Grid item className={classes.removeButton}>
+							<Entity_Manipulation_Button
+								dispatchAction={ removeExpenseGroup({
+									"id" : props.id
+								})}
+								icon={<DeleteForever />}
+								variant="outlined"
+								extraClasses={["expense-group-remove-button"]}
+							/>
+						</Grid>
+					</Grid>
 					<Typography align="left" component="h2" variant="h5" className="expense-group-name">{props.title}</Typography>
 					<Typography align="left" component="p" variant="subtitle2" className="expense-group-description">{props.description}</Typography>
 					<hr />

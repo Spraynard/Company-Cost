@@ -67,6 +67,7 @@ export const expense_group_options = ( state={}, action ) => {
 			return {
 				...state,
 				[ action.id ] : {
+					...state[ action.id ],
 					...actionData
 				}
 			}

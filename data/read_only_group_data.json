@@ -1,5 +1,8 @@
 {
-	"expense_group_options" : { "costUOM" : [ "day", "hour", "week", "month", "year" ] },
+	"expense_group_options" : {
+		"costUOM" : [ "day", "hour", "week", "month", "year" ],
+		"size" : [ "default", "large", "extra-large" ]
+	},
 	"edit_subject_input_types" : {
 		"title" : "text",
 		"description" : "textarea",

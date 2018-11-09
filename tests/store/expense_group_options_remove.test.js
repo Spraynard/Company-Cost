@@ -1,4 +1,5 @@
 import store from "../../src/store";
+
 import {
 	addExpenseGroup,
 	removeExpenseGroup,
@@ -20,13 +21,13 @@ beforeAll(() => {
 	action_2 = removeExpenseGroup({ id });
 	test_store.dispatch(action);
 	test_store.dispatch(action_2);
+	console.log("Our Test Store", test_store )
 });
 
 describe("Expense Group Options Remove Handling", () => {
-
-	var expense_group_options = test_store.getState()["expense_group_options"];
-
 	test("State should no contain anything after remove", () => {
+		let expense_group_options = test_store.getState()["expense_group_options"];
 		expect( expense_group_options ).toEqual({});
+		expect( expense_group_options[id]).toBeUndefined();
 	});
 })

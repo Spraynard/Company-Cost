@@ -8,6 +8,8 @@ import {
 	saveEntity,
 	cancelEditEntity,
 	editEntityOption,
+	openExpenseGroupOptionsDialog,
+	closeExpenseGroupOptionsDialog
 } from "../../src/actions";
 
 // Importing Constants
@@ -154,12 +156,32 @@ describe("Saving Entity Edit Option Changes", () => {
 		action = editEntityOption({
 			id,
 			costUOM : "day",
-			size : "default"
+			size : "default",
+			dialog_open : true
 		});
 
 		expect( action.type ).toBe(C.EDIT_ENTITY_OPTION);
 		expect(action.id).toBe(id);
 		expect(action.costUOM).toBe("day");
 		expect(action.size).toBe("default");
+		expect(action.dialog_open).toBeTruthy();
 	})
-})
+});
+
+describe("Open Expense Group Option Dialog", () => {
+	let id = v4();
+	let action = openExpenseGroupOptionsDialog({ id });
+
+	expect(action.type).toBe(C.EDIT_ENTITY_OPTION);
+	expect(action.id).toBe(id);
+	expect(action.dialog_open).toBeTruthy();
+});
+
+describe("Close Expense Group Option Dialog", () => {
+	let id = v4();
+	let action = closeExpenseGroupOptionsDialog({ id });
+
+	expect(action.type).toBe(C.EDIT_ENTITY_OPTION);
+	expect(action.id).toBe(id);
+	expect(action.dialog_open).toBeFalsy();
+});

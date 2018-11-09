@@ -67,6 +67,18 @@ export const editEntityOption = ( input_object ) => ({
 	type : C.EDIT_ENTITY_OPTION
 });
 
+export const openExpenseGroupOptionsDialog = ({ id }) => ({
+	id,
+	dialog_open : true,
+	type : C.EDIT_ENTITY_OPTION
+});
+
+export const closeExpenseGroupOptionsDialog = ({ id }) => ({
+	id,
+	dialog_open : false,
+	type : C.EDIT_ENTITY_OPTION
+});
+
 ///////////////////////
 // APP LEVEL ACTIONS //
 ///////////////////////

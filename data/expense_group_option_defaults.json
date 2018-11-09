@@ -1,4 +1,5 @@
 {
 	"costUOM" : "day",
-	"size" : "default"
+	"size" : "default",
+	"dialog_open" : false
 }

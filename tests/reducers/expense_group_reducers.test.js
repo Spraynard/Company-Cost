@@ -18,6 +18,8 @@ import {
 	saveEntity,
 	cancelEditEntity,
 	editEntityOption,
+	openExpenseGroupOptionsDialog,
+	closeExpenseGroupOptionsDialog
 } from "../../src/actions";
 
 var expense_group_child_action_helper = {};
@@ -288,7 +290,8 @@ describe("Expense Group Options", () => {
 		expect(state).toEqual({
 			[ action.id ] : {
 				costUOM : "day",
-				size : "default"
+				size : "default",
+				dialog_open : false
 			}
 		});
 	});
@@ -317,10 +320,43 @@ describe("Expense Group Options", () => {
 		expect(state).toEqual({
 			[ action_1.id ] : {
 				costUOM : "week",
-				size : "large"
+				size : "large",
+				dialog_open : false
 			}
 		});
 	});
 
-	// Returns state when not fed a type
+	test("Successfully opens options dialog when given an options dialog open action", () => {
+		let action_1 = addExpenseGroup({ title : "Expense Group Options Test Title", description : "Expense Group Options Test Description"});
+		let action_2 = openExpenseGroupOptionsDialog({ id : action_1.id });
+
+		state = expense_group_options( state, action_1 );
+		state = expense_group_options( state, action_2 );
+
+		expect(state).toEqual({
+			[ action_1.id ] : {
+				costUOM : "day",
+				size : "default",
+				dialog_open : true
+			}
+		});
+	});
+
+	test("Successfully closes options dialog when given an options dialog close action", () => {
+		let action_1 = addExpenseGroup({ title : "Expense Group Options Test Title", description : "Expense Group Options Test Description"});
+		let action_2 = openExpenseGroupOptionsDialog({ id : action_1.id });
+		let action_3 = closeExpenseGroupOptionsDialog({ id : action_1.id });
+
+		state = expense_group_options( state, action_1 );
+		state = expense_group_options( state, action_2 );
+		state = expense_group_options( state, action_3 );
+
+		expect(state).toEqual({
+			[ action_1.id ] : {
+				costUOM : "day",
+				size : "default",
+				dialog_open : false
+			}
+		});
+	});
 })
