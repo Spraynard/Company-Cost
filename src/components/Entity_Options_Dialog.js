@@ -1,4 +1,5 @@
 import readOnlyGroupData from "../../data/read_only_group_data.json";
+import { capitalizeFirstLetter } from "../helpers/helpers";
 
 // Material UI Components
 import ButtonBase from "@material-ui/core/Button";
@@ -19,7 +20,7 @@ const styles = theme => ({
 	}
 });
 
-export const Entity_Options_Dialog = withStyles(styles)(({ open, title, options_values, classes, onClose, onChange }) => {
+export const Entity_Options_Dialog = withStyles(styles)(({ open, title, options_values, classes, labelType, onClose, onChange }) => {
 
 	const handleSubmit = ( event ) => {
 		console.log( event );
@@ -40,20 +41,23 @@ export const Entity_Options_Dialog = withStyles(styles)(({ open, title, options_
 					spacing={8}
 				>
 				{ Object.keys( options_values ).map( ( options_value, index ) => {
+					let field_label = readOnlyGroupData["expense_group_options_labels"][labelType][options_value];
+
 					return (
 						<Grid key={index} item>
 							<TextField
 								select
 								onChange={onChange}
-								label={options_value}
+								label={field_label}
 								name={options_value}
 								value={options_values[options_value]}
 								fullWidth={true}
 							>
 							{ readOnlyGroupData["expense_group_options"][options_value].map(( item, index ) => {
+								let item_text = capitalizeFirstLetter( item );
 								return (
 									<MenuItem key={index} value={item}>
-										{ item }
+										{ item_text }
 									</MenuItem>
 								)
 							})}
@@ -61,12 +65,6 @@ export const Entity_Options_Dialog = withStyles(styles)(({ open, title, options_
 						</Grid>
 					)
 				})}
-				<Grid item>
-					<ButtonBase
-						type="submit"
-						color="primary"
-					>Submit</ButtonBase>
-					</Grid>
 				</Grid>
 			</form>
 		</Dialog>

@@ -22,10 +22,6 @@ export const capitalizeFirstLetter = ( string ) => {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const convertToPerDay = ( value ) => {
-
-}
-
 export const convertNumericalValue = ( value, value_uom, convert_uom ) => {
 	let convert_map = {};
 
@@ -35,25 +31,35 @@ export const convertNumericalValue = ( value, value_uom, convert_uom ) => {
 			convert_map.day = 1 / 8; // 8 Hours in a day... Sometimes.
 			convert_map.week = convert_map.day / 5; // 5 Days in a week
 			convert_map.month = convert_map.week / 4; // 4 weeks in a month;
+			convert_map.year = convert_map.month / 12
 			break;
 		case 'day':
 			convert_map.hour = 8;
 			convert_map.day = 1;
 			convert_map.week = convert_map.day / 5;
 			convert_map.month = convert_map.week / 4;
+			convert_map.year = convert_map.month / 12;
 			break;
 		case 'week':
 			convert_map.hour = 8 * 5;
 			convert_map.day = 5;
 			convert_map.week = 1;
-			convert_map.month = 1 / 4;
+			convert_map.month = convert_map.week / 4
+			convert_map.year = convert_map.month / 12
 			break;
 		case 'month':
 			convert_map.hour = 8 * 5 * 4;
 			convert_map.day = 5 * 4;
 			convert_map.week = 4;
 			convert_map.month = 1;
+			convert_map.year = convert_map.month / 12;
 			break;
+		case 'year':
+			convert_map.hour = 8 * 5 * 4 * 12;
+			convert_map.day = 5 * 4 * 12;
+			convert_map.week = 4 * 12;
+			convert_map.month = 12;
+			convert_map.year = 1;
 		default:
 			break;
 	}

@@ -79,6 +79,8 @@ const Expense_Group = ( props, { store } ) => {
 		return expense_group_child_by_id[expense_group_child_id].parentID === props.id;
 	});
 
+	let expense_group_options_object = expense_group_options[props.id];
+
 	let cost_of_associated_children = children_of_expense_group.reduce(
 		( accumulator, currentValue ) => {
 			let expense_data = expense_group_child_by_id[currentValue];
@@ -87,16 +89,20 @@ const Expense_Group = ( props, { store } ) => {
 			// Convert the value of the current expenses' costUOM to "day"
 			// and add it to the pile.
 
-			if ( expense_cost_uom !== 'day' )
+			if ( ! expense_data.costUOM.length )
 			{
-				expense_cost = convertNumericalValue( expense_cost, expense_cost_uom, 'day' );
+				return accumulator;
+			}
+
+			if ( expense_cost_uom !== expense_group_options_object.costUOM )
+			{
+				expense_cost = convertNumericalValue( expense_cost, expense_cost_uom, expense_group_options_object.costUOM );
 			}
 
 			return accumulator + expense_cost;
 		},
 		0
 	);
-	let expense_group_options_object = expense_group_options[props.id];
 
 	const { dialog_open, ...optionsValues } = expense_group_options_object;
 
@@ -120,7 +126,8 @@ const Expense_Group = ( props, { store } ) => {
 								open={dialog_open}
 								onChange={updateExpenseGroupOptions}
 								onClose={() => store.dispatch(closeExpenseGroupOptionsDialog({ id : props.id })) }
-								label={props.title}
+								title={props.title}
+								labelType="expense_group"
 								options_values={optionsValues}
 							/>
 						</Grid> : ""
@@ -148,7 +155,7 @@ const Expense_Group = ( props, { store } ) => {
 							/>
 							<Group_Information
 								header="Cost:"
-								text={`${cost_of_associated_children} per ${props.costUOM}`}
+								text={`${cost_of_associated_children} per ${expense_group_options_object.costUOM}`}
 							/>
 						</Grid>
 						:
