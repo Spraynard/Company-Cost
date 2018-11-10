@@ -3,11 +3,16 @@ import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
 import Entity_Edit_Field from "./Entity_Edit_Field";
 import Expense_Group_Child from "./Expense_Group_Child";
 import {
+	Entity_Options_Dialog
+} from "./Entity_Options_Dialog";
+import {
 	Group_Information
 } from './Group_Information';
 
 import {
+	editEntityOption,
 	openExpenseGroupOptionsDialog,
+	closeExpenseGroupOptionsDialog,
 	removeExpenseGroup,
 	addExpenseGroupChild,
 	editEntity,
@@ -61,6 +66,13 @@ const Expense_Group = ( props, { store } ) => {
 		}));
 	};
 
+	const updateExpenseGroupOptions = ( event ) => {
+		// console.log( event );
+		store.dispatch(editEntityOption({
+			id : props.id,
+			[event.target.name] : event.target.value
+		}))
+	}
 	const { classes } = props;
 
 	const children_of_expense_group = expense_group_children.filter( expense_group_child_id => {
@@ -84,8 +96,9 @@ const Expense_Group = ( props, { store } ) => {
 		},
 		0
 	);
+	let expense_group_options_object = expense_group_options[props.id];
 
-	const { dialog_open, ...optionsValues } = expense_group_options[props.id];
+	const { dialog_open, ...optionsValues } = expense_group_options_object;
 
 	return (
 		<div className="expense-group">
@@ -95,7 +108,7 @@ const Expense_Group = ( props, { store } ) => {
 				</Paper> :
 				<Paper className={`expense-group-content ${classes.root} ${classes.rightAlign}`}>
 					<Grid container className={classes.buttonsContainer}>
-					{ typeof expense_group_option_object !== "undefined" ?
+					{ typeof expense_group_options_object !== "undefined" ?
 						<Grid item>
 							<Entity_Manipulation_Button
 								dispatchAction={ openExpenseGroupOptionsDialog({ id : props.id })}
@@ -103,8 +116,10 @@ const Expense_Group = ( props, { store } ) => {
 								variant="outlined"
 								extraClasses={["expense-group-options-edit-button"]}
 							/>
-							<Expense_Group_Options_Dialog
-								open={dialog_open},
+							<Entity_Options_Dialog
+								open={dialog_open}
+								onChange={updateExpenseGroupOptions}
+								onClose={() => store.dispatch(closeExpenseGroupOptionsDialog({ id : props.id })) }
 								label={props.title}
 								options_values={optionsValues}
 							/>

@@ -1,29 +1,74 @@
 import readOnlyGroupData from "../../data/read_only_group_data.json";
 
-// Material UI
+// Material UI Components
+import ButtonBase from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/Dialog";
-import TextField from "@material-ui/core/TextField";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 
-export const Entity_Options_Dialog = ({ open, title, options_values }) => {
+// Material UI Styles
+import { withStyles } from "@material-ui/core/styles";
 
-	handleSubmit( event ) => {
+const styles = theme => ({
+	root : {
+		...theme.mixins.gutters(),
+		paddingTop: theme.spacing.unit * 2,
+		paddingBottom: theme.spacing.unit * 2,
+	}
+});
+
+export const Entity_Options_Dialog = withStyles(styles)(({ open, title, options_values, classes, onClose, onChange }) => {
+
+	const handleSubmit = ( event ) => {
 		console.log( event );
 	}
 
 	return (
-		<Dialog open={open} aria-labelled-by="entity-options-dialog-title">
+		<Dialog
+			open={open}
+			onClose={onClose}
+			aria-labelledby="entity-options-dialog-title"
+		>
 			<DialogTitle id="entity-options-dialog-title">{`${title} Options Dialog`}</DialogTitle>
-			<form onSubmit={handleSubmit}>
+			<form
+				className={classes.root}
+			>
+				<Grid container
+					direction="column"
+					spacing={8}
+				>
 				{ Object.keys( options_values ).map( ( options_value, index ) => {
 					return (
-						<TextField
-							select
-
-					);
+						<Grid key={index} item>
+							<TextField
+								select
+								onChange={onChange}
+								label={options_value}
+								name={options_value}
+								value={options_values[options_value]}
+								fullWidth={true}
+							>
+							{ readOnlyGroupData["expense_group_options"][options_value].map(( item, index ) => {
+								return (
+									<MenuItem key={index} value={item}>
+										{ item }
+									</MenuItem>
+								)
+							})}
+							</TextField>
+						</Grid>
+					)
 				})}
+				<Grid item>
+					<ButtonBase
+						type="submit"
+						color="primary"
+					>Submit</ButtonBase>
+					</Grid>
+				</Grid>
 			</form>
 		</Dialog>
 	)
-};
+});

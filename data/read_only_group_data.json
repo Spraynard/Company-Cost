@@ -3,6 +3,8 @@
 		"costUOM" : [ "day", "hour", "week", "month", "year" ],
 		"size" : [ "default", "large", "extra-large" ]
 	},
+	"expense_group_options_labels" : {
+	},
 	"edit_subject_input_types" : {
 		"title" : "text",
 		"description" : "textarea",
