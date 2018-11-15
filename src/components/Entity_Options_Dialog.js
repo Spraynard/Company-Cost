@@ -52,6 +52,7 @@ export const Entity_Options_Dialog = withStyles(styles)(({ open, title, options_
 								name={options_value}
 								value={options_values[options_value]}
 								fullWidth={true}
+								margin="normal"
 							>
 							{ readOnlyGroupData["expense_group_options"][options_value].map(( item, index ) => {
 								let item_text = capitalizeFirstLetter( item );

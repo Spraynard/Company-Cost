@@ -38,6 +38,9 @@ const styles = theme => ({
 		paddingTop: theme.spacing.unit * 2,
 		paddingBottom: theme.spacing.unit * 2,
 	},
+	expenseGroupInformation : {
+		marginBottom : theme.spacing.unit
+	},
 	rightAlign: {
 		textAlign: 'right'
 	},
@@ -108,13 +111,23 @@ const Expense_Group = ( props, { store } ) => {
 
 	return (
 		<div className="expense-group">
-			{ ( props.edit ) ?
+			{
+				/**
+				 * I want to have some way to edit this expense group's title and description.
+				 * Display a whole separate window if this group is in edit mode.
+				 **/
+				( props.edit ) ?
 				<Paper className={`expense-group-content ${classes.root}`}>
 					<Entity_Edit_Field { ...props } updateListener={updateExpenseGroupEdit}/>
 				</Paper> :
 				<Paper className={`expense-group-content ${classes.root} ${classes.rightAlign}`}>
 					<Grid container className={classes.buttonsContainer}>
-					{ typeof expense_group_options_object !== "undefined" ?
+					{
+						/**
+						 * If a group has options available, display a field that allows us to handle changes
+						 * to these options
+						 */
+						typeof expense_group_options_object !== "undefined" ?
 						<Grid item>
 							<Entity_Manipulation_Button
 								dispatchAction={ openExpenseGroupOptionsDialog({ id : props.id })}
@@ -147,19 +160,26 @@ const Expense_Group = ( props, { store } ) => {
 					<Typography align="left" component="p" variant="subtitle2" className="expense-group-description">{props.description}</Typography>
 					<hr />
 					{
+						// How many expense groups are there?
+						// What's the total sum of all the children's cost?
 						children_of_expense_group.length ?
-						<Grid container spacing={8} className={`expense-group-information-wrapper ${classes.leftAlign}`}>
+						<Grid container spacing={8} className={`expense-group-information-wrapper ${classes.leftAlign} ${classes.expenseGroupInformation}`}>
 							<Group_Information
-								header={children_of_expense_group.length}
-								text={ (children_of_expense_group.length === 1 ) ? "Expense" : "Expenses" }
+								header="# of Expenses"
+								text={children_of_expense_group.length}
 							/>
 							<Group_Information
 								header="Cost:"
-								text={`${cost_of_associated_children} per ${expense_group_options_object.costUOM}`}
+								text={`$${cost_of_associated_children.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}/${expense_group_options_object.costUOM}`}
 							/>
 						</Grid>
 						:
 						""
+					}
+					{
+						/**
+						 * Children of expense groups ( i.e. "expenses" ) are displayed here.
+						 */
 					}
 					<Grid container justify="flex-start" className="expense-group-child-list">
 						{ children_of_expense_group.map( ( filtered_group_child_id, index ) =>
@@ -173,11 +193,16 @@ const Expense_Group = ( props, { store } ) => {
 							/>
 						)}
 					</Grid>
+					{
+						/**
+						 * Entity manipulation buttons allow us to add and edit our expense group.
+						 */
+					}
 					<Entity_Manipulation_Button
 						dispatchAction={ addExpenseGroupChild({
 							parentID : props.id
 						})}
-						text="Add Child"
+						text="Add Expense"
 						extraClasses={["expense-group-child-add-button"]}
 					/>
 					<Entity_Manipulation_Button
@@ -186,7 +211,7 @@ const Expense_Group = ( props, { store } ) => {
 							title : props.title,
 							description : props.description
 						})}
-						text="Edit"
+						text="Edit Group"
 						extraClasses={["expense-group-edit-button"]}
 					/>
 				</Paper>
