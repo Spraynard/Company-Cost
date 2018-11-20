@@ -85,3 +85,22 @@ export const closeExpenseGroupOptionsDialog = ({ id }) => ({
 export const resetAppData = () => ({
 	type : C.RESET_DATA
 });
+
+// Editing App Level Options such as
+// 		* Cost UOM
+
+export const editApplicationOption = ( input_object ) => ({
+	...input_object,
+	type : C.EDIT_APPLICATION_OPTION
+});
+
+export const openAppOptionsDialog = () => ({
+	dialog_open: true,
+	type : C.EDIT_APPLICATION_OPTION
+});
+
+export const closeAppOptionsDialog = () => ({
+	dialog_open : false,
+	type : C.EDIT_APPLICATION_OPTION
+});
+

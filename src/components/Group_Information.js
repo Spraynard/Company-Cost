@@ -25,7 +25,9 @@ const styles = theme => ({
 	},
 	secondaryText : {
 		paddingLeft : theme.spacing.unit,
-		background : theme.palette.secondary.light,
+		paddingRight : theme.spacing.unit,
+		background : theme.palette.primary.light,
+		color : theme.palette.primary.contrastText
 	}
 })
 

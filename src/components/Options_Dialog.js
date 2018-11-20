@@ -20,7 +20,19 @@ const styles = theme => ({
 	}
 });
 
-export const Entity_Options_Dialog = withStyles(styles)(({ open, title, options_values, classes, labelType, onClose, onChange }) => {
+export const Options_Dialog = withStyles(styles)(( props ) => {
+
+	const {
+		open,
+		title,
+		options_values,
+		options_values_list,
+		options_values_labels,
+		classes,
+		labelType,
+		onClose,
+		onChange
+	} = props;
 
 	const handleSubmit = ( event ) => {
 		console.log( event );
@@ -41,7 +53,9 @@ export const Entity_Options_Dialog = withStyles(styles)(({ open, title, options_
 					spacing={8}
 				>
 				{ Object.keys( options_values ).map( ( options_value, index ) => {
-					let field_label = readOnlyGroupData["expense_group_options_labels"][labelType][options_value];
+					let field_label = ( typeof labelType === "undefined" ) ?
+						options_values_labels[options_value] :
+						options_values_labels[labelType][options_value];
 
 					return (
 						<Grid key={index} item>
@@ -54,7 +68,7 @@ export const Entity_Options_Dialog = withStyles(styles)(({ open, title, options_
 								fullWidth={true}
 								margin="normal"
 							>
-							{ readOnlyGroupData["expense_group_options"][options_value].map(( item, index ) => {
+							{ options_values_list[options_value].map(( item, index ) => {
 								let item_text = capitalizeFirstLetter( item );
 								return (
 									<MenuItem key={index} value={item}>

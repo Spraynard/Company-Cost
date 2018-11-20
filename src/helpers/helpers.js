@@ -68,3 +68,29 @@ export const convertNumericalValue = ( value, value_uom, convert_uom ) => {
 
 	return value;
 };
+
+export const obtainChildCostTotal = ( children_array, children_value_array, current_options ) => {
+	let current_options_cost_uom = current_options.costUOM;
+
+	return children_array.reduce(( acc, current ) => {
+		let child = children_value_array[current];
+		let child_cost = child.cost;
+		let child_cost_uom = child.costUOM;
+
+		if ( ! child_cost_uom.length )
+		{
+			return acc;
+		}
+
+		if ( child_cost_uom !== current_options_cost_uom )
+		{
+			child_cost = convertNumericalValue(
+				child_cost,
+				child_cost_uom,
+				current_options_cost_uom
+			);
+		}
+
+		return acc + child_cost;
+	}, 0);
+}

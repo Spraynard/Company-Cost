@@ -18,7 +18,8 @@ const constants = {
 	EDIT_ENTITY_OPTION: 			"EDIT_ENTITY_OPTION",
 
 	/* App Level Action Types */
-	RESET_DATA : "RESET_DATA",
+	RESET_DATA : 					"RESET_DATA",
+	EDIT_APPLICATION_OPTION : 		"EDIT_APPLICATION_OPTION"
 };
 
 module.exports = constants;

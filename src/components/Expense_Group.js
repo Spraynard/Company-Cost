@@ -3,8 +3,8 @@ import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
 import Entity_Edit_Field from "./Entity_Edit_Field";
 import Expense_Group_Child from "./Expense_Group_Child";
 import {
-	Entity_Options_Dialog
-} from "./Entity_Options_Dialog";
+	Options_Dialog
+} from "./Options_Dialog";
 import {
 	Group_Information
 } from './Group_Information';
@@ -19,7 +19,7 @@ import {
 	updateEntity
 } from "../actions";
 
-import { convertNumericalValue } from '../helpers/helpers';
+import { obtainChildCostTotal} from '../helpers/helpers';
 import readOnlyGroupData from '../../data/read_only_group_data.json';
 
 // MaterialUI
@@ -76,6 +76,7 @@ const Expense_Group = ( props, { store } ) => {
 			[event.target.name] : event.target.value
 		}))
 	}
+
 	const { classes } = props;
 
 	const children_of_expense_group = expense_group_children.filter( expense_group_child_id => {
@@ -84,28 +85,33 @@ const Expense_Group = ( props, { store } ) => {
 
 	let expense_group_options_object = expense_group_options[props.id];
 
-	let cost_of_associated_children = children_of_expense_group.reduce(
-		( accumulator, currentValue ) => {
-			let expense_data = expense_group_child_by_id[currentValue];
-			let expense_cost = expense_data.cost;
-			let expense_cost_uom = expense_data.costUOM;
-			// Convert the value of the current expenses' costUOM to "day"
-			// and add it to the pile.
-
-			if ( ! expense_data.costUOM.length )
-			{
-				return accumulator;
-			}
-
-			if ( expense_cost_uom !== expense_group_options_object.costUOM )
-			{
-				expense_cost = convertNumericalValue( expense_cost, expense_cost_uom, expense_group_options_object.costUOM );
-			}
-
-			return accumulator + expense_cost;
-		},
-		0
+	let cost_of_associated_children = obtainChildCostTotal(
+			children_of_expense_group,
+			expense_group_child_by_id,
+			expense_group_options_object
 	);
+	// let cost_of_associated_children = children_of_expense_group.reduce(
+	// 	( accumulator, currentValue ) => {
+	// 		let expense_data = expense_group_child_by_id[currentValue];
+	// 		let expense_cost = expense_data.cost;
+	// 		let expense_cost_uom = expense_data.costUOM;
+	// 		// Convert the value of the current expenses' costUOM to "day"
+	// 		// and add it to the pile.
+
+	// 		if ( ! expense_data.costUOM.length )
+	// 		{
+	// 			return accumulator;
+	// 		}
+
+	// 		if ( expense_cost_uom !== expense_group_options_object.costUOM )
+	// 		{
+	// 			expense_cost = convertNumericalValue( expense_cost, expense_cost_uom, expense_group_options_object.costUOM );
+	// 		}
+
+	// 		return accumulator + expense_cost;
+	// 	},
+	// 	0
+	// );
 
 	const { dialog_open, ...optionsValues } = expense_group_options_object;
 
@@ -135,13 +141,15 @@ const Expense_Group = ( props, { store } ) => {
 								variant="outlined"
 								extraClasses={["expense-group-options-edit-button"]}
 							/>
-							<Entity_Options_Dialog
+							<Options_Dialog
 								open={dialog_open}
 								onChange={updateExpenseGroupOptions}
 								onClose={() => store.dispatch(closeExpenseGroupOptionsDialog({ id : props.id })) }
 								title={props.title}
 								labelType="expense_group"
 								options_values={optionsValues}
+								options_values_list={readOnlyGroupData["expense_group_options"]}
+								options_values_labels={readOnlyGroupData["expense_group_options_labels"]}
 							/>
 						</Grid> : ""
 					}
@@ -170,7 +178,7 @@ const Expense_Group = ( props, { store } ) => {
 							/>
 							<Group_Information
 								header="Cost:"
-								text={`$${cost_of_associated_children.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}/${expense_group_options_object.costUOM}`}
+								text={`$${cost_of_associated_children.costFormat()}/${expense_group_options_object.costUOM}`}
 							/>
 						</Grid>
 						:

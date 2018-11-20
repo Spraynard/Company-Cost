@@ -1,13 +1,29 @@
+// Prop Type Checks on Render
 import { PropTypes } from "prop-types";
-import { addExpenseGroup } from '../actions';
 
+// Actions
+import {
+	addExpenseGroup,
+	openAppOptionsDialog,
+	closeAppOptionsDialog,
+	editApplicationOption
+} from '../actions';
+
+// Read Only Data
+import readOnlyApplicationData from "../../data/read_only_application_data.json";
+
+// Helper Functions
+import {
+	obtainChildCostTotal
+} from '../helpers/helpers';
+
+// UI Components
+import { Options_Dialog } from "./Options_Dialog";
 
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import FormControl from "@material-ui/core/FormControl";
-import InputBase from "@material-ui/core/InputBase";
 import Grid from "@material-ui/core/Grid";
 import Typography from '@material-ui/core/Typography';
 
@@ -15,7 +31,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 // Material UI Icons
-import MoreHoriz from "@material-ui/icons/MoreHoriz";
+import MoreVert from "@material-ui/icons/MoreVert";
 import AddCircle from '@material-ui/icons/AddCircle';
 
 // Component Styles
@@ -23,13 +39,25 @@ const styles = theme => ({
 	root: {
 
 	},
+	appStatWindow : {
+		padding: theme.spacing.unit,
+		margin: theme.spacing.unit,
+		borderRadius : theme.shape.borderRadius,
+		background: theme.palette.primary.light,
+		marginRight : theme.spacing.unit * 4
+	},
 	flex: {
 		'display' : 'flex'
 	},
+	flexEnd : {
+		alignSelf : 'flex-end'
+	},
 	vert : {
 		'flexDirection' : 'column',
+		'textAlign' : 'center',
+		'padding' : theme.spacing.unit / 2
 	},
-	buttonStyles : {
+	marginLeft : {
 		'marginLeft' : 'auto'
 	},
 	buttonIconStyles : {
@@ -38,6 +66,15 @@ const styles = theme => ({
 	headerTextStyles : {
 		'color' : theme.palette.primary.contrastText
 	},
+	marginRight : {
+		marginRight : theme.spacing.unit * 2
+	},
+	statsItemHeader : {
+		borderBottom : `2px solid ${theme.palette.primary.main}`
+	},
+	statsItemValue : {
+		paddingTop : theme.spacing.unit
+	}
 })
 
 const Stats_Window = ( props, { store } ) => {
@@ -45,35 +82,37 @@ const Stats_Window = ( props, { store } ) => {
 	const {
 		expense_groups,
 		expense_group_children,
-		expense_group_child_by_id
+		expense_group_child_by_id,
+		application_options
 	} = store.getState();
 
 	const { classes } = props;
+	const { dialog_open, ...optionsValues } = application_options;
 
-	const total_expense_cost = expense_group_children.reduce(( accumulator, currentValue ) => {
-		let expense_group_child = expense_group_child_by_id[currentValue];
-		let expense_group_child_cost = expense_group_child.cost;
-		let expense_group_child_costUOM = expense_group_child.costUOM;
+	const total_expense_cost = obtainChildCostTotal(
+		expense_group_children,
+		expense_group_child_by_id,
+		application_options
+	);
 
-		return accumulator + expense_group_child_cost;
-	}, 0);
+	const updateApplicationOptions = ( event ) => {
+		// console.log( event );
+		store.dispatch(editApplicationOption({
+			[event.target.name] : event.target.value
+		}));
+	}
 
 	return (
 		<AppBar position="sticky">
 		<Toolbar>
 			<Typography
 				component="span"
-				variant="h6"
+				variant="h4"
 				color="inherit"
+				className={classes.marginRight}
 			>
 				Company Cost
 			</Typography>
-			<FormControl>
-				<InputBase
-					placeholder="Enter Name of Workbench"
-					color="secondary"
-				/>
-			</FormControl>
 			{
 				/**
 				 * Stats for the app go here.
@@ -81,28 +120,43 @@ const Stats_Window = ( props, { store } ) => {
 				 * when we size down.
 				 */
 			}
-			<div className={classes.flex}>
-				<Typography component="h6" variant="h6" color="inherit">Stats:</Typography>
+			<div className={`${classes.flex} ${classes.marginLeft} ${classes.appStatWindow}`}>
 				<div className={classes.flex}>
-					<div className={`${classes.flex} ${classes.vert} stats-item`}>
-						<Typography variant="body1" color="inherit">Expense Groups</Typography>
-						<Typography variant="body2" color="inherit">{ expense_groups.length }</Typography>
+					<div className={`${classes.flex} ${classes.vert} ${classes.marginRight} stats-item`}>
+						<Typography variant="body1" color="inherit" className={classes.statsItemHeader}>Groups</Typography>
+						<Typography variant="body2" color="inherit" className={classes.statsItemValue}>{ expense_groups.length }</Typography>
 					</div>
-					<div className={`${classes.flex} ${classes.vert} stats-item`}>
-						<Typography variant="body1" color="inherit">Expenses</Typography>
-						<Typography variant="body2" color="inherit">{ expense_group_children.length }</Typography>
+					<div className={`${classes.flex} ${classes.vert} ${classes.marginRight} stats-item`}>
+						<Typography variant="body1" color="inherit" className={classes.statsItemHeader}>Expenses</Typography>
+						<Typography variant="body2" color="inherit" className={classes.statsItemValue}>{ expense_group_children.length }</Typography>
 					</div>
-					<div className={`${classes.flex} ${classes.vert} stats-item`}>
-						<Typography variant="body1" color="inherit">Total Cost</Typography>
-						<Typography variant="body2" color="inherit">{ total_expense_cost }</Typography>
+					<div className={`${classes.flex} ${classes.vert} ${classes.marginRight} stats-item`}>
+						<Typography variant="body1" color="inherit" className={classes.statsItemHeader}>Total Cost</Typography>
+						<Typography variant="body2" color="inherit" className={classes.statsItemValue}>${ total_expense_cost.costFormat() }/{ application_options.costUOM }</Typography>
 					</div>
 				</div>
 			</div>
 			<Button
+				color="secondary"
+				variant="outlined"
+				size="small"
+				onClick={() => store.dispatch(openAppOptionsDialog())}
+			>
+				<MoreVert />
+			</Button>
+			<Options_Dialog
+				open={application_options.dialog_open}
+				title="Application"
+				options_values={optionsValues}
+				onClose={() => store.dispatch(closeAppOptionsDialog())}
+				onChange={updateApplicationOptions}
+				options_values_labels={readOnlyApplicationData["application_options_labels"]}
+				options_values_list={readOnlyApplicationData['application_options']}
+			/>
+			<Button
 				color='secondary'
 				variant='contained'
 				size='large'
-				className={classes.buttonStyles}
 				onClick={() => store.dispatch(addExpenseGroup({
 					"title" : "Expense Group"
 				}))}

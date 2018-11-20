@@ -31,6 +31,13 @@ import {
 	expense_group_entity_edit,
 } from "./reducers/edit_mode_reducers";
 
+/////////////////////////////////////
+// Application Level Edit Reducers //
+/////////////////////////////////////
+import {
+	application_options
+} from "./reducers/application_level_reducers";
+
 const enable_logger = ( process.env.NODE_ENV === "test" ) ? false : true;
 
 // Log actions to the console as we dispatch them
@@ -136,6 +143,7 @@ const appReducer = combineReducers({
 	expense_group_children_xref,
 	expense_group_entity_edit,
 	expense_group_options,
+	application_options
 });
 
 import stateData from "../data/default_state.json";

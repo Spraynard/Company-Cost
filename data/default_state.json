@@ -1,5 +1,8 @@
 {
-	"application_options" : [],
+	"application_options" : {
+		"costUOM" : "day",
+		"dialog_open" : false
+	},
 	"expense_groups" : [],
 	"expense_group_options" : {},
 	"expense_group_by_id" : {},

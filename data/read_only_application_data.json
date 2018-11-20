@@ -1,0 +1,8 @@
+{
+	"application_options" : {
+		"costUOM" : [ "hour", "day", "week", "month", "year" ]
+	},
+	"application_options_labels" : {
+		"costUOM" : "Total cost display unit of time"
+	}
+}
