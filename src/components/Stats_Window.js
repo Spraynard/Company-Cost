@@ -42,9 +42,12 @@ const styles = theme => ({
 	appStatWindow : {
 		padding: theme.spacing.unit,
 		margin: theme.spacing.unit,
+		marginRight: 0,
 		borderRadius : theme.shape.borderRadius,
 		background: theme.palette.primary.light,
-		marginRight : theme.spacing.unit * 4
+	},
+	appButtonMargin : {
+		marginLeft : theme.spacing.unit
 	},
 	flex: {
 		'display' : 'flex'
@@ -113,33 +116,11 @@ const Stats_Window = ( props, { store } ) => {
 			>
 				Company Cost
 			</Typography>
-			{
-				/**
-				 * Stats for the app go here.
-				 * In another version they should go within the menu or something
-				 * when we size down.
-				 */
-			}
-			<div className={`${classes.flex} ${classes.marginLeft} ${classes.appStatWindow}`}>
-				<div className={classes.flex}>
-					<div className={`${classes.flex} ${classes.vert} ${classes.marginRight} stats-item`}>
-						<Typography variant="body1" color="inherit" className={classes.statsItemHeader}>Groups</Typography>
-						<Typography variant="body2" color="inherit" className={classes.statsItemValue}>{ expense_groups.length }</Typography>
-					</div>
-					<div className={`${classes.flex} ${classes.vert} ${classes.marginRight} stats-item`}>
-						<Typography variant="body1" color="inherit" className={classes.statsItemHeader}>Expenses</Typography>
-						<Typography variant="body2" color="inherit" className={classes.statsItemValue}>{ expense_group_children.length }</Typography>
-					</div>
-					<div className={`${classes.flex} ${classes.vert} ${classes.marginRight} stats-item`}>
-						<Typography variant="body1" color="inherit" className={classes.statsItemHeader}>Total Cost</Typography>
-						<Typography variant="body2" color="inherit" className={classes.statsItemValue}>${ total_expense_cost.costFormat() }/{ application_options.costUOM }</Typography>
-					</div>
-				</div>
-			</div>
 			<Button
 				color="secondary"
 				variant="outlined"
 				size="small"
+				className={classes.marginLeft}
 				onClick={() => store.dispatch(openAppOptionsDialog())}
 			>
 				<MoreVert />
@@ -157,6 +138,7 @@ const Stats_Window = ( props, { store } ) => {
 				color='secondary'
 				variant='contained'
 				size='large'
+				className={classes.appButtonMargin}
 				onClick={() => store.dispatch(addExpenseGroup({
 					"title" : "Expense Group"
 				}))}
@@ -168,6 +150,29 @@ const Stats_Window = ( props, { store } ) => {
 					Add Expense Group
 				</Typography>
 			</Button>
+			{
+				/**
+				 * Stats for the app go here.
+				 * In another version they should go within the menu or something
+				 * when we size down.
+				 */
+			}
+			<div className={`${classes.flex} ${classes.appStatWindow}`}>
+				<div className={classes.flex}>
+					<div className={`${classes.flex} ${classes.vert} ${classes.marginRight} stats-item`}>
+						<Typography variant="body1" color="inherit" className={classes.statsItemHeader}>Groups</Typography>
+						<Typography variant="body2" color="inherit" className={classes.statsItemValue}>{ expense_groups.length }</Typography>
+					</div>
+					<div className={`${classes.flex} ${classes.vert} ${classes.marginRight} stats-item`}>
+						<Typography variant="body1" color="inherit" className={classes.statsItemHeader}>Expenses</Typography>
+						<Typography variant="body2" color="inherit" className={classes.statsItemValue}>{ expense_group_children.length }</Typography>
+					</div>
+					<div className={`${classes.flex} ${classes.vert} ${classes.marginRight} stats-item`}>
+						<Typography variant="body1" color="inherit" className={classes.statsItemHeader}>Total Cost</Typography>
+						<Typography variant="body2" color="inherit" className={classes.statsItemValue}>${ total_expense_cost.costFormat() }/{ application_options.costUOM }</Typography>
+					</div>
+				</div>
+			</div>
 		</Toolbar>
 		</AppBar>
 	);

@@ -5,6 +5,20 @@ export const myTheme = createMuiTheme({
 		useNextVariants : true
 	},
 	palette: {
+		// primary: {
+		// 	light : '#FCFDE7',
+		// 	dark : '#C5C88D',
+		// 	main : '#17783E',
+		// 	saturate : '#17783E',
+		// 	contrastText: '#000'
+		// },
+		// secondary: {
+		// 	light : '#B9AEBD',
+		// 	dark : '#7C6186',
+		// 	main : '#96839E',
+		// 	saturate : '#703787',
+		// 	contrastText: '#fff'
+		// }
 		primary: {
 			light: '#757ce8',
 			main: '#3f50b5',
@@ -19,3 +33,16 @@ export const myTheme = createMuiTheme({
 		},
 	},
 });
+
+// green main: #E9EBC1
+// green dark: #C5C88D
+// green light: #FCFDE7
+// green saturate: #17783E
+// text color: #4D4E48
+//
+// purple main: #96839E
+// purple light: #B9AEBD
+// purple dark: #7C6186
+// purple saturate: #703787
+// purple contrastText : '#fff'
+//
