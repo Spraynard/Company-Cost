@@ -20,9 +20,10 @@ export const expense_group_children = ( state=[], action ) => {
 			return state.filter(
 				item => action.id !== item
 			);
-		// case C.REMOVE_EXPENSE_GROUP:
-		// 	return state.filter(
-		// 		item =>)
+		case C.REMOVE_EXPENSE_GROUP:
+			return state.filter(
+				item =>  ! action.expense_group_children_xref_ids.includes(item)
+			);
 		default:
 			return state;
 	}

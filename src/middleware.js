@@ -1,3 +1,5 @@
+import C from "./constants";
+
 // Log actions to the console as we dispatch them
 export const logger = store => next => action => {
 	let result;
@@ -93,3 +95,24 @@ export const expense_group_edit_save_helper = store => next => action => {
 	// Returning the next action should delete the item out of the expense_group_edit_obj state
 	return next(action);
 };
+
+/**
+ * Middleware that, on C.REMOVE_EXPENSE_GROUP action type, will assist
+ * in removing all associated expense group children id's from expense_group_children
+ */
+export const expense_group_remove_helper = store => next => action => {
+
+	if ( action.type === C.REMOVE_EXPENSE_GROUP )
+	{
+		const expense_group_children_xref = store.getState()["expense_group_children_xref"];
+		let expense_group_children_xref_ids = expense_group_children_xref[action.id];
+
+		console.log( "My Action", action );
+		console.log( "xref_ids", expense_group_children_xref_ids );
+
+		return next({
+			...action,
+			expense_group_children_xref_ids
+		})
+	}
+}
