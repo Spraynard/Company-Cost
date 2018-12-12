@@ -107,12 +107,11 @@ export const expense_group_remove_helper = store => next => action => {
 		const expense_group_children_xref = store.getState()["expense_group_children_xref"];
 		let expense_group_children_xref_ids = expense_group_children_xref[action.id];
 
-		console.log( "My Action", action );
-		console.log( "xref_ids", expense_group_children_xref_ids );
-
-		return next({
+		action = {
 			...action,
 			expense_group_children_xref_ids
-		})
+		};
 	}
+
+	return next(action)
 }

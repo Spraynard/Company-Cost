@@ -20,6 +20,10 @@ export const expense_group_children = ( state=[], action ) => {
 			return state.filter(
 				item => action.id !== item
 			);
+		/**
+		 * Through the expense_group_remove_helper middleware, we obtain action.expense_group_children_xref_ids.
+		 * This is used to reference our state and remove out any items that are in the expense_group_children_xref_ids array.
+		 */
 		case C.REMOVE_EXPENSE_GROUP:
 			return state.filter(
 				item =>  ! action.expense_group_children_xref_ids.includes(item)
