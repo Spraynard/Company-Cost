@@ -5,44 +5,17 @@ export const myTheme = createMuiTheme({
 		useNextVariants : true
 	},
 	palette: {
-		// primary: {
-		// 	light : '#FCFDE7',
-		// 	dark : '#C5C88D',
-		// 	main : '#17783E',
-		// 	saturate : '#17783E',
-		// 	contrastText: '#000'
-		// },
-		// secondary: {
-		// 	light : '#B9AEBD',
-		// 	dark : '#7C6186',
-		// 	main : '#96839E',
-		// 	saturate : '#703787',
-		// 	contrastText: '#fff'
-		// }
 		primary: {
-			light: '#757ce8',
-			main: '#3f50b5',
-			dark: '#002884',
-			contrastText: '#fff',
+			light : '#6abf69',
+			dark : '#00600f',
+			main : '#388e3c',
+			contrastText: '#000'
 		},
 		secondary: {
-			light: '#ff7961',
-			main: '#f44336',
-			dark: '#ba000d',
-			contrastText: '#000',
-		},
+			light : '#718792',
+			dark : '#1c313a',
+			main : '#455a64',
+			contrastText: '#fff'
+		}
 	},
 });
-
-// green main: #E9EBC1
-// green dark: #C5C88D
-// green light: #FCFDE7
-// green saturate: #17783E
-// text color: #4D4E48
-//
-// purple main: #96839E
-// purple light: #B9AEBD
-// purple dark: #7C6186
-// purple saturate: #703787
-// purple contrastText : '#fff'
-//
