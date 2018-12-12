@@ -49,6 +49,8 @@ const appReducer = combineReducers({
 	application_options
 });
 
+import testState from "../../data/test_state.json";
+
 export const rootReducer = ( state, action ) => {
 	if ( action.type === C.RESET_DATA )
 	{

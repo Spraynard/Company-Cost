@@ -22,7 +22,6 @@ import {
 
 // Default State or test state
 import stateData from "../data/default_state.json";
-import testState from "../data/test_state.json";
 
 const store = ( initialState = stateData ) =>
 	applyMiddleware(
