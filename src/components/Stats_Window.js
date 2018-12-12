@@ -111,7 +111,7 @@ const Stats_Window = ( props, { store } ) => {
 			<Typography
 				component="span"
 				variant="h4"
-				color="inherit"
+				color="textSecondary"
 				className={classes.marginRight}
 			>
 				Company Cost

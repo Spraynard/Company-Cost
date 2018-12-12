@@ -21,7 +21,6 @@ beforeAll(() => {
 	action_2 = removeExpenseGroup({ id });
 	test_store.dispatch(action);
 	test_store.dispatch(action_2);
-	console.log("Our Test Store", test_store )
 });
 
 describe("Expense Group Options Remove Handling", () => {
