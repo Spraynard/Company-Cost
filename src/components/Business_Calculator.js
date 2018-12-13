@@ -34,8 +34,8 @@ class Business_Calculator extends Component {
 	}
 
 	componentDidMount() {
-		store.dispatch(resetAppData());
-		store.dispatch(addExpenseGroup({}));
+		// store.dispatch(resetAppData());
+		// store.dispatch(addExpenseGroup({}));
 	}
 
 	render() {
@@ -56,4 +56,4 @@ Business_Calculator.childContextTypes = {
 	store : PropTypes.object.isRequired
 };
 
-module.exports = Business_Calculator;
+export { Business_Calculator };

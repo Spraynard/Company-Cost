@@ -16,9 +16,10 @@ export const expense_group_children = ( state=[], action ) => {
 				...state,
 				action.id
 			];
+
 		case C.REMOVE_EXPENSE_GROUP_CHILD:
 			return state.filter(
-				item => action.id !== item
+				item => ( action.id !== item )
 			);
 		/**
 		 * Through the expense_group_remove_helper middleware, we obtain action.expense_group_children_xref_ids.
@@ -63,7 +64,6 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 			let { [action.id.toString()] : deleted, ...newState } = state;
 			return newState;
 
-		// todo
 		case C.EDIT_ENTITY:
 			// Checking if ID is in this portion of state.
 			if ( typeof state[ action.id ] === "undefined" )
@@ -140,18 +140,14 @@ export const expense_group_children_xref = ( state={}, action ) => {
 	}
 
 	switch ( action.type ) {
-		case C.ADD_EXPENSE_GROUP_CHILD:
-			/* If the parent is not in the xref array yet, then we are going
-				to force it into the array before we perform the add action.
-			*/
-			if ( typeof state[action.parentID] === "undefined" )
-			{
-				state = {
-					...state,
-					[ action.parentID ] : []
-				};
-			}
+		case C.ADD_EXPENSE_GROUP:
+			// Populate the state with an empty array with a key of the expense group parent's ID.
+			return {
+				...state,
+				[ action.id ] : []
+			};
 
+		case C.ADD_EXPENSE_GROUP_CHILD:
 			return {
 				...state,
 				[ action.parentID ] : [
@@ -167,33 +163,29 @@ export const expense_group_children_xref = ( state={}, action ) => {
 		 * value or if we have to look for it.
 		 */
 		case C.REMOVE_EXPENSE_GROUP_CHILD:
-			if ( typeof action.parentID === "undefined" && typeof state.expense_group_child_by_id === "object" )
-			{
+			if ( typeof action.parentID === "undefined" && typeof state.expense_group_child_by_id === "object" ) {
 				// This is where we try and find the parent ID.
 				action.parentID = state.expense_group_child_by_id[action.id].parentID;
 			}
 
-			// This is where we return a state object even on epic fail.
-			if ( typeof action.parentID === "undefined" )
-			{
-				return state;
+			if ( typeof action.parentID !== "undefined" ) {
+				const statePortionFiltered = {
+					[ action.parentID ] : state[action.parentID].filter( item => item !== action.id )
+				};
+
+				state = {
+					...state,
+					...statePortionFiltered
+				};
+
+				/* Complete removal from this state if there are no more references left for a parent */
+				if ( state[ action.parentID ].length === 0 ) {
+					// Needs to be a var in order for the value of the newState variable to be accessible.
+					var { [action.parentID.toString()] : deleted, ...newState } = state;
+				}
 			}
 
-			state = {
-				...state,
-				[ action.parentID ] : state[action.parentID].filter( item => {
-					return item !== action.id;
-				})
-			};
-
-			/* Complete removal from this state if there are no more references left for a parent */
-			if ( state[ action.parentID ].length === 0 )
-			{
-				let { [action.parentID.toString()] : deleted, ...newState } = state;
-				return newState;
-			}
-
-			return state;
+			return ( typeof newState === "undefined" ) ? state : newState;
 
 		case C.REMOVE_EXPENSE_GROUP:
 			// This is checking to see if there's even an expense group witin this

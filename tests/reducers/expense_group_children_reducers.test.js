@@ -347,6 +347,12 @@ describe("Expense Group Children XREF", () => {
 		expect( results ).toEqual({});
 	});
 
+	test("Initializes Expense Group Children XREF with an empty array when we add an expense group", () => {
+		let action = addExpenseGroup({ title : "Test Expense Group" });
+		let results = expense_group_children_xref( state, action );
+		expect( results[action.id] ).toEqual([]);
+	})
+
 	test("Returns original state object when we're trying to delete an expense group that doesn't have children", () => {
 
 		var action = removeExpenseGroup({ id : 0 });
@@ -358,12 +364,16 @@ describe("Expense Group Children XREF", () => {
 	test("Adding Expense Group Child", () => {
 
 		var parent_action = addExpenseGroup({ title : "A Test Expense Group" });
+
 		var action = addExpenseGroupChild({
 			...expense_group_child_action_helper,
 			parentID : parent_action.id
 		});
 
+		state = expense_group_children_xref( state, parent_action );
+
 		var results = expense_group_children_xref( state, action );
+
 		expect( results ).toEqual({
 			[ parent_action.id ] : [ action.id ]
 		});
