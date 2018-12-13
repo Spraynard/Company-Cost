@@ -9,7 +9,7 @@ export const expense_group_editable_values = ( input_object ) => {
 
 export const expense_group_child_editable_values = ( input_object ) => {
 	return {
-		title : input_object.title || "Expense Group Child",
+		title : input_object.title || "Expense",
 		description : input_object.description || "",
 		cost: input_object.cost || 0,
 		costUOM: input_object.costUOM || "",

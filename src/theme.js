@@ -21,5 +21,5 @@ export const myTheme = createMuiTheme({
 			main : '#455a64',
 			contrastText: '#fff'
 		}
-	},
+	}
 });

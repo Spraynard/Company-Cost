@@ -58,7 +58,7 @@ const Entity_Edit_Field = ( props, { store } ) => {
 
 	return (
 		<Card >
-			<form className={classes.root}>
+			<form classes={{ root: classes.root}} >
 				<CardHeader
 					title={`Editing ${props.title}`}
 					subheader={`Creation Date ${timestamp}`}
@@ -89,11 +89,7 @@ const Entity_Edit_Field = ( props, { store } ) => {
 							}
 
 							input_prop_object['InputProps'] = {
-								startAdornment : (
-									<InputAdornment variant="filled" position="start">
-										$
-									</InputAdornment>
-								)
+								startAdornment : (<InputAdornment variant="filled" position="start">$</InputAdornment>)
 							}
 						}
 
@@ -105,11 +101,7 @@ const Entity_Edit_Field = ( props, { store } ) => {
 						if ( input_type === "select" )
 						{
 							input_prop_object['InputProps'] = {
-								startAdornment : (
-									<InputAdornment variant="filled" position="start">
-										/
-									</InputAdornment>
-								)
+								startAdornment : (<InputAdornment variant="filled" position="start">/</InputAdornment>)
 							}
 
 							return (

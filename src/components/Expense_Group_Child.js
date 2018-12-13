@@ -18,22 +18,27 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
 	root : {
 		marginBottom : theme.spacing.unit * 2,
-		'& + &:not(:nth-child(odd))' : {
-			marginLeft : theme.spacing.unit
-		}
+		minWidth : '50%'
 	},
 	chip: {
-		backgroundColor: theme.palette.secondary.light,
+		backgroundColor: theme.palette.secondary.main,
 		'&:hover' : {
-			color : theme.palette.primary.contrastText,
 			backgroundColor: theme.palette.secondary.dark // or theme.palette.primary.main
 		}
 	},
+	iconColorSecondary : {
+		color: 'white',
+		'&:hover' : {
+			color: theme.palette.secondary.light,
+		}
+	}
 });
 
 const Expense_Group_Child = (props, { store }) => {
 
 	let { timestamp, parentID, edit, classes, ...editValues } = props;
+
+	console.log("Me edit values", editValues );
 
 	// const { classes, ...fullProps } = props;
 
@@ -72,7 +77,10 @@ const Expense_Group_Child = (props, { store }) => {
 			/>
 			:
 			<Chip
-				className={classes.chip}
+				classes={{
+					root: classes.chip,
+					deleteIconColorSecondary: classes.iconColorSecondary
+				}}
 				color='secondary'
 				label={expense_group_chip_label}
 				onClick={() => store.dispatch(editEntity({...editValues}))}
@@ -87,7 +95,7 @@ const Expense_Group_Child = (props, { store }) => {
 
 
 Expense_Group_Child.defaultProps = {
-	title : "Expense Group Child"
+	title : "Expense"
 };
 
 Expense_Group_Child.contextTypes = {
