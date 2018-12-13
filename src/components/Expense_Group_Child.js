@@ -38,10 +38,6 @@ const Expense_Group_Child = (props, { store }) => {
 
 	let { timestamp, parentID, edit, classes, ...editValues } = props;
 
-	console.log("Me edit values", editValues );
-
-	// const { classes, ...fullProps } = props;
-
 	const updateExpenseGroupChildEdit = ( event ) => {
 
 		if ( event.target.name === 'cost' )

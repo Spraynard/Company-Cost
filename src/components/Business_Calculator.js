@@ -5,7 +5,7 @@ import {
 	addExpenseGroup
 } from "../actions";
 
-import Stats_Window from "./Stats_Window";
+import Top_App_Bar from "./Top_App_Bar";
 import Groups_Window from "./Groups_Window";
 
 /**
@@ -41,7 +41,7 @@ class Business_Calculator extends Component {
 	render() {
 		return (
 			<div className="business-calculator">
-				<Stats_Window />
+				<Top_App_Bar />
 				<Groups_Window />
 			</div>
 		);

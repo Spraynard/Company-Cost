@@ -77,7 +77,7 @@ const Expense_Group = ( props, { store } ) => {
 		}))
 	}
 
-	const { classes } = props;
+	const { classes, ...editEntityFieldProps } = props;
 
 	const children_of_expense_group = expense_group_children.filter( expense_group_child_id => {
 		return expense_group_child_by_id[expense_group_child_id].parentID === props.id;
@@ -102,7 +102,7 @@ const Expense_Group = ( props, { store } ) => {
 				 **/
 				( props.edit ) ?
 				<Paper className={`expense-group-content ${classes.root}`}>
-					<Entity_Edit_Field { ...props } updateListener={updateExpenseGroupEdit}/>
+					<Entity_Edit_Field { ...editEntityFieldProps } updateListener={updateExpenseGroupEdit}/>
 				</Paper> :
 				<Paper className={`expense-group-content ${classes.root} ${classes.rightAlign}`}>
 					<Grid container className={classes.buttonsContainer}>
