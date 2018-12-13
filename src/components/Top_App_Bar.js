@@ -5,8 +5,6 @@ import { PropTypes } from "prop-types";
 import {
 	addExpenseGroup,
 	openAppOptionsDialog,
-	closeAppOptionsDialog,
-	editApplicationOption
 } from '../actions';
 
 // Read Only Data
@@ -72,19 +70,12 @@ const Top_App_Bar = ( props, { store } ) => {
 	} = store.getState();
 
 	const { classes } = props;
-	const { dialog_open, ...optionsValues } = application_options;
 
 	const total_expense_cost = obtainChildCostTotal(
 		expense_group_children,
 		expense_group_child_by_id,
 		application_options
 	);
-
-	const updateApplicationOptions = ( event ) => {
-		store.dispatch(editApplicationOption({
-			[event.target.name] : event.target.value
-		}));
-	}
 
 	return (
 		<AppBar position="sticky">
@@ -97,28 +88,10 @@ const Top_App_Bar = ( props, { store } ) => {
 				Company Cost
 			</Typography>
 			<Button
-				color="secondary"
-				variant="outlined"
-				size="small"
-				className={`${classes.marginLeft}`}
-				onClick={() => store.dispatch(openAppOptionsDialog())}
-			>
-				<MoreVert />
-			</Button>
-			<Options_Dialog
-				open={application_options.dialog_open}
-				title="Application"
-				options_values={optionsValues}
-				onClose={() => store.dispatch(closeAppOptionsDialog())}
-				onChange={updateApplicationOptions}
-				options_values_labels={readOnlyApplicationData["application_options_labels"]}
-				options_values_list={readOnlyApplicationData['application_options']}
-			/>
-			<Button
 				color='secondary'
 				variant='contained'
 				size='large'
-				className={classes.appButtonMargin}
+				className={`${classes.appButtonMargin} ${classes.marginLeft}`}
 				onClick={() => store.dispatch(addExpenseGroup({
 					"title" : "Expense Group"
 				}))}
@@ -130,6 +103,7 @@ const Top_App_Bar = ( props, { store } ) => {
 				>Add Expense Group</Typography>
 			</Button>
 			<Stats_Window
+				onClick={() => store.dispatch(openAppOptionsDialog())}
 				expenses={expense_group_children.length}
 				expenseGroups={expense_groups.length}
 				totalCost={total_expense_cost.costFormat()}
