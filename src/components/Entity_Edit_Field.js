@@ -149,8 +149,7 @@ const Entity_Edit_Field = ( props, { store } ) => {
 							id : id
 						})}
 						text="Save"
-						button_color="secondary"
-						extraClasses={["expense-group-save-edit-button"]}
+						color="secondary"
 					/>
 					<Entity_Manipulation_Button
 						dispatchAction={cancelEditEntity({
@@ -158,8 +157,7 @@ const Entity_Edit_Field = ( props, { store } ) => {
 						})}
 						text="Cancel"
 						variant="outlined"
-						button_color="secondary"
-						extraClasses={["expense-group-cancel-edit-button"]}
+						color="secondary"
 					/>
 				</CardActions>
 			</form>

@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'Banknote';
+    src: url('Banknote.woff2') format('woff2'),
+        url('Banknote.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}

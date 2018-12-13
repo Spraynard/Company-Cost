@@ -14,40 +14,29 @@ const styles = theme => ({
 	}
 });
 
+const buttonDefaults = {
+	variant : "contained",
+	color: "primary"
+};
+
 /**
  * This button is meant to handle every kind of entity manipulation you can do to an expense group or an expense group child
  */
 const Entity_Manipulation_Button = ( props, { store } ) => {
-	let button_classes = "entity-manipulation-button";
-	let button_variant = "contained";
-	let button_color = "primary";
 
-	const { classes } = props;
+	const { classes, dispatchAction, ...incomingButtonProps } = props;
 
-	if ( typeof props.type !== "undefined" )
-	{
-		button_classes += props.type + "-button";
-	}
-
-	if ( typeof props.extraClasses !== "undefined" )
-	{
-		button_classes += ` ${props.extraClasses.join(" ")}`;
-	}
-
-	button_classes += ' ' + classes.root;
-
-	if ( typeof props.variant !== "undefined" )
-	{
-		button_variant = props.variant;
-	}
-
-	if ( typeof props.button_color !== "undefined" )
-	{
-		button_color = props.button_color;
-	}
+	let buttonProps = {
+		...buttonDefaults,
+		...incomingButtonProps // Will override the defaults if applicable
+	};
 
 	return (
-		<Button color={button_color} variant={button_variant} className={button_classes} onClick={() => store.dispatch(props.dispatchAction)}>
+		<Button
+			{...buttonProps}
+			className={classes.root}
+			onClick={() => store.dispatch(dispatchAction)}
+		>
 			{ props.icon ? props.icon
 				:
 				<Typography type="button" color="inherit">{ props.text }</Typography>

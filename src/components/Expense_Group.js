@@ -90,28 +90,6 @@ const Expense_Group = ( props, { store } ) => {
 			expense_group_child_by_id,
 			expense_group_options_object
 	);
-	// let cost_of_associated_children = children_of_expense_group.reduce(
-	// 	( accumulator, currentValue ) => {
-	// 		let expense_data = expense_group_child_by_id[currentValue];
-	// 		let expense_cost = expense_data.cost;
-	// 		let expense_cost_uom = expense_data.costUOM;
-	// 		// Convert the value of the current expenses' costUOM to "day"
-	// 		// and add it to the pile.
-
-	// 		if ( ! expense_data.costUOM.length )
-	// 		{
-	// 			return accumulator;
-	// 		}
-
-	// 		if ( expense_cost_uom !== expense_group_options_object.costUOM )
-	// 		{
-	// 			expense_cost = convertNumericalValue( expense_cost, expense_cost_uom, expense_group_options_object.costUOM );
-	// 		}
-
-	// 		return accumulator + expense_cost;
-	// 	},
-	// 	0
-	// );
 
 	const { dialog_open, ...optionsValues } = expense_group_options_object;
 
@@ -139,7 +117,6 @@ const Expense_Group = ( props, { store } ) => {
 								dispatchAction={ openExpenseGroupOptionsDialog({ id : props.id })}
 								icon={<MoreHoriz />}
 								variant="outlined"
-								extraClasses={["expense-group-options-edit-button"]}
 							/>
 							<Options_Dialog
 								open={dialog_open}
@@ -160,7 +137,6 @@ const Expense_Group = ( props, { store } ) => {
 								})}
 								icon={<DeleteForever />}
 								variant="outlined"
-								extraClasses={["expense-group-remove-button"]}
 							/>
 						</Grid>
 					</Grid>
@@ -193,10 +169,7 @@ const Expense_Group = ( props, { store } ) => {
 						{ children_of_expense_group.map( ( filtered_group_child_id, index ) =>
 							<Expense_Group_Child
 								key={index}
-								{
-								...expense_group_child_by_id[filtered_group_child_id]
-								}
-
+								{...expense_group_child_by_id[filtered_group_child_id]}
 								id={filtered_group_child_id}
 							/>
 						)}
@@ -211,7 +184,6 @@ const Expense_Group = ( props, { store } ) => {
 							parentID : props.id
 						})}
 						text="Add Expense"
-						extraClasses={["expense-group-child-add-button"]}
 					/>
 					<Entity_Manipulation_Button
 						dispatchAction={ editEntity({
@@ -220,7 +192,6 @@ const Expense_Group = ( props, { store } ) => {
 							description : props.description
 						})}
 						text="Edit Group"
-						extraClasses={["expense-group-edit-button"]}
 					/>
 				</Paper>
 			}

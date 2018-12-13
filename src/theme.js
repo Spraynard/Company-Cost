@@ -1,8 +1,12 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import "./fonts/fonts.css";
 
 export const myTheme = createMuiTheme({
 	typography : {
-		useNextVariants : true
+		useNextVariants : true,
+		siteTitle : {
+			fontFamily : 'Banknote'
+		}
 	},
 	palette: {
 		primary: {

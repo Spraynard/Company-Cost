@@ -77,6 +77,10 @@ const styles = theme => ({
 	},
 	statsItemValue : {
 		paddingTop : theme.spacing.unit
+	},
+	siteTitle : {
+		fontFamily : theme.typography.siteTitle.fontFamily,
+		color : theme.palette.secondary.contrastText
 	}
 })
 
@@ -110,9 +114,8 @@ const Stats_Window = ( props, { store } ) => {
 		<Toolbar>
 			<Typography
 				component="span"
-				variant="h4"
-				color="textSecondary"
-				className={classes.marginRight}
+				variant="h3"
+				className={`${classes.marginRight} ${classes.siteTitle}`}
 			>
 				Company Cost
 			</Typography>
@@ -146,6 +149,7 @@ const Stats_Window = ( props, { store } ) => {
 				<AddCircle className={classes.buttonIconStyles}/>
 				<Typography
 					variant="button"
+					color="inherit"
 				>
 					Add Expense Group
 				</Typography>
