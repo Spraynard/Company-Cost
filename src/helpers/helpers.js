@@ -93,4 +93,24 @@ export const obtainChildCostTotal = ( children_array, children_value_array, curr
 
 		return acc + child_cost;
 	}, 0);
+};
+
+export const obtainSelectProperties = ( a, b, _opts = {} ) => {
+	for ( const prop in a )
+	{
+		console.log( a ) ;
+		if ( b.hasOwnProperty( prop ) )
+		{
+			a[prop] = b[prop];
+
+			// Transform the property that we just obtained from
+			if ( typeof _opts.transform !== "undefined" )
+			{
+				a[prop] = ( typeof _opts.transform[prop] === "function" ) ? _opts.transform[prop]( a[prop] ) : a[prop];
+			}
+		}
+	}
+	return a;
 }
+
+export const moneyFormat = cost => `$${cost}`;

@@ -21,5 +21,18 @@ export const myTheme = createMuiTheme({
 			main : '#455a64',
 			contrastText: '#fff'
 		}
+	},
+	overrides : {
+		MuiTableRow : {
+			root : {
+				height : 24
+			},
+			head : {
+				height : 32
+			},
+			footer : {
+				height : 32
+			}
+		}
 	}
 });

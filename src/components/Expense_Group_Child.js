@@ -13,28 +13,32 @@ import Entity_Edit_Field from "./Entity_Edit_Field";
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 
 
 const styles = theme => ({
 	root : {
 		marginBottom : theme.spacing.unit * 2,
-		minWidth : '50%'
+		width: '50%'
 	},
 	chip: {
 		backgroundColor: theme.palette.secondary.main,
+		width: '100%',
 		'&:hover' : {
 			backgroundColor: theme.palette.secondary.dark // or theme.palette.primary.main
 		}
 	},
 	iconColorSecondary : {
 		color: 'white',
+		marginLeft: 'auto',
 		'&:hover' : {
 			color: theme.palette.secondary.light,
 		}
 	}
 });
 
-const Expense_Group_Child = (props, { store }) => {
+const Expense_Group_Child = ( props, { store } ) => {
 
 	let { timestamp, parentID, edit, classes, ...editValues } = props;
 
@@ -62,31 +66,16 @@ const Expense_Group_Child = (props, { store }) => {
 
 	// title - cost /costUOM
 	const expense_group_chip_label = `${props.title} ${ props.cost ? `- $${props.cost}` : '' } ${ props.costUOM ? `/${props.costUOM}` : ''}`
-
-	return (
-		<div className={`expense-group-child ${classes.root}`}>
-		{ props.edit ?
-			<Entity_Edit_Field
-				{...editValues}
-				timestamp={timestamp}
-				updateListener={updateExpenseGroupChildEdit}
-			/>
-			:
-			<Chip
-				classes={{
-					root: classes.chip,
-					deleteIconColorSecondary: classes.iconColorSecondary
-				}}
-				color='secondary'
-				label={expense_group_chip_label}
-				onClick={() => store.dispatch(editEntity({...editValues}))}
-				onDelete={() => store.dispatch(removeExpenseGroupChild({
-					id : props.id,
-					parentID : parentID
-				}))}
-			/>}
-		</div>
-	);
+	return ( props.edit ) ?
+		<Entity_Edit_Field
+			{...editValues}
+			timestamp={timestamp}
+			updateListener={updateExpenseGroupChildEdit}
+		/>
+		:
+		<TableRow onClick={() => store.dispatch(editEntity({...editValues}))}>
+			<TableCell>{expense_group_chip_label}</TableCell><TableCell>X</TableCell>
+		</TableRow>
 };
 
 
