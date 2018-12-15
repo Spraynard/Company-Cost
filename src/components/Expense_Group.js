@@ -141,13 +141,14 @@ const Expense_Group = ( props, { store } ) => {
 			<Typography align="left" component="h2" variant="h5" className="expense-group-name">{props.title}</Typography>
 			<Typography align="left" component="p" variant="subtitle2" className="expense-group-description">{props.description}</Typography>
 			<hr style={{marginBottom: '0px'}}/>
+			<Typography align="left" component="h6" variant="h6">Expenses</Typography>
 			{ childrenOfExpenseGroup.length ?
 				<Expense_Group_Child_Table
 					childrenIDs={childrenOfExpenseGroup}
 					childrenTotalCost={associatedChildrenCost}
 				/>
 				:
-				""
+				<Typography align="left" component="p" variant="subtitle1">There are currently no expenses</Typography>
 			}
 			{/** Add an expense to the expense group **/}
 			<Entity_Manipulation_Button

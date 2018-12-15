@@ -28,7 +28,8 @@ const Expense_Group_Child_Table = ( props ) => {
 	const tableDataObject = {
 		title : "",
 		cost : "",
-		costUOM : ""
+		costUOM : "",
+		delete : ""
 	};
 
 	return (
@@ -36,7 +37,7 @@ const Expense_Group_Child_Table = ( props ) => {
 			<TableHead>
 				<TableRow variant="header">
 					{ Object.keys( tableDataObject ).map( ( dataProp, index ) => (
-					<TableCell key={index} padding="none">{ capitalizeFirstLetter( dataProp ) }</TableCell>
+						<TableCell key={index} padding="none">{ capitalizeFirstLetter( dataProp ) }</TableCell>
 					))}
 				</TableRow>
 			</TableHead>
