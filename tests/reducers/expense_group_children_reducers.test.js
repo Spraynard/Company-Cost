@@ -392,7 +392,7 @@ describe("Expense Group Children XREF", () => {
 		});
 	});
 
-	test("Deletes Parent from state if there are no more xref children left", () => {
+	test("Retains an empty array if we remove all children from parent", () => {
 		state = {
 			1 : [ 0 ]
 		};
@@ -400,7 +400,7 @@ describe("Expense Group Children XREF", () => {
 		var action = removeExpenseGroupChild({ id : 0, parentID : 1 });
 
 		var results = expense_group_children_xref( state, action);
-		expect( results ).toEqual({});
+		expect( results ).toEqual({ 1 : [] });
 	});
 
 	test("Removes an expense group and all of its children when we get a valid expense group removal action", () => {
