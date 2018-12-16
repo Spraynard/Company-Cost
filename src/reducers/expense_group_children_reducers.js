@@ -177,26 +177,19 @@ export const expense_group_children_xref = ( state={}, action ) => {
 					...state,
 					...statePortionFiltered
 				};
-
-				/* Complete removal from this state if there are no more references left for a parent */
-				if ( state[ action.parentID ].length === 0 ) {
-					// Needs to be a var in order for the value of the newState variable to be accessible.
-					var { [action.parentID.toString()] : deleted, ...newState } = state;
-				}
 			}
 
-			return ( typeof newState === "undefined" ) ? state : newState;
+			return state;
 
 		case C.REMOVE_EXPENSE_GROUP:
 			// This is checking to see if there's even an expense group witin this
 			// portion of the state in the first place. If not, then we're just return the regular unchanged state.
-			if ( typeof state[action.id] === "undefined" )
+			if ( typeof state[action.id] !== "undefined" )
 			{
-				return state;
+				var { [ action.id.toString() ] : deleted, ...newState } = state;
 			}
 
-			let { [ action.id.toString() ] : deleted, ...newState } = state;
-			return newState;
+			return ( typeof newState === "undefined" ) ? state : newState;
 
 		default:
 			return state;
