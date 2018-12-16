@@ -40,6 +40,9 @@ const styles = theme => ({
 		paddingTop: theme.spacing.unit * 2,
 		paddingBottom: theme.spacing.unit * 2,
 	},
+	editButton : {
+		cursor : 'context-menu'
+	},
 	expenseGroupInformation : {
 		marginBottom : theme.spacing.unit
 	},
@@ -165,6 +168,9 @@ const Expense_Group = ( props, { store } ) => {
 					description : props.description
 				})}
 				text="Edit Group"
+				classes={{
+					root : classes.editButton
+				}}
 			/>
 		</Paper>
 };

@@ -33,7 +33,7 @@ const styles = theme => ({
 		marginRight: 0,
 		borderRadius : theme.shape.borderRadius,
 		background: theme.palette.primary.light,
-		cursor : 'pointer',
+		cursor : 'context-menu',
 		transition : theme.transitions.create([ 'background' ]),
 		'&:hover' : {
 			background : emphasize( theme.palette.primary.light, .30 )

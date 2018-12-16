@@ -38,6 +38,9 @@ const styles = theme => ({
 		whiteSpace : 'nowrap',
 		overflow : 'hidden',
 		textOverflow : 'ellipsis'
+	},
+	closeIcon : {
+		cursor : "pointer"
 	}
 });
 
