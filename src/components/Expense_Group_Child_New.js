@@ -57,7 +57,6 @@ const Expense_Group_Child_New = ( props, { store } ) => {
 			costUOM : capitalizeFirstLetter,
 		}
 	});
-	console.log( "Display Child Data", displayChildData );
 	return (
 		<TableRow>
 			{ Object.keys(displayChildData).map(

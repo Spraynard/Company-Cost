@@ -98,7 +98,6 @@ export const obtainChildCostTotal = ( children_array, children_value_array, curr
 export const obtainSelectProperties = ( a, b, _opts = {} ) => {
 	for ( const prop in a )
 	{
-		console.log( a ) ;
 		if ( b.hasOwnProperty( prop ) )
 		{
 			a[prop] = b[prop];
