@@ -409,7 +409,6 @@ describe("Expense Group Children XREF", () => {
 		};
 
 		var action = removeExpenseGroup({ id : 1 });
-
 		var results = expense_group_children_xref( state, action );
 		expect( results ).toEqual({});
 	});

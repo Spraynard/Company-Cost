@@ -184,7 +184,7 @@ export const expense_group_children_xref = ( state={}, action ) => {
 		case C.REMOVE_EXPENSE_GROUP:
 			// This is checking to see if there's even an expense group witin this
 			// portion of the state in the first place. If not, then we're just return the regular unchanged state.
-			if ( ! typeof state[action.id] === "undefined" )
+			if ( typeof state[action.id] !== "undefined" )
 			{
 				var { [ action.id.toString() ] : deleted, ...newState } = state;
 			}

@@ -58,12 +58,10 @@ beforeAll(() => {
 	test_store = store(defaultState);
 	// Adding the expense group
 	test_store.dispatch(action_1);
-	console.log("Store State after action 1", test_store.getState());
 	// Adding the expense group child
 	test_store.dispatch(action_2);
 	// Removing the child
 	test_store.dispatch(action_3);
-	console.log("Store State after action 3", test_store.getState());
 	// Adding a child back in
 	test_store.dispatch(action_4);
 });

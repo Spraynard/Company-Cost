@@ -91,6 +91,8 @@ describe("Expense Group Children XREF", () => {
 	});
 
 	test("On child removal, takes out the whole parent expense group", () => {
-		expect(expense_group_children_xref).toEqual({});
+		expect(expense_group_children_xref).toEqual({
+			[ action_1.id ] : []
+		});
 	});
 });
