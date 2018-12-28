@@ -23,13 +23,20 @@ const styles = {
 }
 const Expense_Group_Child_Table = ( props ) => {
 
-	const { childrenIDs, childrenTotalCost, classes, ...extraProps } = props;
+	const { childrenIDs, childrenTotalCost, parentGroupCostUOM, classes, ...extraProps } = props;
 
 	const tableDataObject = {
 		title : "",
 		cost : "",
 		costUOM : "",
 		delete : ""
+	};
+
+	const tableDataObjectEditable = {
+		title : "",
+		cost : "",
+		costUOM : "",
+		description : "",
 	};
 
 	return (
@@ -43,18 +50,14 @@ const Expense_Group_Child_Table = ( props ) => {
 			</TableHead>
 			<TableBody>
 				{ childrenIDs.map( ( dataId, index ) => (
-					<Expense_Group_Child_New key={index} childID={dataId} dataReferenceObject={tableDataObject}/>
+					<Expense_Group_Child_New key={index} childID={dataId} dataReferenceObject={tableDataObject} dataEditReferenceObject={tableDataObjectEditable}/>
 				))}
 			</TableBody>
 			<TableFooter>
 			{/** Total # and Cost of expenses **/}
 				<TableRow variant="footer">
-					<TableCell padding="none"># Of Expenses</TableCell>
-					<TableCell padding="none">{childrenIDs.length}</TableCell>
-				</TableRow>
-				<TableRow variant="footer">
 					<TableCell padding="none">Total Cost</TableCell>
-					<TableCell padding="none">{`$${childrenTotalCost.costFormat()}`}</TableCell>
+					<TableCell padding="none">{`$${childrenTotalCost.costFormat()} per ${parentGroupCostUOM}`}</TableCell>
 				</TableRow>
 			</TableFooter>
 		</Table>

@@ -44,6 +44,7 @@
         "beforeAll" : "true",
         "beforeEach" : "true",
         "expect" : "true",
-        "describe" : "true"
+        "describe" : "true",
+        "process" : "true"
 	}
 }

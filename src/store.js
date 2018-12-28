@@ -23,7 +23,7 @@ import {
 // Default State or test state
 import stateData from "../data/default_state.json";
 
-const store = ( initialState = stateData ) =>
+export const store = ( initialState = stateData ) =>
 	applyMiddleware(
 		logger,
 		saver,
@@ -36,5 +36,3 @@ const store = ( initialState = stateData ) =>
 			JSON.parse( localStorage["company_cost_store"] ) :
 			initialState
 	);
-
-export default store;

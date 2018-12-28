@@ -47,7 +47,7 @@ var config = {
 		},
 		{
 			test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-			use : 'file-loader'
+			use : "file-loader"
 		}]
 	},
 	devServer : {

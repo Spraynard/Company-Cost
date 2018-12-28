@@ -113,5 +113,5 @@ export const expense_group_remove_helper = store => next => action => {
 		};
 	}
 
-	return next(action)
-}
+	return next(action);
+};
