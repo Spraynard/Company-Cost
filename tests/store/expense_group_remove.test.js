@@ -1,4 +1,4 @@
-import store from "../../src/store";
+import { store } from "../../src/store";
 import {
 	addExpenseGroup,
 	removeExpenseGroup,
@@ -71,5 +71,5 @@ describe("Expense Group Children", () => {
 
 	test("Remove children in expense_group_child_by_id linked to expense group on expense group removal", () => {
 		expect(Object.keys(expense_group_child_by_id).length).toBe(0);
-	})
+	});
 });

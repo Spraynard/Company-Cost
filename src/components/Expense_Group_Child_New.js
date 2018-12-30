@@ -7,42 +7,34 @@ import { PropTypes } from "prop-types";
 import {
 	obtainSelectProperties,
 	capitalizeFirstLetter,
-	moneyFormat
+	// moneyFormat
 } from "../helpers/helpers";
 
-//-- Redux Actions
 import {
-	editEntity,
-	removeExpenseGroupChild,
-	updateEntity,
-} from "../actions";
+	tableDataRef,
+	editDataRef
+} from "../dataReferenceObjects";
 
 //** Components **//
-
-//-- Custom
-import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
-import Entity_Edit_Field from "./Entity_Edit_Field";
 
 //-- Material UI
 
 // Styles
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
 // Components
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import InputBase from '@material-ui/core/InputBase';
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import InputBase from "@material-ui/core/InputBase";
 
 // Icons
-import CloseIcon from '@material-ui/icons/Close';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import CancelIcon from '@material-ui/icons/Cancel'
+import CloseIcon from "@material-ui/icons/Close";
 
-const styles = theme => ({
+const styles = () => ({
 	overflowHandler : {
-		whiteSpace : 'nowrap',
-		overflow : 'hidden',
-		textOverflow : 'ellipsis'
+		whiteSpace : "nowrap",
+		overflow : "hidden",
+		textOverflow : "ellipsis"
 	},
 	closeIcon : {
 		cursor : "pointer"
@@ -51,47 +43,66 @@ const styles = theme => ({
 
 const Expense_Group_Child_New = ( props, { store } ) => {
 	const {
-		expense_group_child_by_id
+		expense_group_child_by_id,
+		expense_group_entity_edit
 	} = store.getState();
 
-	const { childID, dataReferenceObject, dataEditReferenceObject, classes, ...rest } = props;
+	const {
+		childID,
+		classes,
+		childClickHandler,
+		childChangeHandler,
+		childRemoveHandler,
+		...rest
+	} = props;
 
-	const fullChildData = expense_group_child_by_id[props.childID];
+	const fullChildData = expense_group_child_by_id[childID];
+	const fullChildEditData = expense_group_entity_edit[childID];
 
 	const { edit } = fullChildData;
 
 	// Transform param allows us to take the input data and perform a functional transform on it.
-	const displayChildData = obtainSelectProperties( dataReferenceObject, fullChildData, {
+	const displayChildData = obtainSelectProperties( tableDataRef, fullChildData, {
 		transform : {
 			cost : cost => `$${cost.costFormat()}`,
 			costUOM : capitalizeFirstLetter,
 		}
 	});
 
-	const editableChildData = obtainSelectProperties( dataEditReferenceObject, fullChildData );
+	const editableChildData = obtainSelectProperties( editDataRef, fullChildData );
 
 	return (
-		<TableRow onClick={() => store.dispatch(editEntity({ id : childID, ...editableChildData }))} >
+		<TableRow onClick={() => childClickHandler( childID, edit )} >
 			{ ( edit ) ?
-				Object.keys(editableChildData).map(
+				// Edit Mode Display
+				Object.keys( editableChildData ).map(
 					( childDataKey, index ) => (
 						<TableCell key={index} padding="none">
-							<InputBase value={editableChildData[childDataKey]}/>
+							<InputBase
+								name={childDataKey}
+								value={fullChildEditData[childDataKey]}
+								onChange={( event ) => childChangeHandler( childID, event )}
+							/>
 						</TableCell>
 					)
 				)
 				:
+				// Default UI Display
 				Object.keys(displayChildData).map(
-					( childDataKey, index ) => (<TableCell padding="none" className={ (childDataKey === "title") ? classes.overflowHandler : "" } key={index}>
-						{ ( childDataKey === "delete" ) ?
-							<CloseIcon onClick={() => store.dispatch(removeExpenseGroupChild({ id : props.childID, ...fullChildData }))} />
-							:
-							displayChildData[childDataKey] }
-					</TableCell> )
+					( childDataKey, index ) => (
+						<TableCell padding="none" className={ (childDataKey === "title") ? classes.overflowHandler : "" } key={index}>
+							{ ( childDataKey === "delete" ) ?
+								<CloseIcon
+									onClick={( event ) => childRemoveHandler( childID, fullChildData.parentID, event )}
+								/>
+								:
+								displayChildData[childDataKey] }
+						</TableCell>
+					)
 				)
 			}
 		</TableRow>
-	)
+	);
 };
 
 
@@ -101,7 +112,7 @@ Expense_Group_Child_New.defaultProps = {
 
 Expense_Group_Child_New.propTypes = {
 	childID : PropTypes.string.isRequired
-}
+};
 
 Expense_Group_Child_New.contextTypes = {
 	store : PropTypes.object.isRequired

@@ -49,6 +49,7 @@ export const updateEntity = ( input_object ) => ({
 	type : C.UPDATE_ENTITY
 });
 
+// Saves the edited values of that entity to that entity's main data
 export const saveEntity = ({ id }) => ({
 	type : C.SAVE_ENTITY,
 	id

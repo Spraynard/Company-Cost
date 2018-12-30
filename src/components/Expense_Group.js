@@ -3,12 +3,10 @@ import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
 import Entity_Edit_Field from "./Entity_Edit_Field";
 // import Expense_Group_Child from "./Expense_Group_Child";
 import Expense_Group_Child_Table from "./Expense_Group_Child_Table";
+
 import {
 	Options_Dialog
 } from "./Options_Dialog";
-import {
-	Group_Information
-} from './Group_Information';
 
 import {
 	editEntityOption,
@@ -20,19 +18,16 @@ import {
 	updateEntity
 } from "../actions";
 
-import { obtainChildCostTotal} from '../helpers/helpers';
-import readOnlyGroupData from '../../data/read_only_group_data.json';
+import { obtainChildCostTotal} from "../helpers/helpers";
+import readOnlyGroupData from "../../data/read_only_group_data.json";
 
 // MaterialUI
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Table from '@material-ui/core/Table';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
-import DeleteForever from '@material-ui/icons/DeleteForever';
-import MoreHoriz from '@material-ui/icons/MoreHoriz';
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
+import DeleteForever from "@material-ui/icons/DeleteForever";
+import MoreHoriz from "@material-ui/icons/MoreHoriz";
 
 const styles = theme => ({
 	root : {
@@ -41,24 +36,24 @@ const styles = theme => ({
 		paddingBottom: theme.spacing.unit * 2,
 	},
 	editButton : {
-		cursor : 'context-menu'
+		cursor : "context-menu"
 	},
 	expenseGroupInformation : {
 		marginBottom : theme.spacing.unit
 	},
 	rightAlign: {
-		textAlign: 'right'
+		textAlign: "right"
 	},
 	leftAlign: {
-		textAlign: 'left'
+		textAlign: "left"
 	},
 	buttonsContainer: {
 		marginBottom : theme.spacing.unit
 	},
 	removeButton : {
-		marginLeft : 'auto'
+		marginLeft : "auto"
 	}
-})
+});
 
 const Expense_Group = ( props, { store } ) => {
 	const {
@@ -79,8 +74,8 @@ const Expense_Group = ( props, { store } ) => {
 		store.dispatch(editEntityOption({
 			id : props.id,
 			[event.target.name] : event.target.value
-		}))
-	}
+		}));
+	};
 
 	const { classes, ...editEntityFieldProps } = props;
 
@@ -91,9 +86,9 @@ const Expense_Group = ( props, { store } ) => {
 	let expense_group_options_object = expense_group_options[props.id];
 
 	let associatedChildrenCost = obtainChildCostTotal(
-			childrenOfExpenseGroup,
-			expense_group_child_by_id,
-			expense_group_options_object
+		childrenOfExpenseGroup,
+		expense_group_child_by_id,
+		expense_group_options_object
 	);
 
 	const { dialog_open, ...optionsValues } = expense_group_options_object;
@@ -105,32 +100,32 @@ const Expense_Group = ( props, { store } ) => {
 		:
 		<Paper className={`expense-group-content ${classes.root} ${classes.rightAlign}`}>
 			<Grid container className={classes.buttonsContainer}>
-			{
+				{
 				/**
 				 * If a group has options available, display a field that allows us to handle changes
 				 * to these options
 				 */
-			}
+				}
 
-			{ typeof expense_group_options_object !== "undefined" ?
-				<Grid item>
-					<Entity_Manipulation_Button
-						dispatchAction={ openExpenseGroupOptionsDialog({ id : props.id })}
-						icon={<MoreHoriz />}
-						variant="outlined"
-					/>
-					<Options_Dialog
-						open={dialog_open}
-						onChange={updateExpenseGroupOptions}
-						onClose={() => store.dispatch(closeExpenseGroupOptionsDialog({ id : props.id })) }
-						title={props.title}
-						labelType="expense_group"
-						options_values={optionsValues}
-						options_values_list={readOnlyGroupData["expense_group_options"]}
-						options_values_labels={readOnlyGroupData["expense_group_options_labels"]}
-					/>
-				</Grid> : ""
-			}
+				{ typeof expense_group_options_object !== "undefined" ?
+					<Grid item>
+						<Entity_Manipulation_Button
+							dispatchAction={ openExpenseGroupOptionsDialog({ id : props.id })}
+							icon={<MoreHoriz />}
+							variant="outlined"
+						/>
+						<Options_Dialog
+							open={dialog_open}
+							onChange={updateExpenseGroupOptions}
+							onClose={() => store.dispatch(closeExpenseGroupOptionsDialog({ id : props.id })) }
+							title={props.title}
+							labelType="expense_group"
+							options_values={optionsValues}
+							options_values_list={readOnlyGroupData["expense_group_options"]}
+							options_values_labels={readOnlyGroupData["expense_group_options_labels"]}
+						/>
+					</Grid> : ""
+				}
 				<Grid item className={classes.removeButton}>
 					<Entity_Manipulation_Button
 						dispatchAction={ removeExpenseGroup({
@@ -143,7 +138,7 @@ const Expense_Group = ( props, { store } ) => {
 			</Grid>
 			<Typography align="left" component="h2" variant="h5" className="expense-group-name">{props.title}</Typography>
 			<Typography align="left" component="p" variant="subtitle2" className="expense-group-description">{props.description}</Typography>
-			<hr style={{marginBottom: '0px'}}/>
+			<hr style={{marginBottom: "0px"}}/>
 			<Typography align="left" component="h6" variant="h6">{`${childrenOfExpenseGroup.length} ${(! childrenOfExpenseGroup.length || childrenOfExpenseGroup.length > 1 ) ? "Expenses" : "Expense"}`}</Typography>
 			{ childrenOfExpenseGroup.length ?
 				<Expense_Group_Child_Table
@@ -161,7 +156,7 @@ const Expense_Group = ( props, { store } ) => {
 				})}
 				text="Add Expense"
 			/>
-		{/** Bring up the editing window on the expense group **/}
+			{/** Bring up the editing window on the expense group **/}
 			<Entity_Manipulation_Button
 				dispatchAction={ editEntity({
 					id : props.id,
@@ -173,7 +168,7 @@ const Expense_Group = ( props, { store } ) => {
 					root : classes.editButton
 				}}
 			/>
-		</Paper>
+		</Paper>;
 };
 
 Expense_Group.defaultProps = {

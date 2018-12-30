@@ -9,15 +9,14 @@ export const application_options = ( state = {}, action ) => {
 
 	const { type, ...actionData } = action;
 
-	switch ( action.type ) {
+	switch ( type ) {
 		case C.EDIT_APPLICATION_OPTION:
 			return {
 				...state,
 				...actionData
-			}
-			break;
+			};
 
 		default:
 			return state;
 	}
-}
+};

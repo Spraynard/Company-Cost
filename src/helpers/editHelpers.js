@@ -1,4 +1,4 @@
-import readOnlyGroupData from '../../data/read_only_group_data.json';
+import readOnlyGroupData from "../../data/read_only_group_data.json";
 
 export const expense_group_editable_values = ( input_object ) => {
 	return {
@@ -16,24 +16,22 @@ export const expense_group_child_editable_values = ( input_object ) => {
 	};
 };
 
-export const edit_value_type_list = () => {
-	return {
-		title : "text",
-		description : "textarea",
-		cost : "number",
-		costUOM : "select",
-	};
-};
+export const editValueTypes = ({
+	title : "text",
+	description : "textarea",
+	cost : "number",
+	costUOM : "select",
+});
 
 export const cost_uom_values = () => {
 	return [
-		'day',
-		'hour',
-		'week',
-		'month',
-		'year'
+		"day",
+		"hour",
+		"week",
+		"month",
+		"year"
 	];
-}
+};
 
 export const obtainEditableValues = ( _obj ) => {
 	let editable_value_object = {};

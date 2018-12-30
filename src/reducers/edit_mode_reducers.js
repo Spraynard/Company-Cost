@@ -24,7 +24,6 @@ export const expense_group_entity_edit = ( state = {}, action ) => {
 	) {
 		let {
 			id,
-			edit,
 			type,
 			...rest
 		} = action;

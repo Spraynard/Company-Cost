@@ -1,4 +1,4 @@
-import store from "../../src/store";
+import { store } from "../../src/store";
 import {
 	addExpenseGroup,
 	openExpenseGroupOptionsDialog,
@@ -54,5 +54,5 @@ describe("Expense Group Options Dialog Operations", () => {
 			size : "default",
 			dialog_open : false
 		});
-	})
+	});
 });

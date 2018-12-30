@@ -1,4 +1,4 @@
-import store from "../../src/store";
+import { store } from "../../src/store";
 
 import {
 	addExpenseGroup,
@@ -16,7 +16,7 @@ var group_child_desc = "A Test Expense Group Child Description";
 var cost = 29.35;
 var costUOM = "hour";
 
-var group_child_title_edited = "A Test Expense Group Child - Edited"
+var group_child_title_edited = "A Test Expense Group Child - Edited";
 
 let test_store ,
 	action_1, // expense group add

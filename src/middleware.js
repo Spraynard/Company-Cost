@@ -1,5 +1,13 @@
 import C from "./constants";
 
+import {
+	obtainSelectProperties
+} from "./helpers/helpers";
+
+import {
+	editDataRef
+} from "./dataReferenceObjects";
+
 // Log actions to the console as we dispatch them
 export const logger = store => next => action => {
 	let result;
@@ -60,18 +68,18 @@ export const expense_group_child_remove_helper = store => next => action => {
 // TODO: FIX THIS. MOST LIKELY I HAVE TO DISPATCH SOME ACTIONS THAT WILL
 // 		THEN TAKE IN THE EDITS. I'M NOT SURE, BUT YEAH
 export const expense_group_edit_save_helper = store => next => action => {
+
 	// Looking for a save edit action...
 	if ( action.type === C.SAVE_ENTITY )
 	{
-		let state = store.getState();
-
-		// Grab the portion of the state that we want
-		let expense_group_edit_obj = state.expense_group_entity_edit;
-		let expense_group_by_id = state.expense_group_by_id;
-		let expense_group_child_by_id = state.expense_group_child_by_id;
+		const {
+			expense_group_by_id,
+			expense_group_entity_edit,
+			expense_group_child_by_id
+		} = store.getState();
 
 		// content of the item that we are going to save into specific state.
-		let edited_item_content = expense_group_edit_obj[action.id];
+		let edited_item_content = expense_group_entity_edit[action.id];
 
 		// Manipulations of the inserted content on save. Want to make sure we're saving numbers
 		// as numbers, not strings.
@@ -79,6 +87,8 @@ export const expense_group_edit_save_helper = store => next => action => {
 		{
 			edited_item_content.cost = parseFloat( edited_item_content.cost );
 		}
+
+		edited_item_content.cost = ( typeof edited_item_content.cost === "undefined" ) ? 0.00 : parseFloat( edited_item_content );
 
 		// Checking to see if there are any entities available with given ID before we start inserting all this data
 		// in an action.
@@ -94,6 +104,37 @@ export const expense_group_edit_save_helper = store => next => action => {
 
 	// Returning the next action should delete the item out of the expense_group_edit_obj state
 	return next(action);
+};
+
+export const entity_edit_helper = store => next => action => {
+
+	if ( action.type === C.EDIT_ENTITY )
+	{
+		const {
+			expense_group_by_id,
+			expense_group_child_by_id
+		} = store.getState();
+
+		// Get a full pool of the current entity states
+		const combinedEntityState = {
+			...expense_group_by_id,
+			...expense_group_child_by_id
+		};
+
+		const entityToEdit = Object.keys( combinedEntityState )
+			.filter( entityID => entityID === action.id )[0];
+
+		const editStateValues = obtainSelectProperties(
+			editDataRef,
+			combinedEntityState[entityToEdit]
+		);
+
+		action = {
+			...action,
+			...editStateValues
+		};
+	}
+	return next( action );
 };
 
 /**

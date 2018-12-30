@@ -3,7 +3,7 @@
  * Description: Used to test reducers when faced with multiple operations.
  * Deals with making a group, adding a child, removing the child, and then adding another child
  */
-import store from "../../src/store";
+import { store } from "../../src/store";
 
 import {
 	addExpenseGroup,

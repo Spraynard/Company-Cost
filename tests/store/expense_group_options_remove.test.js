@@ -1,4 +1,4 @@
-import store from "../../src/store";
+import { store } from "../../src/store";
 
 import {
 	addExpenseGroup,
@@ -29,4 +29,4 @@ describe("Expense Group Options Remove Handling", () => {
 		expect( expense_group_options ).toEqual({});
 		expect( expense_group_options[id]).toBeUndefined();
 	});
-})
+});

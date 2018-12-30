@@ -1,9 +1,7 @@
 import { Component } from "react";
 import { PropTypes } from "prop-types";
-import {
-	resetAppData,
-	addExpenseGroup
-} from "../actions";
+
+import * as Store_Actions from "../actions";
 
 import Top_App_Bar from "./Top_App_Bar";
 import Groups_Window from "./Groups_Window";
@@ -33,10 +31,10 @@ class Business_Calculator extends Component {
 		this.unsubscribe();
 	}
 
-	componentDidMount() {
-		// store.dispatch(resetAppData());
-		// store.dispatch(addExpenseGroup({}));
-	}
+	// componentDidMount() {
+	// 	// store.dispatch(resetAppData());
+	// 	// store.dispatch(addExpenseGroup({}));
+	// }
 
 	render() {
 		return (

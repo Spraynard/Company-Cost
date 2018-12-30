@@ -18,6 +18,7 @@ import {
 	expense_group_child_remove_helper,
 	expense_group_edit_save_helper,
 	expense_group_remove_helper,
+	entity_edit_helper
 } from "./middleware";
 
 // Default State or test state
@@ -29,7 +30,8 @@ export const store = ( initialState = stateData ) =>
 		saver,
 		expense_group_child_remove_helper,
 		expense_group_edit_save_helper,
-		expense_group_remove_helper
+		expense_group_remove_helper,
+		entity_edit_helper
 	)( createStore )(
 		rootReducer,
 		( localStorage["company_cost_store"] ) ?
