@@ -42,6 +42,7 @@ const styles = () => ({
 });
 
 const Expense_Group_Child_New = ( props, { store } ) => {
+
 	const {
 		expense_group_child_by_id,
 		expense_group_entity_edit
@@ -72,12 +73,21 @@ const Expense_Group_Child_New = ( props, { store } ) => {
 	const editableChildData = obtainSelectProperties( editDataRef, fullChildData );
 
 	return (
-		<TableRow onClick={() => childClickHandler( childID, edit )} >
+		<TableRow data-id={childID} onClick={() => childClickHandler( childID, edit )} >
 			{ ( edit ) ?
 				// Edit Mode Display
 				Object.keys( editableChildData ).map(
 					( childDataKey, index ) => (
-						<TableCell key={index} padding="none">
+						<TableCell
+							key={index}
+							padding="none"
+							colSpan={
+								(
+									Object.keys(editableChildData).length < 4 &&
+									Object.keys(editableChildData).indexOf(childDataKey) === Object.keys(editableChildData).length - 1
+								) ? 2 : 1
+							}
+						>
 							<InputBase
 								name={childDataKey}
 								value={fullChildEditData[childDataKey]}
@@ -115,7 +125,7 @@ Expense_Group_Child_New.propTypes = {
 };
 
 Expense_Group_Child_New.contextTypes = {
-	store : PropTypes.object.isRequired
+	store : PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Expense_Group_Child_New);

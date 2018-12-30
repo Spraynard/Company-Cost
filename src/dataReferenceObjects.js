@@ -10,5 +10,5 @@ export const editDataRef = ({
 	title : "",
 	cost : "",
 	costUOM : "",
-	description : "",
+	// description : "",
 });

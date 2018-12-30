@@ -10,29 +10,29 @@ import Entity_Edit_Field from "./Entity_Edit_Field";
 
 
 // Material UI
-import Chip from '@material-ui/core/Chip';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import Chip from "@material-ui/core/Chip";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
 
 
 const styles = theme => ({
 	root : {
 		marginBottom : theme.spacing.unit * 2,
-		width: '50%'
+		width: "50%"
 	},
 	chip: {
 		backgroundColor: theme.palette.secondary.main,
-		width: '100%',
-		'&:hover' : {
+		width: "100%",
+		"&:hover" : {
 			backgroundColor: theme.palette.secondary.dark // or theme.palette.primary.main
 		}
 	},
 	iconColorSecondary : {
-		color: 'white',
-		marginLeft: 'auto',
-		'&:hover' : {
+		color: "white",
+		marginLeft: "auto",
+		"&:hover" : {
 			color: theme.palette.secondary.light,
 		}
 	}
@@ -44,11 +44,11 @@ const Expense_Group_Child = ( props, { store } ) => {
 
 	const updateExpenseGroupChildEdit = ( event ) => {
 
-		if ( event.target.name === 'cost' )
+		if ( event.target.name === "cost" )
 		{
 			function countDecimals( number ) {
 				if ( Math.floor( number ) === number ) return 0;
-				return ( number.toString().split('.').length > 1 ) ? number.toString().split('.')[1].length : 0;
+				return ( number.toString().split(".").length > 1 ) ? number.toString().split(".")[1].length : 0;
 			}
 
 			if ( countDecimals( event.target.value ) > 2 )
@@ -65,7 +65,7 @@ const Expense_Group_Child = ( props, { store } ) => {
 	};
 
 	// title - cost /costUOM
-	const expense_group_chip_label = `${props.title} ${ props.cost ? `- $${props.cost}` : '' } ${ props.costUOM ? `/${props.costUOM}` : ''}`
+	const expense_group_chip_label = `${props.title} ${ props.cost ? `- $${props.cost}` : "" } ${ props.costUOM ? `/${props.costUOM}` : ""}`;
 	return ( props.edit ) ?
 		<Entity_Edit_Field
 			{...editValues}
@@ -75,7 +75,7 @@ const Expense_Group_Child = ( props, { store } ) => {
 		:
 		<TableRow onClick={() => store.dispatch(editEntity({...editValues}))}>
 			<TableCell>{expense_group_chip_label}</TableCell><TableCell>X</TableCell>
-		</TableRow>
+		</TableRow>;
 };
 
 

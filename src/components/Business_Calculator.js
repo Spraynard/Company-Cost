@@ -6,6 +6,14 @@ import * as Store_Actions from "../actions";
 import Top_App_Bar from "./Top_App_Bar";
 import Groups_Window from "./Groups_Window";
 
+
+// Redux Actions
+import {
+	editEntity,
+	updateEntity,
+	cancelEditEntity
+} from "../actions";
+
 /**
  * Overall controller for the App.
  */
@@ -13,7 +21,7 @@ class Business_Calculator extends Component {
 
 	getChildContext() {
 		return {
-			store : this.props.store
+			store : this.props.store,
 		};
 	}
 
@@ -47,11 +55,11 @@ class Business_Calculator extends Component {
 }
 
 Business_Calculator.propTypes = {
-	store: PropTypes.object.isRequired
+	store: PropTypes.object.isRequired,
 };
 
 Business_Calculator.childContextTypes = {
-	store : PropTypes.object.isRequired
+	store : PropTypes.object.isRequired,
 };
 
 export { Business_Calculator };
