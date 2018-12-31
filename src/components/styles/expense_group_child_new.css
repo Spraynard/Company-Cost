@@ -1,0 +1,7 @@
+.expense-group-child {
+
+}
+
+.expense-group-child:focus {
+	border: 2px solid red;
+}

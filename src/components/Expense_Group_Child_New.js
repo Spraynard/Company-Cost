@@ -1,5 +1,6 @@
 //-- Helpers
 
+import "./styles/expense_group_child_new.css";
 // React
 import { PropTypes } from "prop-types";
 
@@ -18,6 +19,10 @@ import {
 //** Components **//
 
 import Expense_Group_Child_Edit_View from "./Expense_Group_Child_Edit_View";
+import {
+	editEntity,
+	saveEntity,
+} from "../actions";
 
 //-- Material UI
 
@@ -27,6 +32,7 @@ import { withStyles } from "@material-ui/core/styles";
 // Components
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
+import InputBase from "@material-ui/core/InputBase";
 
 // Icons
 import CloseIcon from "@material-ui/icons/Close";
@@ -73,7 +79,7 @@ const Expense_Group_Child_New = ( props, { store } ) => {
 	const editableChildData = obtainSelectProperties( editDataRef, fullChildData );
 
 	return (
-		<TableRow data-id={childID} onClick={() => childClickHandler( childID, edit )} >
+		<TableRow className="expense-group-child" data-id={childID} onClick={() => childClickHandler( childID, edit )}>
 			{ ( edit ) ?
 				<Expense_Group_Child_Edit_View
 					id={childID}
