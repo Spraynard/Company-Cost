@@ -54,7 +54,6 @@ const Expense_Group_Child_New = ( props, { store } ) => {
 		childClickHandler,
 		childChangeHandler,
 		childRemoveHandler,
-		...rest
 	} = props;
 
 	const fullChildData = expense_group_child_by_id[childID];
