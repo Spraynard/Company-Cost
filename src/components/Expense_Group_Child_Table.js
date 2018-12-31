@@ -1,3 +1,6 @@
+// React
+import React from "react";
+
 // Prop Types
 import { PropTypes } from "prop-types";
 
@@ -28,6 +31,7 @@ import {
 // Redux Actions
 import {
 	editEntity,
+	saveEntity,
 	updateEntity,
 	cancelEditEntity,
 	removeExpenseGroupChild
@@ -37,83 +41,80 @@ const styles = {
 
 };
 
-// class Expense_group_CHild_Table extends React.Component {
+class Expense_Group_Child_Table extends React.Component {
 
-// 	constructor() {
-// 		this.
-// 	}
+	constructor() {
+		super();
+		this.childChangeHandler = this.childChangeHandler.bind(this);
+		this.childClickHandler = this.childClickHandler.bind(this);
+		this.childRemoveEditStateHandler = this.childRemoveEditStateHandler.bind(this);
+		this.childSaveHandler = this.childSaveHandler.bind(this);
+		this.childRemoveHandler = this.childRemoveHandler.bind(this);
+	}
 
-// 	render() {
-// 		return (
-// 			<Table>
-// 				<TableHead>
-// 					<TableRow variant="header">
-// 						{ Object.keys( tableDataRef ).map( ( dataProp, index ) => (
-// 							<TableCell key={index} padding="none">{capitalizeFirstLetter( dataProp )}</TableCell>
-// 						))}
-// 					</TableRow>
-// 				</TableHead>
-// 				<TableBody>
-// 					{ childrenIDs.map( ( dataId, index ) => (
-// 						<Expense_Group_Child_New
-// 							key={index}
-// 							childID={dataId}
-// 							childClickHandler={childClickHandler}
-// 							childChangeHandler={childChangeHandler}
-// 							childRemoveHandler={childRemoveHandler}
-// 						/>
-// 					))}
-// 				</TableBody>
-// 				<TableFooter>
-// 					{/** Total # and Cost of expenses **/}
-// 					<TableRow variant="footer">
-// 						<TableCell padding="none">Total Cost</TableCell>
-// 						<TableCell padding="none">{`$${childrenTotalCost.costFormat()} per ${parentGroupCostUOM}`}</TableCell>
-// 					</TableRow>
-// 				</TableFooter>
-// 			</Table>
-// 		);
-// 	}
-// }
-const Expense_Group_Child_Table = ( props, { store } ) => {
+	componentDidMount() {
+		// Find any children components in edit mode, and apply close/save window edit listeners.
+		const { expense_group_child_by_id } = this.context.store.getState();
 
-	const { childrenIDs, childrenTotalCost, parentGroupCostUOM } = props;
+		const editChildID = Object.keys( expense_group_child_by_id )
+			.filter( id => expense_group_child_by_id[id].edit )[0];
 
-	// Deletes an expense group child from the list.
-	const childRemoveHandler = ( id, parentID, event ) => {
-		event.stopPropagation();
-		const action = removeExpenseGroupChild({ id, parentID });
+		if ( editChildID )
+		{
+			window.addEventListener("click", this.childRemoveEditStateHandler( editChildID ) );
+			window.addEventListener("keydown", this.childSaveHandler( editChildID ) ); // For Enter Key Press
+		}
+		// console.log("Edit Child ID", editChildID);
+		// console.log("Our Component Mounted!!!!!!");
+	}
 
-		store.dispatch( action );
-	};
-
-	const childRemoveEditStateHandler = ( id ) => {
+	childRemoveEditStateHandler( id ) {
 		const handler = ( event ) => {
-			console.log("Parent Node", event.target.parentNode );
-			console.log("ID", id);
-			console.log("Type", event.target.tagName );
+			// console.log("Parent Node", event.target.parentNode );
+			// console.log("ID", id);
+			// console.log("Type", event.target.tagName );
 			// If the current event shows that we are not clicking on this actual object, then we remove edit mode on the item.
 			if ( event.target.parentNode.dataset.id !== id && event.target.tagName !== "INPUT" )
 			{
-				store.dispatch( cancelEditEntity({ id }) );
+				this.context.store.dispatch( saveEntity({ id }) );
 				window.removeEventListener("click", handler );
 			}
 		};
 		return handler;
-	};
+	}
+
+	childSaveHandler( id ) {
+		const handler = ( event ) => {
+			console.log("Key Being Pressed");
+			console.log( event, event.which );
+			console.log("id", id);
+			let keyCode = event.which;
+
+			if ( keyCode === 13 ) // Enter Button saves on key press
+			{
+				this.context.store.dispatch( saveEntity({ id }) );
+				window.removeEventListener("keydown", handler);
+			}
+
+			// if ( keyCode === )
+		};
+
+		return handler;
+	}
 
 	/**
 	 * On click of a child. We want to edit it, so we send the ID
 	 * of the child over to the action
 	 */
-	const childClickHandler = ( id, editing ) => {
+	childClickHandler( id, editing ) {
 		if ( editing ) {
 			return;
 		} else {
-			store.dispatch( editEntity({ id }));
-			window.addEventListener("click", childRemoveEditStateHandler( id ) );
+			this.context.store.dispatch( editEntity({ id }));
+			window.addEventListener("click", this.childRemoveEditStateHandler( id ) );
+			window.addEventListener("keydown", this.childSaveHandler( id ) ); // For Enter Key Press
 		}
-	};
+	}
 
 	// also adding a listener that will check, on click, if we're clicking on
 
@@ -121,40 +122,56 @@ const Expense_Group_Child_Table = ( props, { store } ) => {
 	 * Handling the change events that occur on edit items when a
 	 * user updates the values.
 	 */
-	const childChangeHandler = ( id, event ) =>
-		store.dispatch(updateEntity({ id, [ event.target.name ] : event.target.value }));
+	childChangeHandler( id, event ) {
+		return this.context.store.dispatch(updateEntity({ id, [ event.target.name ] : event.target.value }));
+	}
 
+	// Deletes an expense group child from the list.
+	childRemoveHandler( id, parentID, event ) {
+		event.stopPropagation();
+		const action = removeExpenseGroupChild({ id, parentID });
 
-	return (
-		<Table>
-			<TableHead>
-				<TableRow variant="header">
-					{ Object.keys( tableDataRef ).map( ( dataProp, index ) => (
-						<TableCell key={index} padding="none">{capitalizeFirstLetter( dataProp )}</TableCell>
+		this.context.store.dispatch( action );
+	}
+
+	componentWillUnmount() {
+		console.log("Unmounting Component");
+	}
+
+	render() {
+		const { childrenIDs, childrenTotalCost, parentGroupCostUOM } = this.props;
+
+		return (
+			<Table>
+				<TableHead>
+					<TableRow variant="header">
+						{ Object.keys( tableDataRef ).map( ( dataProp, index ) => (
+							<TableCell key={index} padding="none">{capitalizeFirstLetter( dataProp )}</TableCell>
+						))}
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{ childrenIDs.map( ( dataId, index ) => (
+						<Expense_Group_Child_New
+							key={index}
+							childID={dataId}
+							childClickHandler={this.childClickHandler}
+							childChangeHandler={this.childChangeHandler}
+							childRemoveHandler={this.childRemoveHandler}
+						/>
 					))}
-				</TableRow>
-			</TableHead>
-			<TableBody>
-				{ childrenIDs.map( ( dataId, index ) => (
-					<Expense_Group_Child_New
-						key={index}
-						childID={dataId}
-						childClickHandler={childClickHandler}
-						childChangeHandler={childChangeHandler}
-						childRemoveHandler={childRemoveHandler}
-					/>
-				))}
-			</TableBody>
-			<TableFooter>
-				{/** Total # and Cost of expenses **/}
-				<TableRow variant="footer">
-					<TableCell padding="none">Total Cost</TableCell>
-					<TableCell padding="none">{`$${childrenTotalCost.costFormat()} per ${parentGroupCostUOM}`}</TableCell>
-				</TableRow>
-			</TableFooter>
-		</Table>
-	);
-};
+				</TableBody>
+				<TableFooter>
+					{/** Total # and Cost of expenses **/}
+					<TableRow variant="footer">
+						<TableCell padding="none">Total Cost</TableCell>
+						<TableCell padding="none">{`$${childrenTotalCost.costFormat()} per ${parentGroupCostUOM}`}</TableCell>
+					</TableRow>
+				</TableFooter>
+			</Table>
+		);
+	}
+}
 
 Expense_Group_Child_Table.contextTypes = {
 	store : PropTypes.object.isRequired
