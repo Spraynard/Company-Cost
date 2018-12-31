@@ -43,12 +43,12 @@ const styles = {
 
 class Expense_Group_Child_Table extends React.Component {
 
-	constructor() {
-		super();
-		this.childChangeHandler = this.childChangeHandler.bind(this);
+	constructor( props ) {
+		super( props );
+		this.childDataChangeHandler = this.childDataChangeHandler.bind(this);
 		this.childClickHandler = this.childClickHandler.bind(this);
-		this.childRemoveEditStateHandler = this.childRemoveEditStateHandler.bind(this);
-		this.childSaveHandler = this.childSaveHandler.bind(this);
+		this.childMouseActionsListener = this.childMouseActionsListener.bind(this);
+		this.childKeyboardActionsListener = this.childKeyboardActionsListener.bind(this);
 		this.childRemoveHandler = this.childRemoveHandler.bind(this);
 	}
 
@@ -59,46 +59,77 @@ class Expense_Group_Child_Table extends React.Component {
 		const editChildID = Object.keys( expense_group_child_by_id )
 			.filter( id => expense_group_child_by_id[id].edit )[0];
 
+		this.mouseListener = null;
+		this.keyboardListener = null;
+
 		if ( editChildID )
 		{
-			window.addEventListener("click", this.childRemoveEditStateHandler( editChildID ) );
-			window.addEventListener("keydown", this.childSaveHandler( editChildID ) ); // For Enter Key Press
+			this.addActionListeners( editChildID );
 		}
-		// console.log("Edit Child ID", editChildID);
-		// console.log("Our Component Mounted!!!!!!");
 	}
 
-	childRemoveEditStateHandler( id ) {
+	addActionListeners( id ) {
+		// Applying curring to the keyboard and click actions in order to effectively remove these event listeners.
+		let mouseListener = this.childMouseActionsListener( id );
+		let keyboardListener = this.childKeyboardActionsListener( id );
+
+		this.mouseListener = mouseListener;
+		this.keyboardListener = keyboardListener;
+
+		window.addEventListener("click", mouseListener ); // For Clicking on children
+		window.addEventListener("keydown", keyboardListener ); // For Enter Key Press
+	}
+
+	removeActionListeners() {
+		if ( this.mouseListener )
+		{
+			window.removeEventListener("click", this.mouseListener);
+		}
+
+		if ( this.keyboardListener )
+		{
+			window.removeEventListener("keydown", this.keyboardListener);
+		}
+	}
+
+	childMouseActionsListener( id ) {
 		const handler = ( event ) => {
-			// console.log("Parent Node", event.target.parentNode );
-			// console.log("ID", id);
-			// console.log("Type", event.target.tagName );
 			// If the current event shows that we are not clicking on this actual object, then we remove edit mode on the item.
+			console.log("Event Target", event.target );
+			console.log("Event Target Parent Node", event.target.parentNode );
 			if ( event.target.parentNode.dataset.id !== id && event.target.tagName !== "INPUT" )
 			{
-				this.context.store.dispatch( saveEntity({ id }) );
-				window.removeEventListener("click", handler );
+				this.context.store.dispatch(saveEntity({ id }));
+				this.removeActionListeners( id );
 			}
 		};
 		return handler;
 	}
 
-	childSaveHandler( id ) {
+	childKeyboardActionsListener( id ) {
 		const handler = ( event ) => {
-			console.log("Key Being Pressed");
-			console.log( event, event.which );
-			console.log("id", id);
+			let dispatchAction;
 			let keyCode = event.which;
 
-			if ( keyCode === 13 ) // Enter Button saves on key press
-			{
-				this.context.store.dispatch( saveEntity({ id }) );
-				window.removeEventListener("keydown", handler);
+			switch ( keyCode ) {
+				case 13: // Enter Key
+					dispatchAction = saveEntity({id});
+					break;
+				case 27: // Escape Key
+					dispatchAction = cancelEditEntity({id});
+					break;
+				default:
+					dispatchAction = null;
+					break;
 			}
 
-			// if ( keyCode === )
-		};
+			if ( dispatchAction )
+			{
+				this.context.store.dispatch( dispatchAction );
+				this.removeActionListeners( id );
+			}
 
+		};
 		return handler;
 	}
 
@@ -107,12 +138,14 @@ class Expense_Group_Child_Table extends React.Component {
 	 * of the child over to the action
 	 */
 	childClickHandler( id, editing ) {
-		if ( editing ) {
+		if ( editing )
+		{
 			return;
-		} else {
+		}
+		else
+		{
 			this.context.store.dispatch( editEntity({ id }));
-			window.addEventListener("click", this.childRemoveEditStateHandler( id ) );
-			window.addEventListener("keydown", this.childSaveHandler( id ) ); // For Enter Key Press
+			this.addActionListeners( id );
 		}
 	}
 
@@ -122,7 +155,7 @@ class Expense_Group_Child_Table extends React.Component {
 	 * Handling the change events that occur on edit items when a
 	 * user updates the values.
 	 */
-	childChangeHandler( id, event ) {
+	childDataChangeHandler( id, event ) {
 		return this.context.store.dispatch(updateEntity({ id, [ event.target.name ] : event.target.value }));
 	}
 
@@ -156,7 +189,7 @@ class Expense_Group_Child_Table extends React.Component {
 							key={index}
 							childID={dataId}
 							childClickHandler={this.childClickHandler}
-							childChangeHandler={this.childChangeHandler}
+							childDataChangeHandler={this.childDataChangeHandler}
 							childRemoveHandler={this.childRemoveHandler}
 						/>
 					))}
