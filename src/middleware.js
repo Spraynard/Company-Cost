@@ -83,12 +83,14 @@ export const expense_group_edit_save_helper = store => next => action => {
 
 		// Manipulations of the inserted content on save. Want to make sure we're saving numbers
 		// as numbers, not strings.
-		if ( typeof edited_item_content.cost !== "undefined" )
-		{
-			edited_item_content.cost = parseFloat( edited_item_content.cost );
-		}
+		// if ( typeof edited_item_content.cost !== "undefined" )
+		// {
+		// 	console.log("Cost Before ParseFloat", edited_item_content.cost );
+		// 	edited_item_content.cost = parseFloat( edited_item_content.cost );
+		// 	console.log("Cost After PaseFloat", edited_item_content.cost );
+		// }
 
-		edited_item_content.cost = ( typeof edited_item_content.cost === "undefined" ) ? 0.00 : parseFloat( edited_item_content );
+		edited_item_content.cost = ( typeof edited_item_content.cost === "undefined" ) ? 0.00 : parseFloat( edited_item_content.cost );
 
 		// Checking to see if there are any entities available with given ID before we start inserting all this data
 		// in an action.
