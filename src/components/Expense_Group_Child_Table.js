@@ -67,7 +67,7 @@ const Expense_Group_Child_Table = ( props, { store } ) => {
 				</TableRow>
 			</TableHead>
 			<TableBody>
-				{ childrenIDs.map( ( dataId, index ) => (
+				{childrenIDs.map( ( dataId, index ) => (
 					<Expense_Group_Child_New
 						key={index}
 						childID={dataId}
