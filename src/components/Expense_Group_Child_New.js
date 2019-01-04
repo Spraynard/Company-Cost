@@ -1,6 +1,7 @@
 //-- Helpers
 
-import "./styles/expense_group_child_new.css";
+// import "./styles/expense_group_child_new.css";
+
 // React
 import { PropTypes } from "prop-types";
 
@@ -18,24 +19,13 @@ import {
 
 //** Components **//
 
+import Expense_Group_Child_Default_View from "./Expense_Group_Child_Default_View";
 import Expense_Group_Child_Edit_View from "./Expense_Group_Child_Edit_View";
-import {
-	editEntity,
-	saveEntity,
-} from "../actions";
 
 //-- Material UI
 
 // Styles
 import { withStyles } from "@material-ui/core/styles";
-
-// Components
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import InputBase from "@material-ui/core/InputBase";
-
-// Icons
-import CloseIcon from "@material-ui/icons/Close";
 
 const styles = () => ({
 	overflowHandler : {
@@ -79,52 +69,24 @@ const Expense_Group_Child_New = ( props, { store } ) => {
 	const editableChildData = obtainSelectProperties( editDataRef, fullChildData );
 
 	return (
-		<TableRow className="expense-group-child" data-id={childID} onClick={() => childClickHandler( childID, edit )}>
-			{ ( edit ) ?
-				<Expense_Group_Child_Edit_View
-					id={childID}
-					childStateData={editableChildData}
-					childEditStateData={fullChildEditData}
-					childDataChangeHandler={childDataChangeHandler}
-				/>
-				// // Edit Mode Display
-				// Object.keys( editableChildData ).map(
-				// 	( childDataKey, index ) => (
-				// 		<TableCell
-				// 			key={index}
-				// 			padding="none"
-				// 			colSpan={
-				// 				(
-				// 					Object.keys(editableChildData).length < 4 &&
-				// 					Object.keys(editableChildData).indexOf(childDataKey) === Object.keys(editableChildData).length - 1
-				// 				) ? 2 : 1
-				// 			}
-				// 		>
-				// 			<InputBase
-				// 				name={childDataKey}
-				// 				value={fullChildEditData[childDataKey]}
-				// 				onChange={( event ) => childDataChangeHandler( childID, event )}
-				// 			/>
-				// 		</TableCell>
-				// 	)
-				// )
-				:
-				// Default UI Display
-				Object.keys(displayChildData).map(
-					( childDataKey, index ) => (
-						<TableCell padding="none" className={ (childDataKey === "title") ? classes.overflowHandler : "" } key={index}>
-							{ ( childDataKey === "delete" ) ?
-								<CloseIcon
-									onClick={( event ) => childRemoveHandler( childID, fullChildData.parentID, event )}
-								/>
-								:
-								displayChildData[childDataKey]
-							}
-						</TableCell>
-					)
-				)
-			}
-		</TableRow>
+		( edit ) ?
+			<Expense_Group_Child_Edit_View
+				id={childID}
+				childDisplayData={editableChildData}
+				childStateData={fullChildData}
+				childEditStateData={fullChildEditData}
+				childDataChangeHandler={childDataChangeHandler}
+				childClickHandler={childClickHandler}
+			/>
+			:
+			<Expense_Group_Child_Default_View
+				id={childID}
+				childClickHandler={childClickHandler}
+				childDisplayData={displayChildData}
+				childStateData ={fullChildData}
+				childRemoveHandler={childRemoveHandler}
+				classes={classes}
+			/>
 	);
 };
 
