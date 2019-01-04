@@ -70,16 +70,14 @@ class Business_Calculator extends Component {
 		const { expense_group_child_by_id } = store.getState();
 
 		// Loop Invariant?
-		while ( !childID && clickTarget.parentNode && clickTarget !== document )
-		{
+		do {
 			if ( clickTarget.dataset )
 			{
 				childID = clickTarget.dataset.id;
 			}
 
-			// Setting next value up for loop case.
 			clickTarget = clickTarget.parentNode;
-		}
+		} while ( !childID && clickTarget !== document );
 
 		// Refernce current children, and remove edit on children that do not have this id.
 		for ( let i = 0; i < Object.keys( expense_group_child_by_id ).length; i++ )
