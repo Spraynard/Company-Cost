@@ -1,81 +1,93 @@
+//-- Helpers
+
+// import "./styles/Expense_Group_Child.css";
+
+// React
 import { PropTypes } from "prop-types";
+
+// Custom
 import {
-	editEntity,
-	removeExpenseGroupChild,
-	updateEntity,
-} from "../actions";
+	obtainSelectProperties,
+	capitalizeFirstLetter,
+	// moneyFormat
+} from "../helpers/helpers";
 
-import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
-import Entity_Edit_Field from "./Entity_Edit_Field";
+import {
+	tableDataRef,
+	editDataRef
+} from "../dataReferenceObjects";
 
+//** Components **//
 
-// Material UI
-import Chip from "@material-ui/core/Chip";
-import Grid from "@material-ui/core/Grid";
+import Expense_Group_Child_Default_View from "./Expense_Group_Child_Default_View";
+import Expense_Group_Child_Edit_View from "./Expense_Group_Child_Edit_View";
+
+//-- Material UI
+
+// Styles
 import { withStyles } from "@material-ui/core/styles";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
 
-
-const styles = theme => ({
-	root : {
-		marginBottom : theme.spacing.unit * 2,
-		width: "50%"
+const styles = () => ({
+	overflowHandler : {
+		whiteSpace : "nowrap",
+		overflow : "hidden",
+		textOverflow : "ellipsis"
 	},
-	chip: {
-		backgroundColor: theme.palette.secondary.main,
-		width: "100%",
-		"&:hover" : {
-			backgroundColor: theme.palette.secondary.dark // or theme.palette.primary.main
-		}
-	},
-	iconColorSecondary : {
-		color: "white",
-		marginLeft: "auto",
-		"&:hover" : {
-			color: theme.palette.secondary.light,
-		}
+	closeIcon : {
+		cursor : "pointer"
 	}
 });
 
 const Expense_Group_Child = ( props, { store } ) => {
 
-	let { timestamp, parentID, edit, classes, ...editValues } = props;
+	const {
+		expense_group_child_by_id,
+		expense_group_entity_edit
+	} = store.getState();
 
-	const updateExpenseGroupChildEdit = ( event ) => {
+	const {
+		childID,
+		classes,
+		childClickHandler,
+		childDataChangeHandler,
+		childRemoveHandler,
+	} = props;
 
-		if ( event.target.name === "cost" )
-		{
-			function countDecimals( number ) {
-				if ( Math.floor( number ) === number ) return 0;
-				return ( number.toString().split(".").length > 1 ) ? number.toString().split(".")[1].length : 0;
-			}
+	const fullChildData = expense_group_child_by_id[childID];
+	const fullChildEditData = expense_group_entity_edit[childID];
 
-			if ( countDecimals( event.target.value ) > 2 )
-			{
-				alert("You may only have a maximum of two numbers after the decimal");
-				return;
-			}
+	const { edit } = fullChildData;
+
+	// Transform param allows us to take the input data and perform a functional transform on it.
+	const displayChildData = obtainSelectProperties( tableDataRef, fullChildData, {
+		transform : {
+			cost : cost => `$${cost.costFormat()}`,
+			costUOM : capitalizeFirstLetter,
 		}
+	});
 
-		store.dispatch(updateEntity({
-			id : props.id,
-			[event.target.name] : event.target.value
-		}));
-	};
+	const editableChildData = obtainSelectProperties( editDataRef, fullChildData );
 
-	// title - cost /costUOM
-	const expense_group_chip_label = `${props.title} ${ props.cost ? `- $${props.cost}` : "" } ${ props.costUOM ? `/${props.costUOM}` : ""}`;
-	return ( props.edit ) ?
-		<Entity_Edit_Field
-			{...editValues}
-			timestamp={timestamp}
-			updateListener={updateExpenseGroupChildEdit}
-		/>
-		:
-		<TableRow onClick={() => store.dispatch(editEntity({...editValues}))}>
-			<TableCell>{expense_group_chip_label}</TableCell><TableCell>X</TableCell>
-		</TableRow>;
+	return (
+		( edit ) ?
+			<Expense_Group_Child_Edit_View
+				id={childID}
+				childDisplayData={editableChildData}
+				childStateData={fullChildData}
+				childEditStateData={fullChildEditData}
+				childDataChangeHandler={childDataChangeHandler}
+				childClickHandler={childClickHandler}
+			/>
+			:
+			<Expense_Group_Child_Default_View
+				id={childID}
+				childClickHandler={childClickHandler}
+				childDisplayData={displayChildData}
+				childStateData ={fullChildData}
+				childRemoveHandler={childRemoveHandler}
+				classes={classes}
+			/>
+	);
 };
 
 
@@ -83,8 +95,12 @@ Expense_Group_Child.defaultProps = {
 	title : "Expense"
 };
 
+Expense_Group_Child.propTypes = {
+	childID : PropTypes.string.isRequired
+};
+
 Expense_Group_Child.contextTypes = {
-	store : PropTypes.object.isRequired
+	store : PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Expense_Group_Child);
