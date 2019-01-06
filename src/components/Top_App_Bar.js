@@ -8,7 +8,6 @@ import {
 } from "../actions";
 
 // Read Only Data
-import readOnlyApplicationData from "../../data/read_only_application_data.json";
 
 // Helper Functions
 import {
@@ -16,22 +15,18 @@ import {
 } from "../helpers/helpers";
 
 // UI Components
-import { Options_Dialog } from "./Options_Dialog";
-
 import Stats_Window from "./Stats_Window";
 
 // Material UI
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
 // Material UI Styles Import
 import { withStyles } from "@material-ui/core/styles";
 
 // Material UI Icons
-import MoreVert from "@material-ui/icons/MoreVert";
 import AddCircle from "@material-ui/icons/AddCircle";
 
 // Component Styles

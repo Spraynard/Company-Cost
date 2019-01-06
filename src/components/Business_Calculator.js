@@ -1,7 +1,6 @@
 import { Component } from "react";
 import { PropTypes } from "prop-types";
 
-import * as Store_Actions from "../actions";
 
 import Top_App_Bar from "./Top_App_Bar";
 import Groups_Window from "./Groups_Window";
@@ -9,8 +8,6 @@ import Groups_Window from "./Groups_Window";
 
 // Redux Actions
 import {
-	editEntity,
-	updateEntity,
 	saveEntity,
 	cancelEditEntity
 } from "../actions";
@@ -63,6 +60,12 @@ class Business_Calculator extends Component {
 		// store.dispatch(addExpenseGroup({}));
 	}
 
+	/**
+	 * Handles clicks on a global level of this component.
+	 * Puts the click event through an algorithm that determines whether our click target is
+	 * a child of an expense_group. Remove edit status from all expense_group_children that are
+	 * actively being edited except for the one being clicked.
+	 */
 	handleClick( e ) {
 		let clickTarget = e.target;
 		let childID = null;
@@ -79,7 +82,7 @@ class Business_Calculator extends Component {
 			clickTarget = clickTarget.parentNode;
 		} while ( !childID && clickTarget !== document );
 
-		// Refernce current children, and remove edit on children that do not have this id.
+		// Reference current children, and remove edit on children that do not have this id.
 		for ( let i = 0; i < Object.keys( expense_group_child_by_id ).length; i++ )
 		{
 			let id = Object.keys( expense_group_child_by_id )[i];
@@ -98,6 +101,10 @@ class Business_Calculator extends Component {
 		}
 	}
 
+	/**
+	 * Handles keyboard actions on a global level of this component.
+	 * These affect any expense group child that is currently being edited.
+	 */
 	handleKeypress( e ) {
 		let dispatchAction;
 		let keyCode = e.which;

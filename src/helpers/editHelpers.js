@@ -16,23 +16,6 @@ export const expense_group_child_editable_values = ( input_object ) => {
 	};
 };
 
-export const editValueTypes = ({
-	title : "text",
-	description : "textarea",
-	cost : "number",
-	costUOM : "select",
-});
-
-export const cost_uom_values = () => {
-	return [
-		"day",
-		"hour",
-		"week",
-		"month",
-		"year"
-	];
-};
-
 export const obtainEditableValues = ( _obj ) => {
 	let editable_value_object = {};
 	Object.keys( _obj ).filter( item => {

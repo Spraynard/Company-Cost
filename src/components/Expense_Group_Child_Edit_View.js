@@ -1,3 +1,8 @@
+// Helper Functions
+import { capitalizeFirstLetter } from "../helpers/helpers";
+
+
+// Material UI Components
 import TableCell from "@material-ui/core/TableCell";
 import InputBase from "@material-ui/core/InputBase";
 import TableRow from "@material-ui/core/TableRow";
@@ -22,8 +27,8 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 
 	const selectValues = {
 		"costUOM" : [
-			"day",
 			"hour",
+			"day",
 			"week",
 			"month",
 			"year"
@@ -35,26 +40,27 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 	return (
 		<TableRow className="expense-group-child" data-id={id} onClick={() => childClickHandler( id, childStateData.edit )}>
 			{Object.keys( childEditStateData ).map(
-				( childDataKey, index ) => {
-					return (
-						<TableCell
-							key={index}
-							padding="none"
-							colSpan={
-								(
-									Object.keys(childEditStateData).length < 4 &&
-							Object.keys(childEditStateData).indexOf(childDataKey) === Object.keys(childEditStateData).length - 1
-								) ? 2 : 1
-							}
-						>
-							{ ( editValueTypes[childDataKey] === "select" ) ?
+				( childDataKey, index ) =>
+					<TableCell
+						key={index}
+						padding="none"
+						colSpan={
+							(
+								Object.keys(childEditStateData).length < 4 &&
+					Object.keys(childEditStateData).indexOf(childDataKey) === Object.keys(childEditStateData).length - 1
+							) ? 2 : 1
+						}
+					>
+						{ // Loop check for "select" displays a select element filled with specific items for that option.
+							( editValueTypes[childDataKey] === "select" ) ?
 								<Select
 									value={childEditStateData[childDataKey]}
 									name={childDataKey}
 									onChange={( event ) => childDataChangeHandler( id, event )}
+									native={true}
 								>
 									{ selectValues[childDataKey].map((item, index) =>
-										<MenuItem key={index} value={item}>{item}</MenuItem> )}
+										<option key={index} value={item}>{capitalizeFirstLetter(item)}</option> )}
 								</Select>
 								:
 								<InputBase
@@ -63,10 +69,8 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 									type={editValueTypes[childDataKey]}
 									onChange={( event ) => childDataChangeHandler( id, event )}
 								/>
-							}
-						</TableCell>
-					);
-				}
+						}
+					</TableCell>
 			)}
 		</TableRow>
 	);

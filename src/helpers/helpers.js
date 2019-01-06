@@ -26,40 +26,41 @@ export const convertNumericalValue = ( value, value_uom, convert_uom ) => {
 	let convert_map = {};
 
 	switch ( convert_uom ) {
-		case 'hour':
+		case "hour":
 			convert_map.hour = 1; // Multiple the value by one.
 			convert_map.day = 1 / 8; // 8 Hours in a day... Sometimes.
 			convert_map.week = convert_map.day / 5; // 5 Days in a week
 			convert_map.month = convert_map.week / 4; // 4 weeks in a month;
-			convert_map.year = convert_map.month / 12
+			convert_map.year = convert_map.month / 12;
 			break;
-		case 'day':
+		case "day":
 			convert_map.hour = 8;
 			convert_map.day = 1;
 			convert_map.week = convert_map.day / 5;
 			convert_map.month = convert_map.week / 4;
 			convert_map.year = convert_map.month / 12;
 			break;
-		case 'week':
+		case "week":
 			convert_map.hour = 8 * 5;
 			convert_map.day = 5;
 			convert_map.week = 1;
-			convert_map.month = convert_map.week / 4
-			convert_map.year = convert_map.month / 12
+			convert_map.month = convert_map.week / 4;
+			convert_map.year = convert_map.month / 12;
 			break;
-		case 'month':
+		case "month":
 			convert_map.hour = 8 * 5 * 4;
 			convert_map.day = 5 * 4;
 			convert_map.week = 4;
 			convert_map.month = 1;
 			convert_map.year = convert_map.month / 12;
 			break;
-		case 'year':
+		case "year":
 			convert_map.hour = 8 * 5 * 4 * 12;
 			convert_map.day = 5 * 4 * 12;
 			convert_map.week = 4 * 12;
 			convert_map.month = 12;
 			convert_map.year = 1;
+			break;
 		default:
 			break;
 	}
@@ -110,6 +111,6 @@ export const obtainSelectProperties = ( a, b, _opts = {} ) => {
 		}
 	}
 	return a;
-}
+};
 
 export const moneyFormat = cost => `$${cost}`;

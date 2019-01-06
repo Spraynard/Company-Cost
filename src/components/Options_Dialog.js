@@ -1,8 +1,7 @@
-import readOnlyGroupData from "../../data/read_only_group_data.json";
+// Custom Helpers
 import { capitalizeFirstLetter } from "../helpers/helpers";
 
 // Material UI Components
-import ButtonBase from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
