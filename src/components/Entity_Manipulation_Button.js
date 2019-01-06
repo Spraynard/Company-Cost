@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 
 // Material UI
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
 
 const styles = theme => ({
 	root : {
-		'& + &' : {
+		"& + &" : {
 			marginLeft: theme.spacing.unit
 		}
 	}

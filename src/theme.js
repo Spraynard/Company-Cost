@@ -33,6 +33,11 @@ export const myTheme = createMuiTheme({
 			footer : {
 				height : 32
 			}
+		},
+		MuiButton : {
+			containedPrimary : {
+				color: "#fff"
+			}
 		}
 	}
 });

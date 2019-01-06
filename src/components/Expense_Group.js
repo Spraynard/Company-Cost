@@ -151,19 +151,14 @@ const Expense_Group = ( props, { store } ) => {
 			}
 			{/** Add an expense to the expense group **/}
 			<Entity_Manipulation_Button
-				dispatchAction={ addExpenseGroupChild({
-					parentID : props.id
-				})}
+				dispatchAction={addExpenseGroupChild({parentID : props.id})}
 				text="Add Expense"
 			/>
 			{/** Bring up the editing window on the expense group **/}
 			<Entity_Manipulation_Button
-				dispatchAction={ editEntity({
-					id : props.id,
-					title : props.title,
-					description : props.description
-				})}
+				dispatchAction={editEntity({id : props.id,title : props.title,description : props.description})}
 				text="Edit Group"
+				variant="outlined"
 				classes={{
 					root : classes.editButton
 				}}
