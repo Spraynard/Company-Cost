@@ -34,17 +34,13 @@ export const Options_Dialog = withStyles(styles)(( props ) => {
 		onChange
 	} = props;
 
-	const handleSubmit = ( event ) => {
-		console.log( event );
-	}
-
 	return (
 		<Dialog
 			open={open}
 			onClose={onClose}
 			aria-labelledby="entity-options-dialog-title"
 		>
-			<DialogTitle id="entity-options-dialog-title">{`${title} Options Dialog`}</DialogTitle>
+			<DialogTitle id="entity-options-dialog-title">{`${title} Options`}</DialogTitle>
 			<form
 				className={classes.root}
 			>
@@ -52,36 +48,36 @@ export const Options_Dialog = withStyles(styles)(( props ) => {
 					direction="column"
 					spacing={8}
 				>
-				{ Object.keys( options_values ).map( ( options_value, index ) => {
-					let field_label = ( typeof labelType === "undefined" ) ?
-						options_values_labels[options_value] :
-						options_values_labels[labelType][options_value];
+					{ Object.keys( options_values ).map( ( options_value, index ) => {
+						let field_label = ( typeof labelType === "undefined" ) ?
+							options_values_labels[options_value] :
+							options_values_labels[labelType][options_value];
 
-					return (
-						<Grid key={index} item>
-							<TextField
-								select
-								onChange={onChange}
-								label={field_label}
-								name={options_value}
-								value={options_values[options_value]}
-								fullWidth={true}
-								margin="normal"
-							>
-							{ options_values_list[options_value].map(( item, index ) => {
-								let item_text = capitalizeFirstLetter( item );
-								return (
-									<MenuItem key={index} value={item}>
-										{ item_text }
-									</MenuItem>
-								)
-							})}
-							</TextField>
-						</Grid>
-					)
-				})}
+						return (
+							<Grid key={index} item>
+								<TextField
+									select
+									onChange={onChange}
+									label={field_label}
+									name={options_value}
+									value={options_values[options_value]}
+									fullWidth={true}
+									margin="normal"
+								>
+									{ options_values_list[options_value].map(( item, index ) => {
+										let item_text = capitalizeFirstLetter( item );
+										return (
+											<MenuItem key={index} value={item}>
+												{ item_text }
+											</MenuItem>
+										);
+									})}
+								</TextField>
+							</Grid>
+						);
+					})}
 				</Grid>
 			</form>
 		</Dialog>
-	)
+	);
 });
