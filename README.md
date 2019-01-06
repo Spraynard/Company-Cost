@@ -14,7 +14,33 @@ Thought of as a category of expenses. Each of these groups contain `Expenses` th
 Pretty self explanatory. Each of these is one expense filled with monetary information related to how much money is required for that "operation" in your operating cost.
 
 ### App Usage
-Coming Soon...
+
+#### `Expense Groups`
+Coming Soon.
+
+##### Adding an `Expense Group`
+Coming Soon.
+
+##### Removing an `Expense Group`
+Coming Soon.
+
+##### Editing an `Expense Group`
+Coming Soon.
+
+#### `Expenses`
+Coming Soon.
+
+##### Adding an `Expense`
+Coming Soon.
+
+##### Removing an `Expense`
+Coming Soon.
+
+##### Editing an `Expense`
+Coming Soon.
+
+#### Reading Your Expense Report
+Coming Soon.
 
 ### Built With
 * [Webpack](https://webpack.js.org/) - Open source JavaScript module bundler
