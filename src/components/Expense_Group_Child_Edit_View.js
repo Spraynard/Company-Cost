@@ -7,7 +7,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 const Expense_Group_Child_Edit_View =  ( props ) => {
 	const {
 		id,
-		childDisplayData,
 		childStateData,
 		childEditStateData,
 		childDataChangeHandler,
@@ -33,12 +32,6 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 
 	// Take child Display data and make an object that contains the data with each of the different types
 	// that are required in order to modify said data.
-
-	// First Move all the current data to
-	console.log( "Child State Data", childStateData );
-	console.log( "Child Display Data", childDisplayData );
-	console.log( "Child Edit State Data", childEditStateData );
-
 	return (
 		<TableRow className="expense-group-child" data-id={id} onClick={() => childClickHandler( id, childStateData.edit )}>
 			{Object.keys( childEditStateData ).map(
