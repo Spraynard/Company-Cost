@@ -10,7 +10,7 @@ import {
 } from "../dataReferenceObjects";
 
 // Custom UI Components
-import Expense_Group_Child_New from "./Expense_Group_Child_New";
+import Expense_Group_Child from "./Expense_Group_Child";
 
 // Material UI Components
 import Table from "@material-ui/core/Table";
@@ -68,7 +68,7 @@ const Expense_Group_Child_Table = ( props, { store } ) => {
 			</TableHead>
 			<TableBody>
 				{childrenIDs.map( ( dataId, index ) => (
-					<Expense_Group_Child_New
+					<Expense_Group_Child
 						key={index}
 						childID={dataId}
 						childClickHandler={childClickHandler}
