@@ -16,8 +16,7 @@ Pretty self explanatory. Each of these is one expense filled with monetary infor
 ### App Usage
 
 #### `Expense Groups`
-Coming Soon.
-
+___
 ##### Adding an `Expense Group`
 Coming Soon.
 
@@ -28,8 +27,7 @@ Coming Soon.
 Coming Soon.
 
 #### `Expenses`
-Coming Soon.
-
+___
 ##### Adding an `Expense`
 Coming Soon.
 
