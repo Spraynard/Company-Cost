@@ -9,7 +9,9 @@ import Groups_Window from "./Groups_Window";
 // Redux Actions
 import {
 	saveEntity,
-	cancelEditEntity
+	cancelEditEntity,
+	resetAppData,
+	addExpenseGroup
 } from "../actions";
 
 /**
@@ -56,8 +58,12 @@ class Business_Calculator extends Component {
 	 */
 		window.addEventListener("click", this.handleClick);
 		window.addEventListener("keydown", this.handleKeypress);
-		// store.dispatch(resetAppData());
-		// store.dispatch(addExpenseGroup({}));
+
+		if ( process.env.NODE_ENV != "production" )
+		{
+			store.dispatch(resetAppData());
+			store.dispatch(addExpenseGroup({}));
+		}
 	}
 
 	/**

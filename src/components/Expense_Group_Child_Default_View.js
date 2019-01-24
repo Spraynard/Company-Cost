@@ -1,7 +1,6 @@
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import CloseIcon from "@material-ui/icons/Close";
-
 const Expense_Group_Child_Default_View = props => {
 	const {
 		id,
@@ -20,6 +19,7 @@ const Expense_Group_Child_Default_View = props => {
 						<TableCell key={index} padding="none">
 							{ ( childDataKey === "delete" ) ?
 								<CloseIcon
+
 									onClick={( event ) => childRemoveHandler( id, childStateData.parentID, event )}
 								/>
 								:

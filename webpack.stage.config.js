@@ -1,6 +1,8 @@
 const path = require("path");
+const webpack = require("webpack");
 
 var config = {
+	mode : "development",
 	entry : "./src/index.js",
 	output : {
 		filename: "public/main.js",
@@ -54,7 +56,12 @@ var config = {
 		contentBase: "./dist/",
 		historyApiFallback: true,
 		inline: true
-	}
+	},
+	plugins : [
+		new webpack.EnvironmentPlugin({
+			NODE_ENV : "staging"
+		}),
+	]
 };
 
 
