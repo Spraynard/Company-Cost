@@ -33,7 +33,8 @@ const styles = () => ({
 		overflow : "hidden",
 		textOverflow : "ellipsis"
 	},
-	closeIcon : {
+	// Deletes expense from expense group
+	deleteButton : {
 		cursor : "pointer"
 	}
 });

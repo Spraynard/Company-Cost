@@ -41,7 +41,7 @@ const styles = {
 
 const Expense_Group_Child_Table = ( props, { store } ) => {
 
-	const { childrenIDs, childrenTotalCost, parentGroupCostUOM } = props;
+	const { childrenIDs, childrenByIDState, childrenTotalCost, parentGroupCostUOM } = props;
 
 	const childClickHandler = ( id, editing ) =>
 		( editing ) ? null : store.dispatch(editEntity({id}));
@@ -55,13 +55,17 @@ const Expense_Group_Child_Table = ( props, { store } ) => {
 		return store.dispatch(removeExpenseGroupChild({ id, parentID }));
 	};
 
+	const childrenBeingEdited = childrenIDs.filter( id => {
+		return typeof childrenByIDState[id] == "object";
+	});
+
 	return (
 		<Table>
 			<TableHead>
 				<TableRow variant="header">
-					{ Object.keys( tableDataRef ).map( ( dataProp, index ) => (
-						<TableCell key={index} padding="none">{capitalizeFirstLetter( dataProp )}</TableCell>
-					))}
+					{ Object.keys( tableDataRef ).map( ( dataProp, index ) =>
+						<TableCell key={index} padding="none">{
+							( dataProp == "delete" && childrenBeingEdited.length ) ? "" : capitalizeFirstLetter( dataProp )}</TableCell>)}
 				</TableRow>
 			</TableHead>
 			<TableBody>

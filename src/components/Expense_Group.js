@@ -59,7 +59,8 @@ const Expense_Group = ( props, { store } ) => {
 	const {
 		expense_group_children,
 		expense_group_child_by_id,
-		expense_group_options
+		expense_group_options,
+		expense_group_entity_edit,
 	} = store.getState();
 
 	const updateExpenseGroupEdit = ( event ) => {
@@ -143,6 +144,7 @@ const Expense_Group = ( props, { store } ) => {
 			{ childrenOfExpenseGroup.length ?
 				<Expense_Group_Child_Table
 					childrenIDs={childrenOfExpenseGroup}
+					childrenByIDState={expense_group_entity_edit}
 					childrenTotalCost={associatedChildrenCost}
 					parentGroupCostUOM={optionsValues.costUOM}
 				/>
