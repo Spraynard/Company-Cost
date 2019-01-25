@@ -7,7 +7,9 @@ var config = {
 		filename: "public/main.js",
 		path: path.resolve(__dirname, "dist"),
 	},
-	devtool: "inline-source-map",
+	optimization : {
+		minimize : true
+	},
 	module : {
 		rules : [{
 			// Javascript Rule. Is handled by Babel, allowing for use of ES6

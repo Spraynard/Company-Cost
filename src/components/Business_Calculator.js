@@ -59,7 +59,7 @@ class Business_Calculator extends Component {
 		window.addEventListener("click", this.handleClick);
 		window.addEventListener("keydown", this.handleKeypress);
 
-		if ( process.env.NODE_ENV != "production" )
+		if ( process.env.NODE_ENV === "development" )
 		{
 			store.dispatch(resetAppData());
 			store.dispatch(addExpenseGroup({}));

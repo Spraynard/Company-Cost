@@ -8,7 +8,8 @@
     "lint": "./node_modules/.bin/eslint src/**.js",
     "dev": "./node_modules/.bin/webpack-dev-server --config webpack.development.config.js",
     "prod-dev" : "./node_modules/.bin/webpack-dev-server --config webpack.stage.config.js",
-    "build-dev": "./node_modules/.bin/webpack --config webpack.development.js"
+    "build-dev": "./node_modules/.bin/webpack --config webpack.development.config.js",
+    "build" : "./node_modules/.bin/webpack --config webpack.production.config.js"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./local_storage_mock.js",
