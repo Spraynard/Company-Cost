@@ -5,7 +5,7 @@ var config = {
 	entry : "./src/index.js",
 	output : {
 		filename: "public/main.js",
-		path: path.resolve(__dirname, "dist"),
+		path: path.resolve(__dirname, "docs"),
 	},
 	optimization : {
 		minimize : true
