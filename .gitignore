@@ -62,3 +62,8 @@ typings/
 
 # Apple Stuff
 .DS_Store
+
+# Custom
+
+# Don't include development folder
+dist/
