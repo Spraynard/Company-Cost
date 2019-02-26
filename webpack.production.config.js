@@ -1,12 +1,15 @@
 const path = require("path");
 
 var config = {
+	mode : "production",
 	entry : "./src/index.js",
 	output : {
 		filename: "public/main.js",
-		path: path.resolve(__dirname, "dist"),
+		path: path.resolve(__dirname, "docs"),
 	},
-	devtool: "inline-source-map",
+	optimization : {
+		minimize : true
+	},
 	module : {
 		rules : [{
 			// Javascript Rule. Is handled by Babel, allowing for use of ES6
@@ -56,27 +59,5 @@ var config = {
 		inline: true
 	}
 };
-
-
-// // Only allow for css sourcemaps on DEVELOPMENT side of application
-// if ( process.env.NODE_ENV === "DEVELOPMENT" )
-// {
-// 	config.devtool = "inline-source-map";
-// 	// Go Through each Rule
-// 	config.module.rules.map( rule => {
-// 		// Go through each rule use
-// 		let rule_usage = rule.use;
-// 		if ( Array.isArray( rule_usage ) )
-// 		{
-// 			rule_usage.map( usage => {
-// 				if ( usage.loader === "style-loader" )
-// 				{
-// 					usage.options = {};
-// 					usage.options.sourceMap = true;
-// 				}
-// 			});
-// 		}
-// 	});
-// }
 
 module.exports = config;

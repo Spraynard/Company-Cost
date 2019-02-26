@@ -3,12 +3,14 @@ import TableCell from "@material-ui/core/TableCell";
 import CloseIcon from "@material-ui/icons/Close";
 
 const Expense_Group_Child_Default_View = props => {
+
 	const {
 		id,
 		childStateData,
 		childDisplayData,
 		childClickHandler,
-		childRemoveHandler
+		childRemoveHandler,
+		classes,
 	} = props;
 
 	return (
@@ -20,6 +22,7 @@ const Expense_Group_Child_Default_View = props => {
 						<TableCell key={index} padding="none">
 							{ ( childDataKey === "delete" ) ?
 								<CloseIcon
+									className={classes.deleteButton}
 									onClick={( event ) => childRemoveHandler( id, childStateData.parentID, event )}
 								/>
 								:
