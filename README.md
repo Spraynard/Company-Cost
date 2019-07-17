@@ -47,4 +47,5 @@ Coming Soon.
 * [Material UI](https://material-ui.com/) - React components that interface with Material Design
 
 ### License
-No License at this time.
+
+MIT
