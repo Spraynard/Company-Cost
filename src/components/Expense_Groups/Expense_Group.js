@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
-import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
-import Entity_Edit_Field from "./Entity_Edit_Field";
+import Entity_Manipulation_Button from "../Buttons/Entity_Manipulation_Button";
+import Entity_Edit_Field from "../Entity_Edit_Field";
 // import Expense_Group_Child from "./Expense_Group_Child";
 import Expense_Group_Child_Table from "./Expense_Group_Child_Table";
 
 import {
 	Options_Dialog
-} from "./Options_Dialog";
+} from "../Options_Dialog";
 
 // Redux Actions
 import {
@@ -14,16 +14,16 @@ import {
 	closeExpenseGroupOptionsDialog,
 	removeExpenseGroup,
 	addExpenseGroupChild,
-} from "../actions/expense_group_actions";
+} from "../../actions/expense_group_actions";
 
 import {
 	editEntityOption,
 	editEntity,
 	updateEntity
-} from "../actions/entity_actions";
+} from "../../actions/entity_actions";
 
-import { obtainChildCostTotal} from "../helpers/helpers";
-import readOnlyGroupData from "../../data/read_only_group_data.json";
+import { obtainChildCostTotal} from "../../helpers/helpers";
+import readOnlyGroupData from "../../../data/read_only_group_data.json";
 
 // MaterialUI
 import Paper from "@material-ui/core/Paper";
