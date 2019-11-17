@@ -14,11 +14,13 @@ import {
 
 // UI Components
 import Stats_Window from "./Stats_Window";
+import Open_Stats_Drawer_Button from "./Buttons/Open_Stats_Drawer_Button";
 
 // Material UI
 import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
+import Drawer from "@material-ui/core/Drawer";
+import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 // Material UI Styles Import
@@ -74,9 +76,9 @@ const Top_App_Bar = ( props, { store } ) => {
 		<AppBar position="sticky">
 			<Toolbar>
 				<Typography
+					className={`${classes.marginRight} ${classes.siteTitle}`}
 					component="span"
 					variant="h3"
-					className={`${classes.marginRight} ${classes.siteTitle}`}
 				>
 				Company Cost
 				</Typography>
@@ -91,16 +93,18 @@ const Top_App_Bar = ( props, { store } ) => {
 				>
 					<AddCircle className={classes.buttonIconStyles}/>
 					<Typography
-						variant="button"
 						color="inherit"
+						variant="button"
 					>Add Expense Group</Typography>
 				</Button>
+				<Open_Stats_Drawer_Button display={{ xs : 'block', 'md' : 'none' }} />
 				<Stats_Window
-					onClick={() => store.dispatch(openAppOptionsDialog())}
-					expenses={expense_group_children.length}
-					expenseGroups={expense_groups.length}
-					totalCost={total_expense_cost.costFormat()}
 					applicationCostUnitOfMeasurement={application_options.costUOM}
+					display={{ xs : 'none', 'md' : 'block' }}
+					expenseGroups={expense_groups.length}
+					expenses={expense_group_children.length}
+					onClick={() => store.dispatch(openAppOptionsDialog())}
+					totalCost={total_expense_cost.costFormat()}
 				/>
 			</Toolbar>
 		</AppBar>

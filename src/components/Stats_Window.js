@@ -14,6 +14,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { emphasize } from "@material-ui/core/styles/colorManipulator";
 
 // Material UI Components
+import Box from '@material-ui/core/Box';
 import Typography from "@material-ui/core/Typography";
 
 // Custom Components
@@ -67,7 +68,8 @@ const Stats_Window = ( props, { store } ) => {
 		expenseGroups,
 		totalCost,
 		applicationCostUnitOfMeasurement,
-		onClick
+		onClick,
+		...other
 	} = props;
 
 	const {
@@ -85,7 +87,7 @@ const Stats_Window = ( props, { store } ) => {
 	const handleClose = () => store.dispatch(closeAppOptionsDialog());
 
 	return (
-		<div>
+		<Box { ...other }>
 			<div onClick={onClick} className={`${classes.root} ${classes.flex}`}>
 				<div className={`${classes.flex} ${classes.vert}`}>
 					<Typography variant="body1" color="inherit" className={classes.statsItemHeader}>Groups</Typography>
@@ -100,6 +102,7 @@ const Stats_Window = ( props, { store } ) => {
 					<Typography variant="body2" color="inherit" className={classes.statsItemValue}>${totalCost}/{applicationCostUnitOfMeasurement}</Typography>
 				</div>
 			</div>
+
 			<Options_Dialog
 				open={dialog_open}
 				title="Application"
@@ -109,7 +112,7 @@ const Stats_Window = ( props, { store } ) => {
 				options_values_labels={readOnlyApplicationData["application_options_labels"]}
 				options_values_list={readOnlyApplicationData["application_options"]}
 			/>
-		</div>
+		</Box>
 	);
 };
 
