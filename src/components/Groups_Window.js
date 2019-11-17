@@ -1,7 +1,5 @@
 import { PropTypes } from "prop-types";
-import { addExpenseGroup } from "../actions";
 import Expense_Group from "./Expense_Group";
-import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
 
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
