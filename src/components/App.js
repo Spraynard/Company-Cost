@@ -64,10 +64,17 @@ class App extends Component {
 	}
 
 	/**
-	 * Handles clicks on a global level of this component.
-	 * Puts the click event through an algorithm that determines whether our click target is
-	 * a child of an expense_group. Remove edit status from all expense_group_children that are
-	 * actively being edited except for the one being clicked.
+	 * Handles clicks on a global application level.
+	 * Put event through through an algorithm that determines
+	 * whether our click target is a child of an expense_group.
+	 *
+	 * If that is the case, remove edit status from all
+	 * expense group children that are actively being edited
+	 * *except for* the one being clicked.
+	 *
+	 * This is what explicitly controls the functionality
+	 * in which there is only one editable expense group child
+	 * available at a time.
 	 */
 	handleClick( e ) {
 		let clickTarget = e.target;
@@ -75,17 +82,15 @@ class App extends Component {
 
 		const { expense_group_child_by_id } = store.getState();
 
-		// Loop Invariant?
-		do {
-			if ( clickTarget.dataset )
-			{
+		while ( ! childID && clickTarget && clickTarget !== document )
+		{
+			if (clickTarget.dataset) {
 				childID = clickTarget.dataset.id;
 			}
 
 			clickTarget = clickTarget.parentNode;
-		} while ( !childID && clickTarget !== document );
+		}
 
-		// Reference current children, and remove edit on children that do not have this id.
 		for ( let i = 0; i < Object.keys( expense_group_child_by_id ).length; i++ )
 		{
 			let id = Object.keys( expense_group_child_by_id )[i];
