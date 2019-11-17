@@ -9,7 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
 	root : {
 		"& + &" : {
-			marginLeft: theme.spacing.unit
+			marginLeft: theme.spacing(1)
 		}
 	}
 });

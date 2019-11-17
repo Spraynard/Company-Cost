@@ -9,7 +9,7 @@ const styles = theme => ({
 	toolbar : theme.mixins.toolbar,
 	content: {
 		flexGrow: 1,
-		padding: theme.spacing.unit * 3,
+		padding: theme.spacing(3),
 		height: '100vh',
 	},
 
@@ -26,7 +26,7 @@ const Groups_Window = (props, { store }) => {
 
 	return (
 		<main className={classes.content}>
-		<Grid container spacing={16} className={classes.toolbar}>
+		<Grid container spacing={4} className={classes.toolbar}>
 		{
 			Object.keys(expense_group_by_id).map( expense_group_id => {
 				const expense_group_data = expense_group_by_id[expense_group_id];

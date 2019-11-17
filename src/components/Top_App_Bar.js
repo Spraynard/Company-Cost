@@ -30,7 +30,7 @@ import AddCircle from "@material-ui/icons/AddCircle";
 // Component Styles
 const styles = theme => ({
 	appButtonMargin : {
-		marginLeft : theme.spacing.unit
+		marginLeft : theme.spacing(1)
 	},
 	flexEnd : {
 		alignSelf : "flex-end"
@@ -45,7 +45,7 @@ const styles = theme => ({
 		"color" : theme.palette.primary.contrastText
 	},
 	marginRight : {
-		marginRight : theme.spacing.unit * 2
+		marginRight : theme.spacing(2)
 	},
 	siteTitle : {
 		fontFamily : theme.typography.siteTitle.fontFamily,

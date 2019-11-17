@@ -36,14 +36,14 @@ import MoreHoriz from "@material-ui/icons/MoreHoriz";
 const styles = theme => ({
 	root : {
 		...theme.mixins.gutters(),
-		paddingTop: theme.spacing.unit * 2,
-		paddingBottom: theme.spacing.unit * 2,
+		paddingTop: theme.spacing(2),
+		paddingBottom: theme.spacing(2),
 	},
 	editButton : {
 		cursor : "context-menu"
 	},
 	expenseGroupInformation : {
-		marginBottom : theme.spacing.unit
+		marginBottom : theme.spacing(1)
 	},
 	rightAlign: {
 		textAlign: "right"
@@ -52,7 +52,7 @@ const styles = theme => ({
 		textAlign: "left"
 	},
 	buttonsContainer: {
-		marginBottom : theme.spacing.unit
+		marginBottom : theme.spacing(1)
 	},
 	removeButton : {
 		marginLeft : "auto"

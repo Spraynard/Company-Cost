@@ -24,8 +24,8 @@ const styles = theme => ({
 		textDecoration : "underline",
 	},
 	secondaryText : {
-		paddingLeft : theme.spacing.unit,
-		paddingRight : theme.spacing.unit,
+		paddingLeft : theme.spacing(1),
+		paddingRight : theme.spacing(1),
 		background : theme.palette.primary.light,
 		color : theme.palette.primary.contrastText
 	}
