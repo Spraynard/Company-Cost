@@ -18,24 +18,35 @@ Pretty self explanatory. Each of these is one expense filled with monetary infor
 #### `Expense Groups`
 ___
 ##### Adding an `Expense Group`
-Coming Soon.
+
+Add an expense group by clicking on the *Add Expense Group* button in the top application menu.
 
 ##### Removing an `Expense Group`
-Coming Soon.
+
+You can remove an expense group by clicking on the *trash can* icon on the top right of an expense group. Be careful, as you will lose any work on the expense group.
 
 ##### Editing an `Expense Group`
-Coming Soon.
+
+Edit the *title* and *description* of an expense group by clicking on the *Edit Group* button of
+whichever expense group you would like to change.
+
+This functionality specifically allows you to update expense groups to be part of the domain that you'd like to keep track of. Names for groups such as `Bills`, `Groceries`, `Freelancers`, etc... are great, descriptive names that will allow you to keep track of what the expenses in each group are actually for.
 
 #### `Expenses`
 ___
 ##### Adding an `Expense`
-Coming Soon.
+
+You can add an expense to a specific expense group by clicking or tapping on the *Add Expense* button of your group.
 
 ##### Removing an `Expense`
-Coming Soon.
+
+To remove an expense from an expense group, click or tap on the X under the `Remove` header of your expense-group expense table.
 
 ##### Editing an `Expense`
-Coming Soon.
+
+You can edit the fields of an expense by clicking anywhere on an expense (except for the X). The editable expense should be larger than every other expense. Once selected, click or tap on the field that you would like to edit and edit it.
+
+After you are done editing, either click/tap anywhere not on the currently editing expense or hit the `Return` key on your keyboard. The changes that you made should be saved, and be a part of the application.
 
 #### Reading Your Expense Report
 Coming Soon.
@@ -47,4 +58,5 @@ Coming Soon.
 * [Material UI](https://material-ui.com/) - React components that interface with Material Design
 
 ### License
-No License at this time.
+
+MIT
