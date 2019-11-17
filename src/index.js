@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import { store } from "./store";
-import { Business_Calculator } from "./components/Business_Calculator";
+import { App } from "./components/App";
 import "./utils";
 
 // Material UI
@@ -18,6 +18,6 @@ window.React = React;
 render(
 	<MuiThemeProvider theme={myTheme}>
 		<CssBaseline />
-		<Business_Calculator store={storeData} />
+		<App store={storeData} />
 	</MuiThemeProvider>, document.getElementById("app-mount")
 );

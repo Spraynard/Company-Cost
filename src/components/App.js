@@ -14,7 +14,7 @@ import { addExpenseGroup } from "../actions/expense_group_actions";
 /**
  * Overall controller for the App.
  */
-class Business_Calculator extends Component {
+class App extends Component {
 
 	constructor( props ) {
 		super( props );
@@ -143,12 +143,12 @@ class Business_Calculator extends Component {
 	}
 }
 
-Business_Calculator.propTypes = {
+App.propTypes = {
 	store: PropTypes.object.isRequired,
 };
 
-Business_Calculator.childContextTypes = {
+App.childContextTypes = {
 	store : PropTypes.object.isRequired,
 };
 
-export { Business_Calculator };
+export { App }
