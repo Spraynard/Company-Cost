@@ -7,10 +7,7 @@ import {
 	Entity_Edit_Textarea
 } from "./Entity_Edit_Types";
 
-import {
-	saveEntity,
-	cancelEditEntity
-} from "../actions";
+import { saveEntity, cancelEditEntity } from "../actions/entity_actions";
 
 import {
 	obtainEditableValues,

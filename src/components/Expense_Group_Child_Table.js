@@ -29,15 +29,10 @@ import {
 } from "../helpers/helpers";
 
 // Redux Actions
-import {
-	editEntity,
-	updateEntity,
-	removeExpenseGroupChild
-} from "../actions";
+import { editEntity, updateEntity } from "../actions/entity_actions";
+import { removeExpenseGroupChild } from "../actions/expense_group_actions";
 
-const styles = {
-
-};
+const styles = {};
 
 const Expense_Group_Child_Table = ( props, { store } ) => {
 

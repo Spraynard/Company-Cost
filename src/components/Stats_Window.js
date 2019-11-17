@@ -23,7 +23,7 @@ import { Options_Dialog } from "./Options_Dialog";
 import {
 	closeAppOptionsDialog,
 	editApplicationOption
-} from "../actions";
+} from "../actions/application_actions";
 
 // Component Stylings
 const styles = theme => ({

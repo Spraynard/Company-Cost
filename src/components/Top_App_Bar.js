@@ -2,10 +2,8 @@
 import { PropTypes } from "prop-types";
 
 // Actions
-import {
-	addExpenseGroup,
-	openAppOptionsDialog,
-} from "../actions";
+import { addExpenseGroup } from "../actions/expense_group_actions"
+import { openAppOptionsDialog } from "../actions/application_actions";
 
 // Read Only Data
 

@@ -7,12 +7,9 @@ import Groups_Window from "./Groups_Window";
 
 
 // Redux Actions
-import {
-	saveEntity,
-	cancelEditEntity,
-	resetAppData,
-	addExpenseGroup
-} from "../actions";
+import { saveEntity, cancelEditEntity } from "../actions/entity_actions";
+import { resetAppData } from "../actions/application_actions";
+import { addExpenseGroup } from "../actions/expense_group_actions";
 
 /**
  * Overall controller for the App.

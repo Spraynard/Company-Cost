@@ -8,15 +8,19 @@ import {
 	Options_Dialog
 } from "./Options_Dialog";
 
+// Redux Actions
 import {
-	editEntityOption,
 	openExpenseGroupOptionsDialog,
 	closeExpenseGroupOptionsDialog,
 	removeExpenseGroup,
 	addExpenseGroupChild,
+} from "../actions/expense_group_actions";
+
+import {
+	editEntityOption,
 	editEntity,
 	updateEntity
-} from "../actions";
+} from "../actions/entity_actions";
 
 import { obtainChildCostTotal} from "../helpers/helpers";
 import readOnlyGroupData from "../../data/read_only_group_data.json";
