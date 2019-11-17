@@ -1,5 +1,5 @@
 import { PropTypes } from "prop-types";
-import Expense_Group from "./Expense_Group";
+import Expense_Group from "./Expense_Groups/Expense_Group";
 
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
