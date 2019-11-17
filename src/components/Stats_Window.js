@@ -28,8 +28,8 @@ import {
 // Component Stylings
 const styles = theme => ({
 	root : {
-		padding: theme.spacing.unit,
-		margin: theme.spacing.unit,
+		padding: theme.spacing(1),
+		margin: theme.spacing(1),
 		marginRight: 0,
 		borderRadius : theme.shape.borderRadius,
 		background: theme.palette.primary.light,
@@ -46,16 +46,16 @@ const styles = theme => ({
 	vert : {
 		"flexDirection" : "column",
 		"textAlign" : "center",
-		"padding" : theme.spacing.unit / 2,
+		"padding" : theme.spacing(1) / 2,
 		"& + &" : {
-			marginLeft: theme.spacing.unit * 2
+			marginLeft: theme.spacing(2)
 		}
 	},
 	statsItemHeader : {
 		borderBottom : `2px solid ${theme.palette.primary.main}`
 	},
 	statsItemValue : {
-		paddingTop : theme.spacing.unit
+		paddingTop : theme.spacing(1)
 	},
 });
 
