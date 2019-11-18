@@ -1,8 +1,8 @@
 import { store } from "../../src/store";
-import {
-	addExpenseGroup,
-	editEntityOption,
-} from "../../src/actions";
+
+// Redux Actions Import
+import { addExpenseGroup } from "../../src/actions/expense_group_actions";
+import { editEntityOption } from "../../src/actions/entity_actions";
 
 import defaultState from "../../data/default_state.json";
 

@@ -15,7 +15,7 @@ import {
 	updateEntity,
 	saveEntity,
 	cancelEditEntity
-} from "../../src/actions";
+} from "../../src/actions/entity_actions";
 
 var state;
 var actionID;

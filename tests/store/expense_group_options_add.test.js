@@ -1,8 +1,7 @@
 import { store } from "../../src/store";
-import {
-	addExpenseGroup,
-} from "../../src/actions";
 
+// Redux Actions Import
+import { addExpenseGroup } from "../../src/actions/expense_group_actions";
 import defaultState from "../../data/default_state.json";
 
 let test_store;
