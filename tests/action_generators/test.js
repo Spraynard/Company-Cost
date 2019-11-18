@@ -4,13 +4,16 @@ import {
 	removeExpenseGroup,
 	addExpenseGroupChild,
 	removeExpenseGroupChild,
+	openExpenseGroupOptionsDialog,
+	closeExpenseGroupOptionsDialog
+} from "../../src/actions/expense_group_actions";
+
+import {
 	editEntity,
 	saveEntity,
 	cancelEditEntity,
 	editEntityOption,
-	openExpenseGroupOptionsDialog,
-	closeExpenseGroupOptionsDialog
-} from "../../src/actions";
+} from "../../src/actions/entity_actions";
 
 // Importing Constants
 import C from "../../src/constants";
