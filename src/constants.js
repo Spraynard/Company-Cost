@@ -19,7 +19,10 @@ const constants = {
 
 	/* App Level Action Types */
 	RESET_DATA : 					"RESET_DATA",
-	EDIT_APPLICATION_OPTION : 		"EDIT_APPLICATION_OPTION"
+	EDIT_APPLICATION_OPTION : 		"EDIT_APPLICATION_OPTION",
+
+	/* User Interface Action Types */
+	UPDATE_USER_INTERFACE_STATE : 		"UPDATE_USER_INTERFACE_STATE"
 };
 
 module.exports = constants;
