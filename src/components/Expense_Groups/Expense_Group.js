@@ -1,12 +1,8 @@
 import PropTypes from "prop-types";
 import Entity_Manipulation_Button from "../Buttons/Entity_Manipulation_Button";
 import Entity_Edit_Field from "../Entity_Edit_Field";
-// import Expense_Group_Child from "./Expense_Group_Child";
 import Expense_Group_Child_Table from "./Expense_Group_Child_Table";
-
-import {
-	Options_Dialog
-} from "../Options_Dialog";
+import Options_Dialog from "../Options_Dialog";
 
 // Redux Actions
 import {
