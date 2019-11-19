@@ -8,6 +8,7 @@ const styles = theme => ({
         background: 'linear-gradient(to right, #b3ffab, #12fff7)',//'linear-gradient(131deg, rgba(231,255,231,1) 0%, rgba(76,255,105,1) 100%)',
         border: `1px solid #6dade6`,
         boxShadow: '0px 3px 5px -1px rgba(64,165,255,.50),0px 6px 10px 0px rgba(64,165,255,.50),0px 1px 18px 0px rgba(64,165,255,.50)',
+        cursor: 'pointer',
         height : '100%',
         height : '250px',
         padding : theme.spacing(2),
