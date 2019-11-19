@@ -15,6 +15,7 @@ const styles = theme => ({
     itemContainer: {
         display: "flex",
         flexDirection: "column",
+        textAlign: "center"
     },
 });
 
