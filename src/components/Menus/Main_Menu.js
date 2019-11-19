@@ -1,43 +1,35 @@
 import PropTypes from "prop-types";
 
 // Domain Component Import
-import Horizontal_Stats_Window from "../Stats_Windows/Horizontal_Stats_Window";
+import Main_Menu_Stats_Window from "../Stats_Windows/Main_Menu_Stats_Window";
 
 // Material-UI Imports
 import Drawer from "@material-ui/core/Drawer";
 import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
 
-const Main_Menu = ( props, { store }) => {
+const styles = theme => ({
+    paper : {
+        background: theme.palette.secondary.main,
+        color: theme.palette.secondary.contrastText,
+        padding: theme.spacing(2)
+    }
+})
+
+const Main_Menu = withStyles(styles)( props => {
     const {
+        classes,
         isMenuOpen,
         onMenuClose,
-        openOptionsDialog,
-        appStats
+        ...other
     } = props;
 
-    const {
-        costUOM,
-        totalGroups,
-        totalExpenses,
-        totalCost
-    } = appStats;
-
     return (
-        <Drawer open={isMenuOpen} onClose={onMenuClose} anchor='right'>
+        <Drawer classes={{ paper : classes.paper }} className={classes.root} open={isMenuOpen} onClose={onMenuClose} anchor='right'>
             <Typography variant="h5" gutterBottom>Application Statistics</Typography>
-            <Horizontal_Stats_Window
-                applicationCostUnitOfMeasurement={costUOM}
-                expenseGroups={totalGroups}
-                expenses={totalExpenses}
-                onClick={openOptionsDialog}
-                totalCost={totalCost}
-            />
+            <Main_Menu_Stats_Window { ...other}/>
         </Drawer>
     )
-}
-
-Main_Menu.contextTypes = {
-    store: PropTypes.object.isRequired
-}
+})
 
 export default Main_Menu
