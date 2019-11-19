@@ -4,22 +4,16 @@ import { PropTypes } from "prop-types";
 // Actions
 import { addExpenseGroup } from "../actions/expense_group_actions"
 import { openAppOptionsDialog } from "../actions/application_actions";
-
-// Read Only Data
-
-// Helper Functions
-import {
-	obtainChildCostTotal
-} from "../helpers/helpers";
+import { openMainMenu } from "../actions/user_interface_actions";
 
 // UI Components
-import Stats_Window from "./Stats_Window";
+import Stats_Window from "./Stats_Windows/Stats_Window";
+import App_Bar_Stats_Window from "./Stats_Windows/App_Bar_Stats_Window";
 import Open_Stats_Drawer_Button from "./Buttons/Open_Stats_Drawer_Button";
 
 // Material UI
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
@@ -57,20 +51,7 @@ const styles = theme => ({
 
 const Top_App_Bar = ( props, { store } ) => {
 
-	const {
-		expense_groups,
-		expense_group_children,
-		expense_group_child_by_id,
-		application_options
-	} = store.getState();
-
-	const { classes } = props;
-
-	const total_expense_cost = obtainChildCostTotal(
-		expense_group_children,
-		expense_group_child_by_id,
-		application_options
-	);
+	const { classes, ...other } = props;
 
 	return (
 		<AppBar position="sticky">
@@ -97,14 +78,13 @@ const Top_App_Bar = ( props, { store } ) => {
 						variant="button"
 					>Add Expense Group</Typography>
 				</Button>
-				<Open_Stats_Drawer_Button display={{ xs : 'block', 'md' : 'none' }} />
-				<Stats_Window
-					applicationCostUnitOfMeasurement={application_options.costUOM}
-					display={{ xs : 'none', 'md' : 'block' }}
-					expenseGroups={expense_groups.length}
-					expenses={expense_group_children.length}
+				<Open_Stats_Drawer_Button
+					display={{ xs : 'block', 'md' : 'none' }}
+					onClick={() => store.dispatch(openMainMenu())}
+				/>
+				<App_Bar_Stats_Window
 					onClick={() => store.dispatch(openAppOptionsDialog())}
-					totalCost={total_expense_cost.costFormat()}
+					{ ...other }
 				/>
 			</Toolbar>
 		</AppBar>
