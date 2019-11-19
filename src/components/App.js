@@ -3,10 +3,13 @@ import { PropTypes } from "prop-types";
 
 import * as readOnlyApplicationData from "../../data/read_only_application_data";
 
+// Custom Components
 import Top_App_Bar from "./Top_App_Bar";
 import Groups_Window from "./Groups_Window";
 import Options_Dialog from "./Options_Dialog";
 import Main_Menu from "./Menus/Main_Menu";
+import Expense_Group from "./Expense_Groups/Expense_Group";
+import Add_Expense_Group_UI_Button from "./Buttons/Add_Expense_Group_UI_Button";
 
 // Redux Actions
 import {
@@ -156,9 +159,11 @@ class App extends Component {
 			application_options,
 			user_interface,
 			expense_groups,
+			expense_group_by_id,
 			expense_group_children,
 			expense_group_child_by_id
 		} = store.getState();
+
 		const { dialog_open, ...optionsValues } = application_options;
 		const updateApplicationOptions = (event) => {
 			store.dispatch(editApplicationOption({
@@ -184,10 +189,14 @@ class App extends Component {
 			]
 		};
 
+		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( id  =>
+			<Expense_Group id={id} key={`expense-group-${id}`} {...expense_group_by_id[id]}/>
+		).concat([<Add_Expense_Group_UI_Button key={`expense-group-add-button`} action={() => store.dispatch(addExpenseGroup())}/>]);
+
 		return (
 			<div className="business-calculator">
 				<Top_App_Bar metrics={application_metrics.app_bar}/>
-				<Groups_Window />
+				<Groups_Window>{expense_groups_with_add_button}</Groups_Window>
 				<Main_Menu
 					onMenuClose={() => store.dispatch(closeMainMenu())}
 					isMenuOpen={user_interface.main_menu_open}
