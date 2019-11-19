@@ -10,12 +10,12 @@ import {
 	obtainSelectProperties,
 	capitalizeFirstLetter,
 	// moneyFormat
-} from "../helpers/helpers";
+} from "../../helpers/helpers";
 
 import {
 	tableDataRef,
 	editDataRef
-} from "../dataReferenceObjects";
+} from "../../dataReferenceObjects";
 
 //** Components **//
 

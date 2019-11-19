@@ -1,4 +1,5 @@
 import { PropTypes } from "prop-types";
+import Expense_Group from "./Expense_Groups/Expense_Group";
 
 // Material UI
 import { withStyles } from '@material-ui/core/styles';
@@ -22,7 +23,7 @@ const styles = theme => ({
  * Window that contains expense groups.
  * @param classes - styling classes
  * @param addNew - Component used to add a new expense group to the list.
- * @param props - Rest of passed in props.\
+ * @param props - Rest of passed in props.
  */
 const Groups_Window = ({ classes, addNew : [], ...props}, { store }) => {
 

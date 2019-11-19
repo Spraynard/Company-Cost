@@ -19,7 +19,7 @@ const styles = theme => ({
 	}
 });
 
-export const Options_Dialog = withStyles(styles)(( props ) => {
+const Options_Dialog = ( props ) => {
 
 	const {
 		open,
@@ -79,4 +79,6 @@ export const Options_Dialog = withStyles(styles)(( props ) => {
 			</form>
 		</Dialog>
 	);
-});
+};
+
+export default withStyles(styles)(Options_Dialog)
