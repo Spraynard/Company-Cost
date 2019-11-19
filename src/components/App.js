@@ -12,15 +12,16 @@ import Main_Menu from "./Menus/Main_Menu";
 import {
 	resetAppData,
 	editApplicationOption,
-	openAppOptionsDialog,
 	closeAppOptionsDialog,
 } from "../actions/application_actions";
+
 import { closeMainMenu } from "../actions/user_interface_actions"
 import { saveEntity, cancelEditEntity } from "../actions/entity_actions";
 import { addExpenseGroup } from "../actions/expense_group_actions";
 
 // Helper Functions
 import { obtainChildCostTotal } from "../helpers/helpers";
+import Stats_Window_Item from "./Stats_Windows/Stats_Window_Item";
 
 /**
  * Overall controller for the App.
@@ -165,26 +166,32 @@ class App extends Component {
 			}));
 		};
 		const handleClose = () => store.dispatch(closeAppOptionsDialog());
-		const appWindowStatistics = {
-			costUOM: application_options.costUOM,
-			totalGroups: expense_groups.length,
-			totalExpenses: expense_group_children.length,
-			totalCost: obtainChildCostTotal(
-				expense_group_children,
-				expense_group_child_by_id,
-				application_options
-			)
-		}
+		const application_total_cost = obtainChildCostTotal(
+			expense_group_children,
+			expense_group_child_by_id,
+			application_options
+		);
+		const application_metrics = {
+			app_bar : [
+				<Stats_Window_Item label="Groups" value={expense_groups.length} />,
+				<Stats_Window_Item label="Expenses" value={expense_group_children.length} />,
+				<Stats_Window_Item label="Total Cost" value={`${application_total_cost}/${application_options.costUOM}`} />
+			],
+			main_menu : [
+				<Stats_Window_Item color="secondary" label="Groups" value={expense_groups.length} />,
+				<Stats_Window_Item color="secondary" label="Expenses" value={expense_group_children.length} />,
+				<Stats_Window_Item color="secondary" label="Total Cost" value={`${application_total_cost}/${application_options.costUOM}`} />
+			]
+		};
 
 		return (
 			<div className="business-calculator">
-				<Top_App_Bar />
+				<Top_App_Bar metrics={application_metrics.app_bar}/>
 				<Groups_Window />
 				<Main_Menu
 					onMenuClose={() => store.dispatch(closeMainMenu())}
 					isMenuOpen={user_interface.main_menu_open}
-					openOptionsDialog={() => store.dispatch(openAppOptionsDialog())}
-					appStats={appWindowStatistics}
+					metrics={application_metrics.main_menu}
 				/>
 				<Options_Dialog
 					open={dialog_open}
