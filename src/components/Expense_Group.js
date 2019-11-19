@@ -38,6 +38,7 @@ const styles = theme => ({
 		...theme.mixins.gutters(),
 		paddingTop: theme.spacing(2),
 		paddingBottom: theme.spacing(2),
+		minHeight: "250px"
 	},
 	editButton : {
 		cursor : "context-menu"
