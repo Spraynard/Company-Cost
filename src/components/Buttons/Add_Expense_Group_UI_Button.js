@@ -39,7 +39,7 @@ const styles = theme => ({
 });
 
 const Add_Expense_Group_UI_Button = withStyles(styles)(({ classes, action, ...props }) =>
-    <Paper className={classes.root} component="button" elevation={6} onClick={() => action()}>
+    <Paper className={classes.root} component="button" elevation={6} onClick={action}>
         <div className={classes.ghostlyOutline}>
             <Typography variant="h5">{"Add Expense Group".toUpperCase()}</Typography>
             <AddCircle className={classes.icon}/>
