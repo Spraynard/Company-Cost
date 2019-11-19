@@ -32,8 +32,8 @@ const styles = theme => ({
     }
 });
 
-const App_Bar_Stats_Window = withStyles(styles)(({ onClick, ...props }) =>
-    <Box display={{ xs: 'none', 'md' : 'block' }}>
+const App_Bar_Stats_Window = withStyles(styles)(({ onClick, display, ...props }) =>
+    <Box display={display}>
         <Clickable onClick={onClick}>
             <Stats_Window {...props} />
         </Clickable>
