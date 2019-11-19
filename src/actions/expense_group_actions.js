@@ -3,13 +3,15 @@ import {
     expense_group_editable_values,
     expense_group_child_editable_values
 } from "../helpers/editHelpers";
+import * as config from "../../config/config.json";
 import C from "../constants";
 
-export const addExpenseGroup = (_obj) => ({
+export const addExpenseGroup = (_obj = {}) => ({
     type: C.ADD_EXPENSE_GROUP,
     id: v4(),
     timestamp: new Date().toString(),
     edit: false,
+    title : config.default_expense_group_title,
     ...expense_group_editable_values(_obj),
 });
 
