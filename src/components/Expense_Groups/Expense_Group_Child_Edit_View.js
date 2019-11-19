@@ -1,5 +1,5 @@
 // Helper Functions
-import { capitalizeFirstLetter } from "../helpers/helpers";
+import { capitalizeFirstLetter } from "../../helpers/helpers";
 
 
 // Material UI Components

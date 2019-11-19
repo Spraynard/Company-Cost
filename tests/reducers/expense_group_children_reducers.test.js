@@ -15,10 +15,13 @@ import {
 	removeExpenseGroupChild,
 	removeExpenseGroup,
 	addExpenseGroup,
+} from "../../src/actions/expense_group_actions";
+
+import {
 	editEntity,
 	saveEntity,
 	cancelEditEntity,
-} from "../../src/actions";
+} from "../../src/actions/entity_actions";
 
 var expense_group_child_action_helper = {};
 

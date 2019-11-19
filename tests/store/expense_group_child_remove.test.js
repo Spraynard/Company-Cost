@@ -1,9 +1,11 @@
 import { store } from "../../src/store";
+
+// Redux Actions Import
 import {
 	addExpenseGroup,
 	addExpenseGroupChild,
 	removeExpenseGroupChild
-} from "../../src/actions";
+} from "../../src/actions/expense_group_actions";
 
 import defaultState from "../../data/default_state.json";
 
