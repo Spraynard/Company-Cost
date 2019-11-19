@@ -84,6 +84,7 @@ const Top_App_Bar = ( props, { store } ) => {
 				/>
 				<App_Bar_Stats_Window
 					onClick={() => store.dispatch(openAppOptionsDialog())}
+					display={{ xs: 'none', 'md': 'block' }}
 					{ ...other }
 				/>
 			</Toolbar>
