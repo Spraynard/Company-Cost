@@ -191,7 +191,9 @@ class App extends Component {
 
 		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( id  =>
 			<Expense_Group id={id} key={`expense-group-${id}`} {...expense_group_by_id[id]}/>
-		).concat([<Add_Expense_Group_UI_Button key={`expense-group-add-button`} action={() => store.dispatch(addExpenseGroup())}/>]);
+		).concat([
+			<Add_Expense_Group_UI_Button key={`expense-group-add-button`} action={() => store.dispatch(addExpenseGroup())}/>
+		]);
 
 		return (
 			<div className="business-calculator">
