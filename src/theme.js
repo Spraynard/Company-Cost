@@ -21,14 +21,11 @@ export const myTheme = createMuiTheme({
 			main : "#455a64",
 			contrastText: "#fff"
 		},
-		dummy: {
-			backgroundNonGradient: 'rgb(151, 191, 151)',
-			backgroundGradient: 'linear-gradient(131deg, rgba(231,255,231,1) 0%, rgba(76,255,105,1) 100%)',
-			backgroundGradient2: 'linear-gradient(131deg, rgba(135,25,0,1) 0%, rgba(255,76,76,1) 100%)',
-			color: '#6dade6', //'#83baea',//'#40a5ff',
-			dark: "#bfbfbf",
-			main: ""
-		}
+		gradients: {
+			secondRiver: 'linear-gradient(to left, #43cea2, #185a9d)',
+			secondRiverReverse: 'linear-gradient(to right, #43cea2, #185a9d)',
+			secondRiverToTop: 'linear-gradient(to top, #43cea2, #185a9d)'
+		},
 	},
 	overrides : {
 		MuiTableRow : {
