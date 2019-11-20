@@ -6,7 +6,7 @@ import Menu from "@material-ui/icons/Menu";
 const Open_Stats_Drawer_Button = ({ onClick, ...other }) =>
     <Box { ...other }>
         <Button onClick={onClick}>
-            <Menu />
+            <Menu htmlColor='white'/>
         </Button>
     </Box>
 

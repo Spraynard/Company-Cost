@@ -176,18 +176,11 @@ class App extends Component {
 			expense_group_child_by_id,
 			application_options
 		);
-		const application_metrics = {
-			app_bar : [
-				<Stats_Window_Item label="Groups" value={expense_groups.length} />,
-				<Stats_Window_Item label="Expenses" value={expense_group_children.length} />,
-				<Stats_Window_Item label="Total Cost" value={`${application_total_cost}/${application_options.costUOM}`} />
-			],
-			main_menu : [
-				<Stats_Window_Item color="secondary" label="Groups" value={expense_groups.length} />,
-				<Stats_Window_Item color="secondary" label="Expenses" value={expense_group_children.length} />,
-				<Stats_Window_Item color="secondary" label="Total Cost" value={`${application_total_cost}/${application_options.costUOM}`} />
-			]
-		};
+		const application_metrics = [
+			<Stats_Window_Item label="Groups" value={expense_groups.length} />,
+			<Stats_Window_Item label="Expenses" value={expense_group_children.length} />,
+			<Stats_Window_Item label="Total Cost" value={`${application_total_cost}/${application_options.costUOM}`} />
+		];
 
 		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( id  =>
 			<Expense_Group id={id} key={`expense-group-${id}`} {...expense_group_by_id[id]}/>
@@ -197,12 +190,12 @@ class App extends Component {
 
 		return (
 			<div className="business-calculator">
-				<Top_App_Bar metrics={application_metrics.app_bar}/>
+				<Top_App_Bar metrics={application_metrics}/>
 				<Groups_Window>{expense_groups_with_add_button}</Groups_Window>
 				<Main_Menu
 					onMenuClose={() => store.dispatch(closeMainMenu())}
 					isMenuOpen={user_interface.main_menu_open}
-					metrics={application_metrics.main_menu}
+					metrics={application_metrics}
 				/>
 				<Options_Dialog
 					open={dialog_open}

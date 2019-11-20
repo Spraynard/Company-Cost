@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 // Domain Component Import
 import Main_Menu_Stats_Window from "../Stats_Windows/Main_Menu_Stats_Window";
 
@@ -10,7 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
     paper : {
-        background: theme.palette.secondary.main,
+        background: theme.palette.gradients.secondRiverToTop, //'#185a9d',//'theme.palette.secondary.main,
         color: theme.palette.secondary.contrastText,
         padding: theme.spacing(2)
     }
