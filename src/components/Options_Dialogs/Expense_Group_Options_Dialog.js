@@ -20,5 +20,6 @@ const Expense_Group_Options_Dialog = ({ options }) => {
     }, false);
 
     <Options_Dialog open={isDialogOpen} />
+}
 
 export default Expense_Group_Options_Dialog;
