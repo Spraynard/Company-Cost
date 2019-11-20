@@ -7,9 +7,10 @@ import Add_Expense_Group_UI_Button from "./Buttons/Add_Expense_Group_UI_Button";
 
 const styles = theme => ({
 	root: {
-		flexGrow: 1,
 		padding: theme.spacing(3),
-		height: '100vh',
+		height: '100%',
+		width: '100%', // width and margin added to get over default material UI layout bugs
+		margin: 0,
 		...theme.mixins.toolbar
 	}
 })
@@ -29,7 +30,7 @@ const Groups_Window = ({ classes, children, ...props}) => {
 	);
 
 	return (
-		<Grid container className={classes.root}component="main" spacing={4}>{grid_elements}</Grid>
+		<Grid container className={classes.root} component="main" spacing={2}>{grid_elements}</Grid>
 	);
 };
 

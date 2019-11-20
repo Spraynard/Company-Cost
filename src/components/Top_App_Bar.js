@@ -19,6 +19,9 @@ import { withStyles } from "@material-ui/core/styles";
 
 // Component Styles
 const styles = theme => ({
+	root : {
+		background : theme.palette.gradients.secondRiver
+	},
 	appButtonMargin : {
 		marginLeft : theme.spacing(1)
 	},
@@ -34,11 +37,9 @@ const styles = theme => ({
 	headerTextStyles : {
 		"color" : theme.palette.primary.contrastText
 	},
-	marginRight : {
-		marginRight : theme.spacing(2)
-	},
 	siteTitle : {
 		fontFamily : theme.typography.siteTitle.fontFamily,
+		flexGrow: 1,
 		color : theme.palette.secondary.contrastText
 	}
 });
@@ -48,15 +49,9 @@ const Top_App_Bar = ( props, { store } ) => {
 	const { classes, ...other } = props;
 
 	return (
-		<AppBar position="sticky">
+		<AppBar position="sticky" className={classes.root}>
 			<Toolbar>
-				<Typography
-					className={`${classes.marginRight} ${classes.siteTitle}`}
-					component="span"
-					variant="h3"
-				>
-				Company Cost
-				</Typography>
+				<Typography className={classes.siteTitle} component="span" variant="h3">Company Cost</Typography>
 				<Open_Stats_Drawer_Button
 					display={{ xs : 'block', 'md' : 'none' }}
 					onClick={() => store.dispatch(openMainMenu())}

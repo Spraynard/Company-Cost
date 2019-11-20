@@ -5,20 +5,20 @@ import { withStyles } from "@material-ui/core/styles"
 // Custom Component Imports
 import { Clickable } from "../Clickable";
 import Stats_Window from "./Stats_Window"
-import Stats_Window_Item from "./Stats_Window_Item";
 import { Box } from "@material-ui/core";
 
 const styles = theme => ({
     root: {
-        display: "flex",
+        background: '#185a9d',//theme.palette.gradients.secondRiver,//'linear-gradient(to right, #9d50bb, #6e48aa)',//theme.palette.primary.light,
         borderRadius: theme.shape.borderRadius,
-        padding: theme.spacing(1),
-        margin: theme.spacing(1),
-        background: theme.palette.primary.light,
+        color: theme.palette.common.white,
         cursor: "context-menu",
+        display: "flex",
+        margin: theme.spacing(1),
+        padding: theme.spacing(1),
         transition: theme.transitions.create(["background"]),
         "&:hover": {
-            background: emphasize(theme.palette.primary.light, .30)
+            background: emphasize('#185a9d', .30)
         }
     },
     itemContainer : {

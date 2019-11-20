@@ -7,7 +7,7 @@ import Stats_Window from "./Stats_Window"
 const styles = theme => ({
     root: {
         padding: theme.spacing(1),
-        background: theme.palette.secondary.light,
+        background: 'none',
     },
     box: {
         padding: theme.spacing(1),
