@@ -15,8 +15,8 @@ const styles = theme => ({
 });
 
 const buttonDefaults = {
+	color: "primary",
 	variant : "contained",
-	color: "primary"
 };
 
 /**
@@ -24,7 +24,7 @@ const buttonDefaults = {
  */
 const Entity_Manipulation_Button = ( props, { store } ) => {
 
-	const { classes, dispatchAction, ...incomingButtonProps } = props;
+	const { classes, action, ...incomingButtonProps } = props;
 
 	let buttonProps = {
 		...buttonDefaults,
@@ -35,7 +35,7 @@ const Entity_Manipulation_Button = ( props, { store } ) => {
 		<Button
 			{...buttonProps}
 			className={classes.root}
-			onClick={() => store.dispatch(dispatchAction)}
+			onClick={() => store.dispatch(action)}
 		>
 			{ props.icon ? props.icon
 				:
@@ -54,7 +54,7 @@ Entity_Manipulation_Button.defaultProps = {
 Entity_Manipulation_Button.propTypes = {
 	text : PropTypes.string,
 	extraClasses : PropTypes.array,
-	dispatchAction : PropTypes.object.isRequired
+	action : PropTypes.object.isRequired
 };
 
 // Context

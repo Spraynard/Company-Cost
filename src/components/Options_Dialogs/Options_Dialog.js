@@ -1,5 +1,5 @@
 // Custom Helpers
-import { capitalizeFirstLetter } from "../helpers/helpers";
+import { capitalizeFirstLetter } from "../../helpers/helpers";
 
 // Material UI Components
 import Dialog from "@material-ui/core/Dialog";

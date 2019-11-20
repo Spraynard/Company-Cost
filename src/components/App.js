@@ -4,12 +4,15 @@ import { PropTypes } from "prop-types";
 import * as readOnlyApplicationData from "../../data/read_only_application_data";
 
 // Custom Components
-import Top_App_Bar from "./Top_App_Bar";
-import Groups_Window from "./Groups_Window";
-import Options_Dialog from "./Options_Dialog";
-import Main_Menu from "./Menus/Main_Menu";
-import Expense_Group from "./Expense_Groups/Expense_Group";
+import Add_Expense_Button from "./Buttons/Add_Expense_Button";
 import Add_Expense_Group_UI_Button from "./Buttons/Add_Expense_Group_UI_Button";
+import Edit_Expense_Group_Button from "./Buttons/Edit_Expense_Group_Button";
+import Expense_Group from "./Expense_Groups/Expense_Group";
+import Groups_Window from "./Groups_Window";
+import Main_Menu from "./Menus/Main_Menu";
+import Options_Dialog from "./Options_Dialogs/Options_Dialog";
+import Expense_Group_Options_Dialog from "./Options_Dialogs/Expense_Group_Options_Dialog";
+import Top_App_Bar from "./Top_App_Bar";
 
 // Redux Actions
 import {
@@ -19,8 +22,8 @@ import {
 } from "../actions/application_actions";
 
 import { closeMainMenu } from "../actions/user_interface_actions"
-import { saveEntity, cancelEditEntity } from "../actions/entity_actions";
-import { addExpenseGroup } from "../actions/expense_group_actions";
+import { saveEntity, editEntity, cancelEditEntity } from "../actions/entity_actions";
+import { addExpenseGroup, addExpenseGroupChild } from "../actions/expense_group_actions";
 
 // Helper Functions
 import { obtainChildCostTotal } from "../helpers/helpers";
@@ -170,7 +173,9 @@ class App extends Component {
 				[event.target.name]: event.target.value
 			}));
 		};
-		const handleClose = () => store.dispatch(closeAppOptionsDialog());
+		const handleAppOptionsDialogClose = () => store.dispatch(closeAppOptionsDialog());
+		const handleExpenseGroupOptionsDialogClose = ( id ) => store.dispatch(closeExpenseGroupOptionsDialog({ id }));
+
 		const application_total_cost = obtainChildCostTotal(
 			expense_group_children,
 			expense_group_child_by_id,
@@ -182,8 +187,38 @@ class App extends Component {
 			<Stats_Window_Item label="Total Cost" value={`${application_total_cost}/${application_options.costUOM}`} />
 		];
 
-		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( id  =>
-			<Expense_Group id={id} key={`expense-group-${id}`} {...expense_group_by_id[id]}/>
+		/**
+		 * Expense Group Specific Items
+		 */
+		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( id  => {
+			const groupData = expense_group_by_id[id];
+			const { title, description } = groupData;
+
+			// Main functionality Buttons
+			const primary_buttons = [
+				<Add_Expense_Button action={addExpenseGroupChild({ parentID: id })} />,
+				<Edit_Expense_Group_Button action={editEntity({ id, title, description })} />
+			];
+
+			// Delete and Expense Group Options Button
+			const administrative_buttons = [
+
+			];
+
+			// Buttons seen when editing the group
+			const edit_view_buttons = [
+
+			];
+			return (
+				<Expense_Group
+					id={id}
+					key={`expense-group-${id}`}
+					buttons_primary={primary_buttons}
+					buttons_admin={administrative_buttons}
+					buttons_editing={edit_view_buttons}
+					{...groupData}/>
+			)
+		}
 		).concat([
 			<Add_Expense_Group_UI_Button key={`expense-group-add-button`} action={() => store.dispatch(addExpenseGroup())}/>
 		]);
@@ -198,13 +233,29 @@ class App extends Component {
 					metrics={application_metrics}
 				/>
 				<Options_Dialog
-					open={dialog_open}
-					title="Application"
-					options_values={optionsValues}
-					onClose={handleClose}
 					onChange={updateApplicationOptions}
+					onClose={handleAppOptionsDialogClose}
+					open={dialog_open}
+					options_values={optionsValues}
 					options_values_labels={readOnlyApplicationData["application_options_labels"]}
 					options_values_list={readOnlyApplicationData["application_options"]}
+					title="Application"
+				/>
+				<Expense_Group_Options_Dialog
+					groups={expense_group_by_id}
+					onChange={updateExpenseGroupOptions}
+					onClose={handleExpenseGroupOptionsDialogClose}
+					options={expense_group_options}
+					options_values_labels={readOnlyGroupData["expense_group_options_labels"]}
+					options_values_list={readOnlyGroupData["expense_group_options"]}
+				/>
+				<Options_Dialog
+					labelType="expense_group"
+					onChange={updateExpenseGroupOptions}
+					onClose={handleExpenseGroupOptionsDialogClose}
+					open={expense_group_dialog_open}
+					options_values={optionsValues}
+					title={props.title}
 				/>
 			</div>
 		);

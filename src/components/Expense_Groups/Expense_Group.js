@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import Entity_Manipulation_Button from "../Buttons/Entity_Manipulation_Button";
 import Entity_Edit_Field from "../Entity_Edit_Field";
 import Expense_Group_Child_Table from "./Expense_Group_Child_Table";
-import Options_Dialog from "../Options_Dialog";
+import Options_Dialog from "../Options_Dialogs/Options_Dialog";
 
 // Redux Actions
 import {
@@ -72,14 +72,19 @@ const Expense_Group = ( props, { store } ) => {
 	};
 
 	const updateExpenseGroupOptions = ( event ) => {
-		// console.log( event );
 		store.dispatch(editEntityOption({
 			id : props.id,
 			[event.target.name] : event.target.value
 		}));
 	};
 
-	const { classes, ...editEntityFieldProps } = props;
+	const {
+		classes,
+		children,
+		buttons_primary,
+		buttons_admin,
+		buttons_editing,
+		...editEntityFieldProps } = props;
 
 	const childrenOfExpenseGroup = expense_group_children.filter( expense_group_child_id => {
 		return expense_group_child_by_id[expense_group_child_id].parentID === props.id;
@@ -108,29 +113,26 @@ const Expense_Group = ( props, { store } ) => {
 				 * to these options
 				 */
 				}
-
-				{ typeof expense_group_options_object !== "undefined" ?
-					<Grid item>
-						<Entity_Manipulation_Button
-							dispatchAction={ openExpenseGroupOptionsDialog({ id : props.id })}
-							icon={<MoreHoriz />}
-							variant="outlined"
-						/>
-						<Options_Dialog
-							open={dialog_open}
-							onChange={updateExpenseGroupOptions}
-							onClose={() => store.dispatch(closeExpenseGroupOptionsDialog({ id : props.id })) }
-							title={props.title}
-							labelType="expense_group"
-							options_values={optionsValues}
-							options_values_list={readOnlyGroupData["expense_group_options"]}
-							options_values_labels={readOnlyGroupData["expense_group_options_labels"]}
-						/>
-					</Grid> : ""
-				}
+				<Grid item>
+					<Entity_Manipulation_Button
+						action={openExpenseGroupOptionsDialog({ id: props.id })}
+						icon={<MoreHoriz />}
+						variant="outlined"
+					/>
+					<Options_Dialog
+						open={dialog_open}
+						onChange={updateExpenseGroupOptions}
+						onClose={() => store.dispatch(closeExpenseGroupOptionsDialog({ id: props.id }))}
+						title={props.title}
+						labelType="expense_group"
+						options_values={optionsValues}
+						options_values_list={readOnlyGroupData["expense_group_options"]}
+						options_values_labels={readOnlyGroupData["expense_group_options_labels"]}
+					/>
+				</Grid>
 				<Grid item className={classes.removeButton}>
 					<Entity_Manipulation_Button
-						dispatchAction={ removeExpenseGroup({
+						action={ removeExpenseGroup({
 							"id" : props.id
 						})}
 						icon={<DeleteForever />}
@@ -153,19 +155,7 @@ const Expense_Group = ( props, { store } ) => {
 				<Typography align="left" component="p" variant="subtitle1">There are currently no expenses</Typography>
 			}
 			{/** Add an expense to the expense group **/}
-			<Entity_Manipulation_Button
-				dispatchAction={addExpenseGroupChild({parentID : props.id})}
-				text="Add Expense"
-			/>
-			{/** Bring up the editing window on the expense group **/}
-			<Entity_Manipulation_Button
-				dispatchAction={editEntity({id : props.id,title : props.title,description : props.description})}
-				text="Edit Group"
-				variant="outlined"
-				classes={{
-					root : classes.editButton
-				}}
-			/>
+			{buttons_primary}
 		</Paper>;
 };
 
