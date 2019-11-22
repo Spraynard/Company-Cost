@@ -9,7 +9,6 @@ import { PropTypes } from "prop-types";
 import {
 	obtainSelectProperties,
 	capitalizeFirstLetter,
-	// moneyFormat
 } from "../../helpers/helpers";
 
 import {

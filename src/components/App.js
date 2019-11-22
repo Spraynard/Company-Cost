@@ -2,6 +2,7 @@ import { Component } from "react";
 import { PropTypes } from "prop-types";
 
 import * as readOnlyApplicationData from "../../data/read_only_application_data";
+import readOnlyGroupData from "../../data/read_only_group_data.json";
 
 // Custom Components
 import Add_Expense_Button from "./Buttons/Add_Expense_Button";
@@ -22,8 +23,8 @@ import {
 } from "../actions/application_actions";
 
 import { closeMainMenu } from "../actions/user_interface_actions"
-import { saveEntity, editEntity, cancelEditEntity } from "../actions/entity_actions";
-import { addExpenseGroup, addExpenseGroupChild } from "../actions/expense_group_actions";
+import { saveEntity, editEntity, editEntityOption, cancelEditEntity } from "../actions/entity_actions";
+import { addExpenseGroup, addExpenseGroupChild , closeExpenseGroupOptionsDialog } from "../actions/expense_group_actions";
 
 // Helper Functions
 import { obtainChildCostTotal } from "../helpers/helpers";
@@ -164,7 +165,8 @@ class App extends Component {
 			expense_groups,
 			expense_group_by_id,
 			expense_group_children,
-			expense_group_child_by_id
+			expense_group_child_by_id,
+			expense_group_options
 		} = store.getState();
 
 		const { dialog_open, ...optionsValues } = application_options;
@@ -173,8 +175,16 @@ class App extends Component {
 				[event.target.name]: event.target.value
 			}));
 		};
+
+		const updateExpenseGroupOptions = id => ( event => {
+			store.dispatch(editEntityOption({
+				id,
+				[event.target.name]: event.target.value
+			}));
+		})
+
+		const closeExpenseGroupOptionsDialogAction = id => event => store.dispatch(closeExpenseGroupOptionsDialog({ id: id }))
 		const handleAppOptionsDialogClose = () => store.dispatch(closeAppOptionsDialog());
-		const handleExpenseGroupOptionsDialogClose = ( id ) => store.dispatch(closeExpenseGroupOptionsDialog({ id }));
 
 		const application_total_cost = obtainChildCostTotal(
 			expense_group_children,
@@ -243,19 +253,10 @@ class App extends Component {
 				/>
 				<Expense_Group_Options_Dialog
 					groups={expense_group_by_id}
-					onChange={updateExpenseGroupOptions}
-					onClose={handleExpenseGroupOptionsDialogClose}
 					options={expense_group_options}
-					options_values_labels={readOnlyGroupData["expense_group_options_labels"]}
-					options_values_list={readOnlyGroupData["expense_group_options"]}
-				/>
-				<Options_Dialog
-					labelType="expense_group"
-					onChange={updateExpenseGroupOptions}
-					onClose={handleExpenseGroupOptionsDialogClose}
-					open={expense_group_dialog_open}
-					options_values={optionsValues}
-					title={props.title}
+					readOnlyGroupData={readOnlyGroupData}
+					update_options_action={updateExpenseGroupOptions}
+					dialog_close_action={closeExpenseGroupOptionsDialogAction}
 				/>
 			</div>
 		);

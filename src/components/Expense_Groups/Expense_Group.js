@@ -119,16 +119,6 @@ const Expense_Group = ( props, { store } ) => {
 						icon={<MoreHoriz />}
 						variant="outlined"
 					/>
-					<Options_Dialog
-						open={dialog_open}
-						onChange={updateExpenseGroupOptions}
-						onClose={() => store.dispatch(closeExpenseGroupOptionsDialog({ id: props.id }))}
-						title={props.title}
-						labelType="expense_group"
-						options_values={optionsValues}
-						options_values_list={readOnlyGroupData["expense_group_options"]}
-						options_values_labels={readOnlyGroupData["expense_group_options_labels"]}
-					/>
 				</Grid>
 				<Grid item className={classes.removeButton}>
 					<Entity_Manipulation_Button
