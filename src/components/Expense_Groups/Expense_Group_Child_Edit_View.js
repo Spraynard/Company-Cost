@@ -11,20 +11,20 @@ import Select from "@material-ui/core/Select";
 const Expense_Group_Child_Edit_View =  ( props ) => {
 	const {
 		id,
-		childStateData,
-		childEditStateData,
-		childDataChangeHandler,
-		childClickHandler,
+		child_state_data,
+		child_edit_state_data,
+		child_data_change_handler,
+		child_click_handler,
 	} = props;
 
-	const editValueTypes = {
+	const edit_value_types = {
 		title : "text",
 		description : "textarea",
 		cost : "number",
 		costUOM : "select",
 	};
 
-	const selectValues = {
+	const select_values = {
 		"costUOM" : [
 			"hour",
 			"day",
@@ -37,36 +37,36 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 	// Take child Display data and make an object that contains the data with each of the different types
 	// that are required in order to modify said data.
 	return (
-		<TableRow className="expense-group-child" data-id={id} onClick={() => childClickHandler( id, childStateData.edit )}>
-			{Object.keys( childEditStateData ).map(
+		<TableRow className="expense-group-child" data-id={id} onClick={() => child_click_handler( id, child_state_data.edit )}>
+			{Object.keys( child_edit_state_data ).map(
 				( childDataKey, index ) =>
 					<TableCell
 						key={index}
 						padding="none"
 						colSpan={
 							(
-								Object.keys(childEditStateData).length < 4 &&
-					Object.keys(childEditStateData).indexOf(childDataKey) === Object.keys(childEditStateData).length - 1
+								Object.keys(child_edit_state_data).length < 4 &&
+					Object.keys(child_edit_state_data).indexOf(childDataKey) === Object.keys(child_edit_state_data).length - 1
 							) ? 2 : 1
 						}
 					>
 						{ // Loop check for "select" displays a select element filled with specific items for that option.
-							( editValueTypes[childDataKey] === "select" ) ?
+							( edit_value_types[childDataKey] === "select" ) ?
 								<Select
-									value={childEditStateData[childDataKey]}
+									value={child_edit_state_data[childDataKey]}
 									name={childDataKey}
-									onChange={( event ) => childDataChangeHandler( id, event )}
+									onChange={( event ) => child_data_change_handler( id, event )}
 									native={true}
 								>
-									{ selectValues[childDataKey].map((item, index) =>
+									{ select_values[childDataKey].map((item, index) =>
 										<option key={index} value={item}>{capitalizeFirstLetter(item)}</option> )}
 								</Select>
 								:
 								<InputBase
 									name={childDataKey}
-									value={childEditStateData[childDataKey]}
-									type={editValueTypes[childDataKey]}
-									onChange={( event ) => childDataChangeHandler( id, event )}
+									value={child_edit_state_data[childDataKey]}
+									type={edit_value_types[childDataKey]}
+									onChange={( event ) => child_data_change_handler( id, event )}
 								/>
 						}
 					</TableCell>

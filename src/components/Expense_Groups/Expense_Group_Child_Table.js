@@ -10,7 +10,7 @@ import {
 } from "../../dataReferenceObjects";
 
 // Custom UI Components
-import Expense_Group_Child from "./Expense_Group_Child";
+import Expense_Group_Child from "./Expense_Group_Child_old";
 
 // Material UI Components
 import Table from "@material-ui/core/Table";
@@ -36,7 +36,7 @@ const styles = {};
 
 const Expense_Group_Child_Table = ( props, { store } ) => {
 
-	const { childrenIDs, childrenByIDState, childrenTotalCost, parentGroupCostUOM } = props;
+	const { children, childrenIDs, childrenByIDState, childrenTotalCost, parentGroupCostUOM } = props;
 
 	const childClickHandler = ( id, editing ) =>
 		( editing ) ? null : store.dispatch(editEntity({id}));
@@ -63,8 +63,8 @@ const Expense_Group_Child_Table = ( props, { store } ) => {
 							( dataProp == "delete" && childrenBeingEdited.length ) ? "" : capitalizeFirstLetter( dataProp )}</TableCell>)}
 				</TableRow>
 			</TableHead>
-			<TableBody>
-				{childrenIDs.map( ( dataId, index ) => (
+			<TableBody>{children}</TableBody>
+				{/* {childrenIDs.map( ( dataId, index ) => (
 					<Expense_Group_Child
 						key={index}
 						childID={dataId}
@@ -72,8 +72,8 @@ const Expense_Group_Child_Table = ( props, { store } ) => {
 						childDataChangeHandler={childDataChangeHandler}
 						childRemoveHandler={childRemoveHandler}
 					/>
-				))}
-			</TableBody>
+				))} */}
+			{/* </TableBody> */}
 			<TableFooter>
 				{/** Total # and Cost of expenses **/}
 				<TableRow variant="footer">
