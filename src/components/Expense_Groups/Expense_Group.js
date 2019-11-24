@@ -71,13 +71,6 @@ const Expense_Group = ( props, { store } ) => {
 		}));
 	};
 
-	const updateExpenseGroupOptions = ( event ) => {
-		store.dispatch(editEntityOption({
-			id : props.id,
-			[event.target.name] : event.target.value
-		}));
-	};
-
 	const {
 		classes,
 		children,
@@ -100,6 +93,12 @@ const Expense_Group = ( props, { store } ) => {
 
 	const { dialog_open, ...optionsValues } = expense_group_options_object;
 
+	const rendered_buttons_admin = buttons_admin.map((item, index) =>
+		<Grid item className={(index) ? classes.removeButton : ""}>
+			{item}
+		</Grid>
+	)
+
 	return ( props.edit ) ?
 		<Paper className={`expense-group-content ${classes.root}`}>
 			<Entity_Edit_Field { ...editEntityFieldProps } updateListener={updateExpenseGroupEdit}/>
@@ -107,28 +106,7 @@ const Expense_Group = ( props, { store } ) => {
 		:
 		<Paper className={`expense-group-content ${classes.root} ${classes.rightAlign}`}>
 			<Grid container className={classes.buttonsContainer}>
-				{
-				/**
-				 * If a group has options available, display a field that allows us to handle changes
-				 * to these options
-				 */
-				}
-				<Grid item>
-					<Entity_Manipulation_Button
-						action={openExpenseGroupOptionsDialog({ id: props.id })}
-						icon={<MoreHoriz />}
-						variant="outlined"
-					/>
-				</Grid>
-				<Grid item className={classes.removeButton}>
-					<Entity_Manipulation_Button
-						action={ removeExpenseGroup({
-							"id" : props.id
-						})}
-						icon={<DeleteForever />}
-						variant="outlined"
-					/>
-				</Grid>
+			{rendered_buttons_admin}
 			</Grid>
 			<Typography align="left" component="h2" variant="h5" className="expense-group-name">{props.title}</Typography>
 			<Typography align="left" component="p" variant="subtitle2" className="expense-group-description">{props.description}</Typography>
