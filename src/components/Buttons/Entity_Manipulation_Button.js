@@ -52,7 +52,6 @@ Entity_Manipulation_Button.defaultProps = {
 Entity_Manipulation_Button.propTypes = {
 	text : PropTypes.string,
 	extraClasses : PropTypes.array,
-	action : PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Entity_Manipulation_Button);

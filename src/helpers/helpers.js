@@ -1,4 +1,5 @@
 export const extract_action_data = ( _obj ) => {
+	// eslint-disable-next-line no-unused-vars
 	let { id, type, ...actionData } = _obj;
 
 	return actionData;
@@ -128,7 +129,7 @@ export const filterKeyedObjectListByAttribute = ( keyed_object, attribute, value
 	Object.keys(keyed_object)
 		.filter( key =>
 			keyed_object[key][attribute] === value
-		)
+		);
 
 /**
  * Maps over a key list.
@@ -143,7 +144,7 @@ export const mapOverKeys = ( key_list, reference_object, include_key="" ) =>
 		{ [include_key] : key, ...reference_object[key] }
 		:
 		reference_object[key]
-	)
+	);
 
 /**
  * Helper function to get a full list of children available for an expense group
@@ -153,7 +154,19 @@ export const mapOverKeys = ( key_list, reference_object, include_key="" ) =>
  */
 export const obtainExpenseGroupChildren = ( id, children_object ) =>
 	mapOverKeys(
-		filterKeyedObjectListByAttribute( children_object, 'parentID', id ),
+		filterKeyedObjectListByAttribute( children_object, "parentID", id ),
 		children_object,
-		'id'
-	)
+		"id"
+	);
+
+/**
+ * Super unreadable function to reduce a list down to a boolean.
+ * @see App.js
+ * @see Expense_Group_Options_Dialog.js
+ * @param {array} list list of items to reduce to boolean by
+ * @param {any} comparison - 'string' or 'object' type.
+ * 							  A pair w/ left being an object and right being a string
+ * 							  A string will compare by a key lookup on the current list item
+ */
+export const reduceToBooleanByBoolean = (list, comparison) =>
+	list.reduce((isTrue, current) => (isTrue || (!isTrue && (Array.isArray(comparison)) ? comparison[0][current][comparison[1]] : current[comparison] )) ? true : false, false);

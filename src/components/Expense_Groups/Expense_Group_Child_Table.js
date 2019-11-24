@@ -1,17 +1,3 @@
-// React
-import React from "react";
-
-// Prop Types
-import { PropTypes } from "prop-types";
-
-// Custom Helpers
-import {
-	tableDataRef
-} from "../../dataReferenceObjects";
-
-// Custom UI Components
-import Expense_Group_Child from "./Expense_Group_Child_old";
-
 // Material UI Components
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -23,70 +9,30 @@ import TableCell from "@material-ui/core/TableCell";
 // Material UI Styles
 import { withStyles } from "@material-ui/core/styles";
 
-// Helpers
-import {
-	capitalizeFirstLetter,
-} from "../../helpers/helpers";
-
-// Redux Actions
-import { editEntity, updateEntity } from "../../actions/entity_actions";
-import { removeExpenseGroupChild } from "../../actions/expense_group_actions";
-
 const styles = {};
 
-const Expense_Group_Child_Table = ( props, { store } ) => {
+const Expense_Group_Child_Table = ( props ) => {
 
-	const { children, childrenIDs, childrenByIDState, childrenTotalCost, parentGroupCostUOM } = props;
+	const { children, children_total_cost, headers, parentGroupCostUOM } = props;
 
-	const childClickHandler = ( id, editing ) =>
-		( editing ) ? null : store.dispatch(editEntity({id}));
-
-	const childDataChangeHandler = ( id, event ) =>
-		store.dispatch(updateEntity({ id, [ event.target.name ] : event.target.value }));
-
-	// Deletes an expense group child from the list.
-	const childRemoveHandler = ( id, parentID, event ) => {
-		event.stopPropagation();
-		return store.dispatch(removeExpenseGroupChild({ id, parentID }));
-	};
-
-	const childrenBeingEdited = childrenIDs.filter( id => {
-		return typeof childrenByIDState[id] == "object";
-	});
 
 	return (
 		<Table>
 			<TableHead>
-				<TableRow variant="header">
-					{ Object.keys( tableDataRef ).map( ( dataProp, index ) =>
-						<TableCell key={index} padding="none">{
-							( dataProp == "delete" && childrenBeingEdited.length ) ? "" : capitalizeFirstLetter( dataProp )}</TableCell>)}
-				</TableRow>
+				<TableRow variant="header">{headers.map((header, index) => (header) ? <TableCell key={`table-header-${index}`}>{header}</TableCell> : "")}</TableRow>
 			</TableHead>
-			<TableBody>{children}</TableBody>
-				{/* {childrenIDs.map( ( dataId, index ) => (
-					<Expense_Group_Child
-						key={index}
-						childID={dataId}
-						childClickHandler={childClickHandler}
-						childDataChangeHandler={childDataChangeHandler}
-						childRemoveHandler={childRemoveHandler}
-					/>
-				))} */}
-			{/* </TableBody> */}
+			<TableBody>
+				{children}
+			</TableBody>
 			<TableFooter>
 				{/** Total # and Cost of expenses **/}
 				<TableRow variant="footer">
 					<TableCell padding="none">Total Cost</TableCell>
-					<TableCell padding="none">{`$${childrenTotalCost.costFormat()} per ${parentGroupCostUOM}`}</TableCell>
+					<TableCell padding="none">{`$${(children_total_cost) ? children_total_cost.costFormat() : "0"} per ${parentGroupCostUOM}`}</TableCell>
 				</TableRow>
 			</TableFooter>
 		</Table>
 	);
-};
-
-Expense_Group_Child_Table.contextTypes = {
-	store : PropTypes.object.isRequired
 };
 
 export default withStyles( styles )( Expense_Group_Child_Table );

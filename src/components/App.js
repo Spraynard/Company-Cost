@@ -1,3 +1,6 @@
+/* global store */
+/* eslint-disable no-console */
+
 import { Component } from "react";
 import { PropTypes } from "prop-types";
 
@@ -24,13 +27,14 @@ import {
 	closeAppOptionsDialog,
 } from "../actions/application_actions";
 
-import { closeMainMenu } from "../actions/user_interface_actions"
+import { closeMainMenu } from "../actions/user_interface_actions";
 
 import {
-	saveEntity,
+	cancelEditEntity,
 	editEntity,
 	editEntityOption,
-	cancelEditEntity
+	saveEntity,
+	updateEntity
 } from "../actions/entity_actions";
 
 import {
@@ -45,7 +49,8 @@ import {
 // Helper Functions
 import {
 	obtainChildCostTotal,
-	obtainExpenseGroupChildren
+	obtainExpenseGroupChildren,
+	reduceToBooleanByBoolean
 } from "../helpers/helpers";
 import Stats_Window_Item from "./Stats_Windows/Stats_Window_Item";
 import Remove_Expense_Group_Button from "./Buttons/Remove_Expense_Group_Button";
@@ -58,9 +63,9 @@ class App extends Component {
 
 	constructor( props ) {
 		super( props );
+		this.expense_group_children = store.getState().expense_group_child_by_id;
 		this.handleClick = this.handleClick.bind(this);
 		this.handleKeypress = this.handleKeypress.bind(this);
-		this.expense_group_children = store.getState().expense_group_child_by_id;
 	}
 
 	getChildContext() {
@@ -104,6 +109,10 @@ class App extends Component {
 	}
 
 	/**
+	 * This is what explicitly controls the functionality
+	 * in which there is only one editable expense group child
+	 * available at a time.
+	 *
 	 * Handles clicks on a global application level.
 	 * Put event through through an algorithm that determines
 	 * whether our click target is a child of an expense_group.
@@ -111,10 +120,6 @@ class App extends Component {
 	 * If that is the case, remove edit status from all
 	 * expense group children that are actively being edited
 	 * *except for* the one being clicked.
-	 *
-	 * This is what explicitly controls the functionality
-	 * in which there is only one editable expense group child
-	 * available at a time.
 	 */
 	handleClick( e ) {
 		let clickTarget = e.target;
@@ -182,16 +187,17 @@ class App extends Component {
 	render() {
 		const {
 			application_options,
-			user_interface,
-			expense_groups,
 			expense_group_by_id,
-			expense_group_children,
 			expense_group_child_by_id,
+			expense_group_children,
+			expense_group_entity_edit,
 			expense_group_options,
-			expense_group_entity_edit
+			expense_groups,
+			user_interface,
 		} = store.getState();
 
 		const { dialog_open, ...optionsValues } = application_options;
+
 		const updateApplicationOptions = (event) => {
 			store.dispatch(editApplicationOption({
 				[event.target.name]: event.target.value
@@ -203,9 +209,9 @@ class App extends Component {
 				id,
 				[event.target.name]: event.target.value
 			}));
-		})
+		});
 
-		const closeExpenseGroupOptionsDialogAction = id => event => store.dispatch(closeExpenseGroupOptionsDialog({ id: id }))
+		const closeExpenseGroupOptionsDialogAction = id => event => store.dispatch(closeExpenseGroupOptionsDialog({ id }));
 		const handleAppOptionsDialogClose = () => store.dispatch(closeAppOptionsDialog());
 
 		const application_total_cost = obtainChildCostTotal(
@@ -213,6 +219,7 @@ class App extends Component {
 			expense_group_child_by_id,
 			application_options
 		);
+
 		const application_metrics = [
 			<Stats_Window_Item label="Groups" value={expense_groups.length} />,
 			<Stats_Window_Item label="Expenses" value={expense_group_children.length} />,
@@ -225,6 +232,14 @@ class App extends Component {
 		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( group_id  => {
 			const group_data = expense_group_by_id[group_id];
 			const group_children = obtainExpenseGroupChildren(group_id, expense_group_child_by_id);
+			const group_children_total_cost = obtainChildCostTotal(
+				group_children.map( child => child.id ),
+				expense_group_child_by_id,
+				expense_group_options[group_id]
+			);
+
+			const is_child_in_edit = reduceToBooleanByBoolean(group_children, "edit");
+
 			const { title, description } = group_data;
 
 			// Main functionality Buttons
@@ -235,8 +250,8 @@ class App extends Component {
 
 			// Delete and Expense Group Options Button
 			const administrative_buttons = [
-				<Remove_Expense_Group_Button action={() => store.dispatch(removeExpenseGroup({group_id}))}/>,
-				<Open_Expense_Group_Options_Dialog_Button action={() => store.dispatch(openExpenseGroupOptionsDialog({id}))}/>
+				<Remove_Expense_Group_Button action={() => store.dispatch(removeExpenseGroup({ id: group_id}))}/>,
+				<Open_Expense_Group_Options_Dialog_Button action={() => store.dispatch(openExpenseGroupOptionsDialog({ id : group_id}))}/>
 			];
 
 			// Buttons seen when editing the group
@@ -274,8 +289,16 @@ class App extends Component {
 						child_data_change_handler={update_expense_group_child}
 						child_remove_handler={delete_expense_group_child}
 					/>
-				)
-			})
+				);
+			});
+
+			// oh boy
+			const table_headers = [
+				"Title",
+				"Cost",
+				"CostUOM",
+				(is_child_in_edit) ? "" : "Delete",
+			];
 
 			return (
 				<Expense_Group
@@ -288,16 +311,18 @@ class App extends Component {
 					{...group_data}
 				>
 					<Expense_Group_Child_Table
-						childrenIDs={childrenOfExpenseGroup}
 						childrenByIDState={expense_group_entity_edit}
-						childrenTotalCost={associatedChildrenCost}
+						childrenTotalCost={group_children_total_cost}
+						headers={table_headers}
 						parentGroupCostUOM={optionsValues.costUOM}
-					/>
+					>
+						{rendered_group_children}
+					</Expense_Group_Child_Table>
 				</Expense_Group>
-			)
+			);
 		}
 		).concat([
-			<Add_Expense_Group_UI_Button key={`expense-group-add-button`} action={() => store.dispatch(addExpenseGroup())}/>
+			<Add_Expense_Group_UI_Button key={"expense-group-add-button"} action={() => store.dispatch(addExpenseGroup())}/>
 		]);
 
 		return (
@@ -343,4 +368,4 @@ App.childContextTypes = {
 	store : PropTypes.object.isRequired,
 };
 
-export { App }
+export { App };
