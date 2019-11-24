@@ -22,24 +22,22 @@ const buttonDefaults = {
 /**
  * This button is meant to handle every kind of entity manipulation you can do to an expense group or an expense group child
  */
-const Entity_Manipulation_Button = ( props, { store } ) => {
-
-	const { classes, action, ...incomingButtonProps } = props;
+const Entity_Manipulation_Button = ({ classes, action, icon, text, ...other }) => {
 
 	let buttonProps = {
 		...buttonDefaults,
-		...incomingButtonProps // Will override the defaults if applicable
+		...other // Will override the defaults if applicable
 	};
 
 	return (
 		<Button
 			{...buttonProps}
 			className={classes.root}
-			onClick={() => store.dispatch(action)}
+			onClick={(e) => action()}
 		>
-			{ props.icon ? props.icon
+			{ icon ? icon
 				:
-				<Typography type="button" color="inherit">{ props.text }</Typography>
+				<Typography type="button" color="inherit">{text}</Typography>
 			}
 		</Button>
 	);
@@ -55,11 +53,6 @@ Entity_Manipulation_Button.propTypes = {
 	text : PropTypes.string,
 	extraClasses : PropTypes.array,
 	action : PropTypes.object.isRequired
-};
-
-// Context
-Entity_Manipulation_Button.contextTypes = {
-	store : PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Entity_Manipulation_Button);
