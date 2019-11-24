@@ -9,10 +9,12 @@ import Add_Expense_Button from "./Buttons/Add_Expense_Button";
 import Add_Expense_Group_UI_Button from "./Buttons/Add_Expense_Group_UI_Button";
 import Edit_Expense_Group_Button from "./Buttons/Edit_Expense_Group_Button";
 import Expense_Group from "./Expense_Groups/Expense_Group";
+import Expense_Group_Child from "./Expense_Groups/Expense_Group_Child";
+import Expense_Group_Child_Table from "./Expense_Groups/Expense_Group_Child_Table";
+import Expense_Group_Options_Dialog from "./Options_Dialogs/Expense_Group_Options_Dialog";
 import Groups_Window from "./Groups_Window";
 import Main_Menu from "./Menus/Main_Menu";
 import Options_Dialog from "./Options_Dialogs/Options_Dialog";
-import Expense_Group_Options_Dialog from "./Options_Dialogs/Expense_Group_Options_Dialog";
 import Top_App_Bar from "./Top_App_Bar";
 
 // Redux Actions
@@ -23,12 +25,31 @@ import {
 } from "../actions/application_actions";
 
 import { closeMainMenu } from "../actions/user_interface_actions"
-import { saveEntity, editEntity, editEntityOption, cancelEditEntity } from "../actions/entity_actions";
-import { addExpenseGroup, addExpenseGroupChild , closeExpenseGroupOptionsDialog } from "../actions/expense_group_actions";
+
+import {
+	saveEntity,
+	editEntity,
+	editEntityOption,
+	cancelEditEntity
+} from "../actions/entity_actions";
+
+import {
+	addExpenseGroup,
+	addExpenseGroupChild,
+	closeExpenseGroupOptionsDialog,
+	openExpenseGroupOptionsDialog,
+	removeExpenseGroup,
+	removeExpenseGroupChild
+} from "../actions/expense_group_actions";
 
 // Helper Functions
-import { obtainChildCostTotal } from "../helpers/helpers";
+import {
+	obtainChildCostTotal,
+	obtainExpenseGroupChildren
+} from "../helpers/helpers";
 import Stats_Window_Item from "./Stats_Windows/Stats_Window_Item";
+import Remove_Expense_Group_Button from "./Buttons/Remove_Expense_Group_Button";
+import Open_Expense_Group_Options_Dialog_Button from "./Buttons/Open_Expense_Group_Options_Dialog_Button";
 
 /**
  * Overall controller for the App.
@@ -166,7 +187,8 @@ class App extends Component {
 			expense_group_by_id,
 			expense_group_children,
 			expense_group_child_by_id,
-			expense_group_options
+			expense_group_options,
+			expense_group_entity_edit
 		} = store.getState();
 
 		const { dialog_open, ...optionsValues } = application_options;
@@ -200,33 +222,78 @@ class App extends Component {
 		/**
 		 * Expense Group Specific Items
 		 */
-		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( id  => {
-			const groupData = expense_group_by_id[id];
-			const { title, description } = groupData;
+		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( group_id  => {
+			const group_data = expense_group_by_id[group_id];
+			const group_children = obtainExpenseGroupChildren(group_id, expense_group_child_by_id);
+			const { title, description } = group_data;
 
 			// Main functionality Buttons
 			const primary_buttons = [
-				<Add_Expense_Button action={addExpenseGroupChild({ parentID: id })} />,
-				<Edit_Expense_Group_Button action={editEntity({ id, title, description })} />
+				<Add_Expense_Button action={() => store.dispatch(addExpenseGroupChild({ parentID: group_id }))} />,
+				<Edit_Expense_Group_Button action={() => store.dispatch(editEntity({ group_id, title, description }))} />
 			];
 
 			// Delete and Expense Group Options Button
 			const administrative_buttons = [
-
+				<Remove_Expense_Group_Button action={() => store.dispatch(removeExpenseGroup({group_id}))}/>,
+				<Open_Expense_Group_Options_Dialog_Button action={() => store.dispatch(openExpenseGroupOptionsDialog({id}))}/>
 			];
 
 			// Buttons seen when editing the group
 			const edit_view_buttons = [
 
 			];
+
+
+			const rendered_group_children = group_children.map((child_obj, index) => {
+				const { id, edit } = child_obj;
+
+				// Action dispatched when we edit an expense group child
+				const edit_expense_group_child = ( edit ) ?
+					null
+					:
+					store.dispatch(editEntity({ id }));
+
+				// Action dispatched when we update an expense group child
+				const update_expense_group_child = event =>
+					store.dispatch(updateEntity({ id, [event.target.name]: event.target.value }));
+
+				// Action dispatched when we delete an expense group child
+				// Notice the stopPropagation there. Yeah that's there for a reason.
+				const delete_expense_group_child = event => {
+					event.stopPropagation();
+					return store.dispatch(removeExpenseGroupChild({ id, parentID: group_id }));
+				};
+
+				return (
+					<Expense_Group_Child
+						key={`expense-group-${id}-child-${index}`}
+						child_data={child_obj}
+						edit_data={expense_group_entity_edit}
+						child_click_handler={edit_expense_group_child}
+						child_data_change_handler={update_expense_group_child}
+						child_remove_handler={delete_expense_group_child}
+					/>
+				)
+			})
+
 			return (
 				<Expense_Group
-					id={id}
-					key={`expense-group-${id}`}
+					id={group_id}
+					key={`expense-group-${group_id}`}
 					buttons_primary={primary_buttons}
 					buttons_admin={administrative_buttons}
 					buttons_editing={edit_view_buttons}
-					{...groupData}/>
+					editing_view={<div></div>}
+					{...group_data}
+				>
+					<Expense_Group_Child_Table
+						childrenIDs={childrenOfExpenseGroup}
+						childrenByIDState={expense_group_entity_edit}
+						childrenTotalCost={associatedChildrenCost}
+						parentGroupCostUOM={optionsValues.costUOM}
+					/>
+				</Expense_Group>
 			)
 		}
 		).concat([
@@ -267,6 +334,11 @@ App.propTypes = {
 	store: PropTypes.object.isRequired,
 };
 
+/**
+ * Looking to get rid of this unless it's ABSOLUTELY necessary.
+ * This app really isn't big enough to be needing to pass context down
+ * nearly as much as I have.
+ */
 App.childContextTypes = {
 	store : PropTypes.object.isRequired,
 };
