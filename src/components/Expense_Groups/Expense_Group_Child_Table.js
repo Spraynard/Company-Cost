@@ -1,25 +1,19 @@
 // Material UI Components
 import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableFooter from "@material-ui/core/TableFooter";
 import TableBody from "@material-ui/core/TableBody";
-import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-
-// Material UI Styles
-import { withStyles } from "@material-ui/core/styles";
-
-const styles = {};
+import TableFooter from "@material-ui/core/TableFooter";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 const Expense_Group_Child_Table = ( props ) => {
 
 	const { children, children_total_cost, headers, parentGroupCostUOM } = props;
 
-
 	return (
 		<Table>
 			<TableHead>
-				<TableRow variant="header">{headers.map((header, index) => (header) ? <TableCell key={`table-header-${index}`}>{header}</TableCell> : "")}</TableRow>
+				<TableRow variant="header">{headers.map((header, index) => <TableCell key={`table-header-${index}`}>{header}</TableCell>)}</TableRow>
 			</TableHead>
 			<TableBody>
 				{children}
@@ -35,4 +29,4 @@ const Expense_Group_Child_Table = ( props ) => {
 	);
 };
 
-export default withStyles( styles )( Expense_Group_Child_Table );
+export default Expense_Group_Child_Table;

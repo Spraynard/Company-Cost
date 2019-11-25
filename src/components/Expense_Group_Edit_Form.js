@@ -34,9 +34,9 @@ const styles = {
 	},
 };
 
-const Entity_Edit_Field = ( props, { store } ) => {
+const Expense_Group_Edit_form = ( props, { store } ) => {
 
-	let { id, timestamp, updateListener } = props;
+	let { id, timestamp, update_handler } = props;
 	let editableValues = obtainEditableValues( props );
 	const {
 		expense_group_entity_edit,
@@ -63,7 +63,7 @@ const Entity_Edit_Field = ( props, { store } ) => {
 							variant : "filled",
 							label : capitalizeFirstLetter(editable_value),
 							name : editable_value,
-							onChange : updateListener,
+							onChange : update_handler,
 							value : input_value,
 							fullWidth : true
 						};
@@ -146,8 +146,8 @@ const Entity_Edit_Field = ( props, { store } ) => {
 	);
 };
 
-Entity_Edit_Field.contextTypes = {
+Expense_Group_Edit_form.contextTypes = {
 	store : PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Entity_Edit_Field);
+export default withStyles(styles)(Expense_Group_Edit_form);

@@ -55,8 +55,9 @@ const Expense_Group_Child = ( props ) => {
 		}
 	});
 
+	const editableChildData = obtainSelectProperties( editDataRef, edit_data );
+
 	const child_edit_data = edit_data[id];
-	const editableChildData = obtainSelectProperties( editDataRef, child_edit_data );
 
 	return (
 		( edit ) ?
@@ -86,7 +87,7 @@ Expense_Group_Child.defaultProps = {
 };
 
 Expense_Group_Child.propTypes = {
-	id : PropTypes.string.isRequired
+	child_data : PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Expense_Group_Child);

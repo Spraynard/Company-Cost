@@ -14,7 +14,7 @@ const Expense_Group_Child_Default_View = props => {
 	} = props;
 
 	return (
-		<TableRow className="expense-group-child" data-id={id} onClick={() => child_click_handler( id, child_state_data.edit )}>
+		<TableRow className="expense-group-child" data-id={id} onClick={child_click_handler}>
 			{
 			// Default UI Display
 				Object.keys(child_display_data).map(
@@ -23,7 +23,7 @@ const Expense_Group_Child_Default_View = props => {
 							{ ( childDataKey === "delete" ) ?
 								<CloseIcon
 									className={classes.deleteButton}
-									onClick={( event ) => child_remove_handler( id, child_state_data.parentID, event )}
+									onClick={child_remove_handler}
 								/>
 								:
 								child_display_data[childDataKey]
