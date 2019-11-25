@@ -24,6 +24,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 import { withStyles } from "@material-ui/core/styles";
+import Save_Expense_Group_Edit_Button from "./Buttons/Save_Expense_Group_Edit_Button";
+import Cancel_Expense_Group_Edit_Button from "./Buttons/Cancel_Expense_Group_Edit_Button";
 
 // Material UI Styles
 const styles = {
@@ -43,7 +45,7 @@ const Expense_Group_Edit_Form = ( props, { store } ) => {
 	} = store.getState();
 
 	// Material UI Classes
-	const { classes } = props;
+	const { buttons, classes } = props;
 
 	return (
 		<Card >
@@ -124,23 +126,7 @@ const Expense_Group_Edit_Form = ( props, { store } ) => {
 					}
 					)}
 				</CardContent>
-				<CardActions>
-					<Entity_Manipulation_Button
-						dispatchAction={saveEntity({
-							id : id
-						})}
-						text="Save"
-						color="secondary"
-					/>
-					<Entity_Manipulation_Button
-						dispatchAction={cancelEditEntity({
-							id : id
-						})}
-						text="Cancel"
-						variant="outlined"
-						color="secondary"
-					/>
-				</CardActions>
+				<CardActions>{buttons}</CardActions>
 			</form>
 		</Card>
 	);

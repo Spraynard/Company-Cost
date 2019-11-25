@@ -10,6 +10,7 @@ import readOnlyGroupData from "../../data/read_only_group_data.json";
 // Custom Components
 import Add_Expense_Button from "./Buttons/Add_Expense_Button";
 import Add_Expense_Group_UI_Button from "./Buttons/Add_Expense_Group_UI_Button";
+import Cancel_Expense_Group_Edit_Button from "./Buttons/Cancel_Expense_Group_Edit_Button";
 import Edit_Expense_Group_Button from "./Buttons/Edit_Expense_Group_Button";
 import Expense_Group from "./Expense_Groups/Expense_Group";
 import Expense_Group_Child from "./Expense_Groups/Expense_Group_Child";
@@ -18,6 +19,7 @@ import Expense_Group_Options_Dialog from "./Options_Dialogs/Expense_Group_Option
 import Groups_Window from "./Groups_Window";
 import Main_Menu from "./Menus/Main_Menu";
 import Options_Dialog from "./Options_Dialogs/Options_Dialog";
+import Save_Expense_Group_Edit_Button from "./Buttons/Save_Expense_Group_Edit_Button";
 import Top_App_Bar from "./Top_App_Bar";
 import Expense_Group_Edit_Form from "./Expense_Group_Edit_Form";
 
@@ -265,7 +267,8 @@ class App extends Component {
 
 			// Buttons seen when editing the group
 			const edit_view_buttons = [
-
+				<Save_Expense_Group_Edit_Button action={() => store.dispatch(saveEntity({id: group_id}))} />,
+				<Cancel_Expense_Group_Edit_Button action={() => store.dispatch(cancelEditEntity({id: group_id}))} />
 			];
 
 
@@ -320,6 +323,7 @@ class App extends Component {
 					num_children={num_group_children}
 					is_editing={group_data.edit}
 					editing_view={<Expense_Group_Edit_Form
+						buttons={edit_view_buttons}
 						update_handler={update_expense_group_edit(group_data.id)}
 						{...{ id : group_id, ...group_edit_data }}
 					/>}
