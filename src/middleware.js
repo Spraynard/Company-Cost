@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import C from "./constants";
 
 import {
