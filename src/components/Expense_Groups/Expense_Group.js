@@ -1,9 +1,4 @@
 import PropTypes from "prop-types";
-import Entity_Edit_Field from "../Expense_Group_Edit_Form";
-
-import {
-	updateEntity
-} from "../../actions/entity_actions";
 
 // MaterialUI
 import Paper from "@material-ui/core/Paper";
@@ -40,13 +35,6 @@ const styles = theme => ({
 
 const Expense_Group = ( props ) => {
 
-	const updateExpenseGroupEdit = ( event ) => {
-		store.dispatch(updateEntity({
-			id : props.id,
-			[event.target.name] : event.target.value
-		}));
-	};
-
 	const {
 		classes,
 		children,
@@ -55,7 +43,6 @@ const Expense_Group = ( props ) => {
 		num_children, // If our components children should be displayed. Provide a fallback if false
 		editing_view,
 		is_editing,
-		...editEntityFieldProps
 	} = props;
 
 	const rendered_buttons_admin = buttons_admin.map((item, index) =>
@@ -65,13 +52,9 @@ const Expense_Group = ( props ) => {
 			className={(index) ? classes.removeButton : ""}>{item}</Grid>
 	);
 
-	return ( is_editing ) ? ( props.edit ) ?
+	return ( is_editing ) ?
 		<Paper className={`expense-group-content ${classes.root}`}>
 			{editing_view}
-			<Entity_Edit_Field
-				{ ...editEntityFieldProps }
-				updateListener={updateExpenseGroupEdit}
-			/>
 		</Paper>
 		:
 		<Paper className={`expense-group-content ${classes.root} ${classes.rightAlign}`}>

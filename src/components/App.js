@@ -239,6 +239,7 @@ class App extends Component {
 		 */
 		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( group_id  => {
 			const group_data = expense_group_by_id[group_id];
+			const { edit, ...group_edit_data } = group_data;
 			const group_children = obtainExpenseGroupChildren(group_id, expense_group_child_by_id);
 			const num_group_children = group_children.length;
 			const group_children_total_cost = obtainChildCostTotal(
@@ -249,17 +250,11 @@ class App extends Component {
 
 			const is_child_in_edit = reduceToBooleanByBoolean(group_children, "edit");
 
-			const edit_view = <Expense_Group_Edit_Form
-				{...editEntityFieldProps}
-				update_handler={update_expense_group_edit}
-			/>;
-
-
 			const { title, description } = group_data;
 			// Main functionality Buttons
 			const primary_buttons = [
 				<Add_Expense_Button key={"add-expense-button"} action={() => store.dispatch(addExpenseGroupChild({ parentID: group_id }))} />,
-				<Edit_Expense_Group_Button key={"edit-expense-group-button"} action={() => store.dispatch(editEntity({ group_id, title, description }))} />
+				<Edit_Expense_Group_Button key={"edit-expense-group-button"} action={() => store.dispatch(editEntity({ id : group_id, title, description }))} />
 			];
 
 			// Delete and Expense Group Options Button
@@ -323,9 +318,11 @@ class App extends Component {
 					buttons_admin={administrative_buttons}
 					buttons_editing={edit_view_buttons}
 					num_children={num_group_children}
-					editing_view={<Expense_Group_Edit_Form/>}
 					is_editing={group_data.edit}
-					{...group_data}
+					editing_view={<Expense_Group_Edit_Form
+						update_handler={update_expense_group_edit(group_data.id)}
+						{...{ id : group_id, ...group_edit_data }}
+					/>}
 				>
 					<Expense_Group_Child_Table
 						childrenByIDState={expense_group_entity_edit}

@@ -34,7 +34,7 @@ const styles = {
 	},
 };
 
-const Expense_Group_Edit_form = ( props, { store } ) => {
+const Expense_Group_Edit_Form = ( props, { store } ) => {
 
 	let { id, timestamp, update_handler } = props;
 	let editableValues = obtainEditableValues( props );
@@ -146,8 +146,8 @@ const Expense_Group_Edit_form = ( props, { store } ) => {
 	);
 };
 
-Expense_Group_Edit_form.contextTypes = {
+Expense_Group_Edit_Form.contextTypes = {
 	store : PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Expense_Group_Edit_form);
+export default withStyles(styles)(Expense_Group_Edit_Form);
