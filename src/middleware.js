@@ -126,14 +126,15 @@ export const entity_edit_helper = store => next => action => {
 		...expense_group_child_by_id
 	};
 
+	/** Resolves to a string, which is the id of the entity to edit. */
 	const entity_to_edit = Object.keys( combinedEntityState )
 		.filter( entityID => entityID === action.id ).shift();
 
 	/** Chooses which data reference object to use to build our edit state values. */
-	const dataRef = ( expense_group_by_id.hasOwnProperty(entity_to_edit.id) ) ?
-		expenseGroupEditDataRef
+	const dataRef = ( expense_group_child_by_id.hasOwnProperty(entity_to_edit) ) ?
+		expenseGroupChildEditDataRef
 		:
-		expenseGroupChildEditDataRef;
+		expenseGroupEditDataRef;
 
 	const editStateValues = obtainSelectProperties(
 		dataRef,
