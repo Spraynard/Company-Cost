@@ -74,5 +74,17 @@ describe("Expense Group By ID", () => {
 	test("Marks expense group as edited, by turning edit mode off on it", () => {
 		expect( expense_group_by_id[expense_group_id].edit ).toBeFalsy();
 	});
+
+	/**
+	 * There has to be a better way for this test to exist. This test ensures that whenever
+	 * we add some sort of new state to expense group through expense_group_by_id that
+	 * we will have to add it to this array.
+	 */
+	test("Ensure we're not adding any extra data to our expense group when we save", () => {
+		// eslint-disable-next-line no-unused-vars
+		const { description, edit, timestamp, title, ...other } = expense_group_by_id[expense_group_id];
+
+		expect(other).toEqual({});
+	});
 });
 
