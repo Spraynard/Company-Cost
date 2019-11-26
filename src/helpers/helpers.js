@@ -131,7 +131,7 @@ export const removeFromObject = ( key, object ) => {
 export const filterFromObject = ( keys, object ) => {
 	if ( ! Array.isArray(keys) )
 	{
-		throw new Error(`You must supply an array for the keys parameter, ${keys} given`)
+		throw new Error(`You must supply an array for the keys parameter, ${keys} given`);
 	}
 
 	if ( ! keys.length )
@@ -147,3 +147,46 @@ export const filterFromObject = ( keys, object ) => {
 
 	return filterFromObject( rest, removeFromObject(current, object));
 };
+/**
+ * Reduces an object into a list of filtered keys.
+ * The keys that are returned are those of the objects whose given attribute equals a given value
+ * Filters to include a list of objects who have an attribute equal to the value
+ *
+ * @param {array} keyed_object - An object with keys
+ * @param {string} attribute - Attribute or property of object
+ * @param {any} value - Value to compare our attribute or property against
+ * @returns {array} - List of filtered object keys
+ */
+export const filterKeyedObjectListByAttribute = ( keyed_object, attribute, value ) =>
+	Object.keys(keyed_object)
+		.filter( key =>
+			keyed_object[key][attribute] === value
+		);
+
+/**
+ * Maps over a key list.
+ *
+ * @param {array} key_list - list of keys to map over
+ * @param {object} reference_object - object to extract data from
+ * @param {string} include_key - If given, attaches a key under a name given by the parameter
+ * @returns {array} - List of keyed object data in our reference object
+ */
+export const mapOverKeys = ( key_list, reference_object, include_key="" ) =>
+	key_list.map( key => ( include_key ) ?
+		{ [include_key] : key, ...reference_object[key] }
+		:
+		reference_object[key]
+	);
+
+/**
+ * Helper function to get a full list of children available for an expense group
+ *
+ * @param {string} id - id of the expense group you would like to find children for
+ * @param {object} children_object - full expense group children object
+ */
+export const obtainExpenseGroupChildren = ( id, children_object ) =>
+	mapOverKeys(
+		filterKeyedObjectListByAttribute( children_object, "parentID", id ),
+		children_object,
+		"id"
+	);

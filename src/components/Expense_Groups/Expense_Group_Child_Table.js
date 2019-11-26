@@ -7,7 +7,7 @@ import { PropTypes } from "prop-types";
 // Custom Helpers
 import {
 	tableDataRef
-} from "../dataReferenceObjects";
+} from "../../dataReferenceObjects";
 
 // Custom UI Components
 import Expense_Group_Child from "./Expense_Group_Child";
@@ -26,11 +26,11 @@ import { withStyles } from "@material-ui/core/styles";
 // Helpers
 import {
 	capitalizeFirstLetter,
-} from "../helpers/helpers";
+} from "../../helpers/helpers";
 
 // Redux Actions
-import { editEntity, updateEntity } from "../actions/entity_actions";
-import { removeExpenseGroupChild } from "../actions/expense_group_actions";
+import { editEntity, updateEntity } from "../../actions/entity_actions";
+import { removeExpenseGroupChild } from "../../actions/expense_group_actions";
 
 const styles = {};
 

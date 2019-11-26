@@ -1,5 +1,5 @@
 import { PropTypes } from "prop-types";
-import Entity_Manipulation_Button from "./Entity_Manipulation_Button";
+import Entity_Manipulation_Button from "./Buttons/Entity_Manipulation_Button";
 import {
 	Entity_Edit_Input_Text,
 	Entity_Edit_Input_Number,

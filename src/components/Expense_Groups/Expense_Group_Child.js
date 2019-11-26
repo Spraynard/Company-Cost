@@ -10,7 +10,7 @@ import {
 	obtainSelectProperties,
 	capitalizeFirstLetter,
 	// moneyFormat
-} from "../helpers/helpers";
+} from "../../helpers/helpers";
 
 import {
 	tableDataRef,

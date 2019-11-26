@@ -20,7 +20,12 @@ export const myTheme = createMuiTheme({
 			dark : "#1c313a",
 			main : "#455a64",
 			contrastText: "#fff"
-		}
+		},
+		gradients: {
+			secondRiver: 'linear-gradient(to left, #43cea2, #185a9d)',
+			secondRiverReverse: 'linear-gradient(to right, #43cea2, #185a9d)',
+			secondRiverToTop: 'linear-gradient(to top, #43cea2, #185a9d)'
+		},
 	},
 	overrides : {
 		MuiTableRow : {

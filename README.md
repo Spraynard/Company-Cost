@@ -51,6 +51,13 @@ After you are done editing, either click/tap anywhere not on the currently editi
 #### Reading Your Expense Report
 Coming Soon.
 
+### Future Updates
+
+* :sunglasses: Updating to a more mobile friendly interface.
+* :bar_chart: Graphing (Line and Pie) to see the relation of each expense group's total to the overall total.
+* :dancers: Multiple Worksheets
+* :floppy_disk: Save your worksheet
+
 ### Built With
 * [Webpack](https://webpack.js.org/) - Open source JavaScript module bundler
 * [React](https://reactjs.org/) - A JavaScript library for building front end interfaces
