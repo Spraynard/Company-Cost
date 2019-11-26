@@ -1,3 +1,10 @@
+export const tableDataRef = ({
+	title: "",
+	cost: "",
+	costUOM: "",
+	delete: ""
+});
+
 /**
  * Structure containing a layout of the data that is available to be edited for an expense group
  */
