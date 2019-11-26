@@ -14,7 +14,6 @@ let action_1, // Adding expense group
 	action_3, // Removing expense group child
 	action_1_params,
 	action_2_params,
-	action_3_params,
 	expense_group_id,
 	expense_group_child_id,
 	group_title,
@@ -34,19 +33,19 @@ beforeAll(() => {
 	action_1_params = { title : group_title };
 
 	action_1 = addExpenseGroup(action_1_params);
+
 	// Obtain the ID of the expense group
 	expense_group_id = action_1.id;
 
 	// Feed the expense group ID into this parameter here.
-	action_2_params = {
-		title : group_child_title,
+	action_2 = addExpenseGroupChild({
+		title: group_child_title,
 		description: group_child_desc,
-		cost : cost,
-		costUOM : costUOM,
-		parentID : expense_group_id
-	};
+		cost: cost,
+		costUOM: costUOM,
+		parentID: expense_group_id
+	});
 
-	action_2 = addExpenseGroupChild(action_2_params);
 	expense_group_child_id = action_2.id;
 
 	action_3 = removeExpenseGroupChild({ id : expense_group_child_id });
@@ -61,38 +60,23 @@ beforeAll(() => {
 });
 
 describe("Expense Group Children", () => {
-	var expense_group_children;
-
-	beforeEach(() => {
-		expense_group_children = test_store.getState()["expense_group_children"];
-	});
-
 	test("Items in array have been removed", () => {
+		let expense_group_children = test_store.getState()["expense_group_children"];
 		expect(expense_group_children).toEqual([]);
 	});
 });
 
 describe("Expense Group Child By ID", () => {
-	var expense_group_child_by_id;
-
-	beforeEach(() => {
-		expense_group_child_by_id = test_store.getState()["expense_group_child_by_id"];
-	});
-
 	test("Previous expense groups that have been added are now taken out of the object", () => {
+		let expense_group_child_by_id = test_store.getState()["expense_group_child_by_id"];
+
 		expect(expense_group_child_by_id).toEqual({});
 	});
-
 });
 
 describe("Expense Group Children XREF", () => {
-	var expense_group_children_xref;
-
-	beforeEach(() => {
-		expense_group_children_xref = test_store.getState()["expense_group_children_xref"];
-	});
-
 	test("On child removal, takes out the whole parent expense group", () => {
+		let expense_group_children_xref = test_store.getState()["expense_group_children_xref"];
 		expect(expense_group_children_xref).toEqual({
 			[ action_1.id ] : []
 		});
