@@ -1,4 +1,5 @@
 export const extract_action_data = ( _obj ) => {
+	// eslint-disable-next-line no-unused-vars
 	let { id, type, ...actionData } = _obj;
 
 	return actionData;
@@ -114,3 +115,35 @@ export const obtainSelectProperties = ( a, b, _opts = {} ) => {
 };
 
 export const moneyFormat = cost => `$${cost}`;
+
+export const removeFromObject = ( key, object ) => {
+	// eslint-disable-next-line no-unused-vars
+	let { [key] : deleted, ...other } = object;
+	return other;
+};
+
+/**
+ * Given an array, removes as many keys in object as are in the array.
+ * If key is not in object, that's okay.
+ * @param {array} keys Filters these keys from our object
+ * @param {object} object Object to filter from
+ */
+export const filterFromObject = ( keys, object ) => {
+	if ( ! Array.isArray(keys) )
+	{
+		throw new Error(`You must supply an array for the keys parameter, ${keys} given`)
+	}
+
+	if ( ! keys.length )
+	{
+		return object;
+	}
+
+	const [ current, ...rest ] = keys;
+
+	if ( ! ( current in object )) {
+		return filterFromObject( rest, object );
+	}
+
+	return filterFromObject( rest, removeFromObject(current, object));
+};
