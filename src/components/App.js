@@ -261,8 +261,8 @@ class App extends Component {
 
 			// Delete and Expense Group Options Button
 			const administrative_buttons = [
-				<Remove_Expense_Group_Button key={"remove-expense-group-button"} action={() => store.dispatch(removeExpenseGroup({ id: group_id}))}/>,
-				<Open_Expense_Group_Options_Dialog_Button key={"open-expense-group-options-dialog-button"} action={() => store.dispatch(openExpenseGroupOptionsDialog({ id : group_id}))}/>
+				<Open_Expense_Group_Options_Dialog_Button key={"open-expense-group-options-dialog-button"} action={() => store.dispatch(openExpenseGroupOptionsDialog({ id : group_id}))}/>,
+				<Remove_Expense_Group_Button key={"remove-expense-group-button"} action={() => store.dispatch(removeExpenseGroup({ id: group_id}))}/>
 			];
 
 			// Buttons seen when editing the group
