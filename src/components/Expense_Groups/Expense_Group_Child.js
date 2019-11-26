@@ -15,7 +15,7 @@ import {
 import {
 	tableDataRef,
 	expenseGroupChildEditDataRef
-} from "../dataReferenceObjects";
+} from "../../dataReferenceObjects";
 
 //** Components **//
 
