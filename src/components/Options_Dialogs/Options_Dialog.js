@@ -1,5 +1,5 @@
 // Custom Helpers
-import { capitalizeFirstLetter } from "../helpers/helpers";
+import { capitalizeFirstLetter } from "../../helpers/helpers";
 
 // Material UI Components
 import Dialog from "@material-ui/core/Dialog";
@@ -33,6 +33,37 @@ const Options_Dialog = ( props ) => {
 		onChange
 	} = props;
 
+	const options_items = ( options_values ) ? Object.keys(options_values).map((options_value, index) => {
+		let field_label = (typeof labelType === "undefined") ?
+			options_values_labels[options_value] :
+			options_values_labels[labelType][options_value];
+
+		return (
+			<Grid key={index} item>
+				<TextField
+					select
+					onChange={onChange}
+					label={field_label}
+					name={options_value}
+					value={options_values[options_value]}
+					fullWidth={true}
+					margin="normal"
+				>
+					{options_values_list[options_value].map((item, index) => {
+						let item_text = capitalizeFirstLetter(item);
+						return (
+							<MenuItem key={index} value={item}>
+								{item_text}
+							</MenuItem>
+						);
+					})}
+				</TextField>
+			</Grid>
+		);
+	})
+	:
+	[];
+
 	return (
 		<Dialog
 			open={open}
@@ -47,34 +78,7 @@ const Options_Dialog = ( props ) => {
 					direction="column"
 					spacing={8}
 				>
-					{ Object.keys( options_values ).map( ( options_value, index ) => {
-						let field_label = ( typeof labelType === "undefined" ) ?
-							options_values_labels[options_value] :
-							options_values_labels[labelType][options_value];
-
-						return (
-							<Grid key={index} item>
-								<TextField
-									select
-									onChange={onChange}
-									label={field_label}
-									name={options_value}
-									value={options_values[options_value]}
-									fullWidth={true}
-									margin="normal"
-								>
-									{ options_values_list[options_value].map(( item, index ) => {
-										let item_text = capitalizeFirstLetter( item );
-										return (
-											<MenuItem key={index} value={item}>
-												{ item_text }
-											</MenuItem>
-										);
-									})}
-								</TextField>
-							</Grid>
-						);
-					})}
+					{options_items}
 				</Grid>
 			</form>
 		</Dialog>

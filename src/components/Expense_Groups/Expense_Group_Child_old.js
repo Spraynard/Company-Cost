@@ -1,3 +1,8 @@
+//-- Helpers
+
+// import "./styles/Expense_Group_Child.css";
+
+// React
 import { PropTypes } from "prop-types";
 
 // Custom
@@ -8,7 +13,7 @@ import {
 
 import {
 	tableDataRef,
-	expenseGroupChildEditDataRef
+	editDataRef
 } from "../../dataReferenceObjects";
 
 //** Components **//
@@ -33,48 +38,53 @@ const styles = () => ({
 	}
 });
 
-const Expense_Group_Child = ( props ) => {
+const Expense_Group_Child = ( props, { store } ) => {
 
 	const {
+		expense_group_child_by_id,
+		expense_group_entity_edit
+	} = store.getState();
+
+	const {
+		childID,
 		classes,
-		child_click_handler,
-		child_data_change_handler,
-		child_remove_handler,
-		child_data,
-		edit_data
+		childClickHandler,
+		childDataChangeHandler,
+		childRemoveHandler,
 	} = props;
 
-	const { id, edit } = child_data;
+	const fullChildData = expense_group_child_by_id[childID];
+	const fullChildEditData = expense_group_entity_edit[childID];
 
+	const { edit } = fullChildData;
 
 	// Transform param allows us to take the input data and perform a functional transform on it.
-	const display_child_data = obtainSelectProperties( tableDataRef, child_data, {
+	const displayChildData = obtainSelectProperties( tableDataRef, fullChildData, {
 		transform : {
 			cost : cost => `$${cost.costFormat()}`,
 			costUOM : capitalizeFirstLetter,
 		}
 	});
 
-	const editableChildData = obtainSelectProperties( expenseGroupChildEditDataRef, edit_data );
-	const child_edit_data = edit_data[id];
+	const editableChildData = obtainSelectProperties( editDataRef, fullChildData );
 
 	return (
 		( edit ) ?
 			<Expense_Group_Child_Edit_View
-				id={id}
-				child_display_data={editableChildData}
-				child_state_data={child_data}
-				child_edit_state_data={child_edit_data}
-				child_data_change_handler={child_data_change_handler}
-				child_click_handler={child_click_handler}
+				id={childID}
+				childDisplayData={editableChildData}
+				childStateData={fullChildData}
+				childEditStateData={fullChildEditData}
+				childDataChangeHandler={childDataChangeHandler}
+				childClickHandler={childClickHandler}
 			/>
 			:
 			<Expense_Group_Child_Default_View
-				id={id}
-				child_click_handler={child_click_handler}
-				child_display_data={display_child_data}
-				child_state_data ={child_data}
-				child_remove_handler={child_remove_handler}
+				id={childID}
+				childClickHandler={childClickHandler}
+				childDisplayData={displayChildData}
+				childStateData ={fullChildData}
+				childRemoveHandler={childRemoveHandler}
 				classes={classes}
 			/>
 	);
@@ -86,7 +96,11 @@ Expense_Group_Child.defaultProps = {
 };
 
 Expense_Group_Child.propTypes = {
-	child_data : PropTypes.object.isRequired
+	childID : PropTypes.string.isRequired
+};
+
+Expense_Group_Child.contextTypes = {
+	store : PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Expense_Group_Child);

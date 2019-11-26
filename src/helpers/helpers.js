@@ -190,3 +190,15 @@ export const obtainExpenseGroupChildren = ( id, children_object ) =>
 		children_object,
 		"id"
 	);
+
+/**
+ * Super unreadable function to reduce a list down to a boolean.
+ * @see App.js
+ * @see Expense_Group_Options_Dialog.js
+ * @param {array} list list of items to reduce to boolean by
+ * @param {any} comparison - 'string' or 'object' type.
+ * 							  A pair w/ left being an object and right being a string
+ * 							  A string will compare by a key lookup on the current list item
+ */
+export const reduceToBooleanByBoolean = (list, comparison) =>
+	list.reduce((isTrue, current) => (isTrue || (!isTrue && (Array.isArray(comparison)) ? comparison[0][current][comparison[1]] : current[comparison] )) ? true : false, false);
