@@ -14,8 +14,8 @@ import {
 
 import {
 	tableDataRef,
-	editDataRef
-} from "../../dataReferenceObjects";
+	expenseGroupChildEditDataRef
+} from "../dataReferenceObjects";
 
 //** Components **//
 
@@ -67,7 +67,7 @@ const Expense_Group_Child = ( props, { store } ) => {
 		}
 	});
 
-	const editableChildData = obtainSelectProperties( editDataRef, fullChildData );
+	const editableChildData = obtainSelectProperties( expenseGroupChildEditDataRef, fullChildData );
 
 	return (
 		( edit ) ?

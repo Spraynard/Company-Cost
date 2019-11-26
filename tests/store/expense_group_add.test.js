@@ -5,21 +5,22 @@ import { addExpenseGroup } from "../../src/actions/expense_group_actions";
 
 import defaultState from "../../data/default_state.json";
 
-var test_store;
-var id;
-var action;
-
-var title = "A Test Expense Group";
+let test_store;
+let id;
+let action;
+let title = "A Test Expense Group";
+let expense_group;
 
 beforeAll(() => {
 	test_store = store(defaultState);
 	action = addExpenseGroup({ title });
 	id = action.id;
 	test_store.dispatch(action);
+	expense_group = test_store.getState()["expense_group_by_id"][id];
 });
 
 describe("Expense Group By ID", () => {
-	var expenseGroupByID;
+	let expenseGroupByID;
 	beforeEach(() => {
 		expenseGroupByID = test_store.getState()["expense_group_by_id"];
 	});
@@ -34,6 +35,16 @@ describe("Expense Group By ID", () => {
 
 	test("Adds a timestamp value", () => {
 		expect(expenseGroupByID[id].timestamp).toBeDefined();
+	});
+
+	test("Expense Group Initial Structure", () => {
+		const { description, edit, title, timestamp } = expense_group;
+		expect(expense_group).toEqual({
+			"timestamp": timestamp,
+			"edit": edit,
+			"title": title,
+			"description": description
+		});
 	});
 });
 

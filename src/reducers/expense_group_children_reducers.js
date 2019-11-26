@@ -1,4 +1,5 @@
 import C from "../constants";
+import { filterFromObject } from "../helpers/helpers";
 
 /**
  * Reducer for "expense_group_children"
@@ -61,8 +62,7 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 			};
 
 		case C.REMOVE_EXPENSE_GROUP_CHILD:
-			let { [action.id.toString()] : deleted, ...newState } = state;
-			return newState;
+			return filterFromObject([action.id.toString()], state);
 
 		case C.EDIT_ENTITY:
 			// Checking if ID is in this portion of state.
@@ -80,15 +80,8 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 			};
 
 		case C.REMOVE_EXPENSE_GROUP:
-			let removeExpenseGroupState = {};
-			let expense_group_children_ids = Object.keys( state );
-			let filtered_expense_group_children_ids = expense_group_children_ids.filter(
-				id => action.id !== state[id].parentID
-			).forEach(
-				id => removeExpenseGroupState[id] = state[id]
-			);
+			return filterFromObject(Object.keys(state).filter(child_id => state[child_id].parentID === action.id), state);
 
-			return removeExpenseGroupState;
 
 		case C.SAVE_ENTITY:
 			// Checking if ID is in this portion of state.

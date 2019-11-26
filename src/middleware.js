@@ -5,7 +5,8 @@ import {
 } from "./helpers/helpers";
 
 import {
-	editDataRef
+	expenseGroupEditDataRef,
+	expenseGroupChildEditDataRef
 } from "./dataReferenceObjects";
 
 // Log actions to the console as we dispatch them
@@ -60,75 +61,91 @@ export const expense_group_child_remove_helper = store => next => action => {
 
 /**
  * Middleware that is specifically used when a users saves their edit.
+ * We take the properties of our entity that have been edited and append the new
+ * entity based data i
  * Basically we're going to take the material that has been edited in the
  * expense_group_entity_edit state, and overwrite the specifically id'd expense
  * group item in the main state depending on what type of
  */
-
-// TODO: FIX THIS. MOST LIKELY I HAVE TO DISPATCH SOME ACTIONS THAT WILL
-// 		THEN TAKE IN THE EDITS. I'M NOT SURE, BUT YEAH
 export const expense_group_edit_save_helper = store => next => action => {
 
-	// Looking for a save edit action...
-	if ( action.type === C.SAVE_ENTITY )
+	if ( action.type !== C.SAVE_ENTITY )
 	{
-		const {
-			expense_group_by_id,
-			expense_group_entity_edit,
-			expense_group_child_by_id
-		} = store.getState();
-
-		// content of the item that we are going to save into specific state.
-		let edited_item_content = expense_group_entity_edit[action.id];
-
-		// Manipulations of the inserted content on save. Want to make sure we're saving numbers
-		// as numbers, not strings.
-		edited_item_content.cost = ( typeof edited_item_content.cost === "undefined" ) ? 0.00 : parseFloat( edited_item_content.cost );
-
-		// Checking to see if there are any entities available with given ID before we start inserting all this data
-		// in an action.
-		if ( expense_group_by_id.hasOwnProperty( action.id ) ||  expense_group_child_by_id.hasOwnProperty( action.id ) )
-		{
-			// Insert edited item content into the action. This is a much needed procedure.
-			action = {
-				...action,
-				...edited_item_content
-			};
-		}
+		return next(action);
 	}
+
+	const {
+		expense_group_entity_edit,
+		expense_group_child_by_id
+	} = store.getState();
+
+	const isIDAnExpenseGroupChild = expense_group_child_by_id.hasOwnProperty(action.id);
+
+	let edited_item_content = expense_group_entity_edit[action.id];
+
+	// Manipulations of the inserted content on save. Want to make sure we're saving numbers
+	// as numbers, not strings.
+	if ( isIDAnExpenseGroupChild )
+	{
+		edited_item_content.cost = ( typeof edited_item_content.cost === "undefined" ) ?
+			0.00
+			:
+			parseFloat( edited_item_content.cost );
+	}
+
+	// Insert edited item content into the action. This is a much needed procedure.
+	action = {
+		...action,
+		...edited_item_content
+	};
 
 	// Returning the next action should delete the item out of the expense_group_edit_obj state
 	return next(action);
 };
 
+/**
+ * Here we are decorating our object before it gets to any reducer that deals with
+ * the C.ENTITY_EDIT action.
+ *
+ * This has been a source of bugs before and was incredibly hard to find, so don't feel bad.
+ */
 export const entity_edit_helper = store => next => action => {
-
-	if ( action.type === C.EDIT_ENTITY )
+	if ( action.type !== C.EDIT_ENTITY )
 	{
-		const {
-			expense_group_by_id,
-			expense_group_child_by_id
-		} = store.getState();
-
-		// Get a full pool of the current entity states
-		const combinedEntityState = {
-			...expense_group_by_id,
-			...expense_group_child_by_id
-		};
-
-		const entityToEdit = Object.keys( combinedEntityState )
-			.filter( entityID => entityID === action.id )[0];
-
-		const editStateValues = obtainSelectProperties(
-			editDataRef,
-			combinedEntityState[entityToEdit]
-		);
-
-		action = {
-			...action,
-			...editStateValues
-		};
+		return next(action);
 	}
+
+	const {
+		expense_group_by_id,
+		expense_group_child_by_id
+	} = store.getState();
+
+	// Get a full pool of the current entity states
+	const combinedEntityState = {
+		...expense_group_by_id,
+		...expense_group_child_by_id
+	};
+
+	/** Resolves to a string, which is the id of the entity to edit. */
+	const entity_to_edit = Object.keys( combinedEntityState )
+		.filter( entityID => entityID === action.id ).shift();
+
+	/** Chooses which data reference object to use to build our edit state values. */
+	const dataRef = ( expense_group_child_by_id.hasOwnProperty(entity_to_edit) ) ?
+		expenseGroupChildEditDataRef
+		:
+		expenseGroupEditDataRef;
+
+	const editStateValues = obtainSelectProperties(
+		dataRef,
+		combinedEntityState[entity_to_edit]
+	);
+
+	action = {
+		...action,
+		...editStateValues
+	};
+
 	return next( action );
 };
 

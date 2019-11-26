@@ -1,4 +1,5 @@
 import C from "../constants.js";
+import { filterFromObject } from "../helpers/helpers";
 
 export const expense_group_entity_edit = ( state = {}, action ) => {
 	if ( ( typeof action.type ) === "undefined" )
@@ -24,6 +25,7 @@ export const expense_group_entity_edit = ( state = {}, action ) => {
 	) {
 		let {
 			id,
+			// eslint-disable-next-line no-unused-vars
 			type,
 			...rest
 		} = action;
@@ -51,9 +53,9 @@ export const expense_group_entity_edit = ( state = {}, action ) => {
 	else if (
 		action.type === C.SAVE_ENTITY ||
 		action.type === C.CANCEL_EDIT_ENTITY
-	) {
-		let { [ action.id.toString() ] : deleted, ...newState } = state;
-		return newState;
+	)
+	{
+		return filterFromObject([action.id.toString()], state);
 	}
 
 	///////////////////////////////////////////

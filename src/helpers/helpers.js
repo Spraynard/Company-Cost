@@ -1,4 +1,5 @@
 export const extract_action_data = ( _obj ) => {
+	// eslint-disable-next-line no-unused-vars
 	let { id, type, ...actionData } = _obj;
 
 	return actionData;
@@ -114,6 +115,38 @@ export const obtainSelectProperties = ( a, b, _opts = {} ) => {
 };
 
 export const moneyFormat = cost => `$${cost}`;
+
+export const removeFromObject = ( key, object ) => {
+	// eslint-disable-next-line no-unused-vars
+	let { [key] : deleted, ...other } = object;
+	return other;
+};
+
+/**
+ * Given an array, removes as many keys in object as are in the array.
+ * If key is not in object, that's okay.
+ * @param {array} keys Filters these keys from our object
+ * @param {object} object Object to filter from
+ */
+export const filterFromObject = ( keys, object ) => {
+	if ( ! Array.isArray(keys) )
+	{
+		throw new Error(`You must supply an array for the keys parameter, ${keys} given`);
+	}
+
+	if ( ! keys.length )
+	{
+		return object;
+	}
+
+	const [ current, ...rest ] = keys;
+
+	if ( ! ( current in object )) {
+		return filterFromObject( rest, object );
+	}
+
+	return filterFromObject( rest, removeFromObject(current, object));
+};
 /**
  * Reduces an object into a list of filtered keys.
  * The keys that are returned are those of the objects whose given attribute equals a given value
@@ -128,7 +161,7 @@ export const filterKeyedObjectListByAttribute = ( keyed_object, attribute, value
 	Object.keys(keyed_object)
 		.filter( key =>
 			keyed_object[key][attribute] === value
-		)
+		);
 
 /**
  * Maps over a key list.
@@ -143,7 +176,7 @@ export const mapOverKeys = ( key_list, reference_object, include_key="" ) =>
 		{ [include_key] : key, ...reference_object[key] }
 		:
 		reference_object[key]
-	)
+	);
 
 /**
  * Helper function to get a full list of children available for an expense group
@@ -153,7 +186,7 @@ export const mapOverKeys = ( key_list, reference_object, include_key="" ) =>
  */
 export const obtainExpenseGroupChildren = ( id, children_object ) =>
 	mapOverKeys(
-		filterKeyedObjectListByAttribute( children_object, 'parentID', id ),
+		filterKeyedObjectListByAttribute( children_object, "parentID", id ),
 		children_object,
-		'id'
-	)
+		"id"
+	);

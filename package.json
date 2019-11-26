@@ -12,7 +12,9 @@
     "build": "./node_modules/.bin/webpack --config webpack.production.config.js"
   },
   "jest": {
-    "setupFilesAfterEnv": ["./local_storage_mock.js"],
+    "setupFilesAfterEnv": [
+      "./local_storage_mock.js"
+    ],
     "testEnvironment": "node",
     "verbose": true
   },
