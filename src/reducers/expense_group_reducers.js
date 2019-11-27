@@ -53,7 +53,7 @@ export const expense_group_options = ( state={}, action ) => {
 				[ action.id ] : {
 					...expense_group_option_defaults
 				}
-			}
+			};
 
 		case C.REMOVE_EXPENSE_GROUP:
 			let { [action.id.toString()] : deleted, ...newState } = state;
@@ -70,7 +70,7 @@ export const expense_group_options = ( state={}, action ) => {
 					...state[ action.id ],
 					...actionData
 				}
-			}
+			};
 
 		default:
 			return state;

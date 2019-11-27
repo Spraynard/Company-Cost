@@ -3,7 +3,7 @@
  */
 
 // Material UI Components
-import Box from '@material-ui/core/Box';
+import Box from "@material-ui/core/Box";
 
 const Stats_Window = ( props ) => {
 	const {

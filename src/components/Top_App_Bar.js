@@ -53,12 +53,12 @@ const Top_App_Bar = ( props, { store } ) => {
 			<Toolbar>
 				<Typography className={classes.siteTitle} component="span" variant="h3">Company Cost</Typography>
 				<Open_Stats_Drawer_Button
-					display={{ xs : 'block', 'md' : 'none' }}
+					display={{ xs : "block", "md" : "none" }}
 					onClick={() => store.dispatch(openMainMenu())}
 				/>
 				<App_Bar_Stats_Window
 					onClick={() => store.dispatch(openAppOptionsDialog())}
-					display={{ xs: 'none', 'md': 'block' }}
+					display={{ xs: "none", "md": "block" }}
 					{ ...other }
 				/>
 			</Toolbar>

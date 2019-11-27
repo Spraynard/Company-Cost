@@ -61,8 +61,8 @@ const Options_Dialog = ( props ) => {
 			</Grid>
 		);
 	})
-	:
-	[];
+		:
+		[];
 
 	return (
 		<Dialog
@@ -85,4 +85,4 @@ const Options_Dialog = ( props ) => {
 	);
 };
 
-export default withStyles(styles)(Options_Dialog)
+export default withStyles(styles)(Options_Dialog);
