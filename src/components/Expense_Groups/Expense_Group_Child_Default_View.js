@@ -19,7 +19,7 @@ const Expense_Group_Child_Default_View = props => {
 			// Default UI Display
 				Object.keys(child_display_data).map(
 					( childDataKey, index ) => (
-						<TableCell key={index} padding="none">
+						<TableCell key={index}>
 							{ ( childDataKey === "delete" ) ?
 								<CloseIcon
 									className={classes.deleteButton}

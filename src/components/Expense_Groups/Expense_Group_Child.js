@@ -38,7 +38,7 @@ const Expense_Group_Child = ( props ) => {
 	const {
 		classes,
 		child_click_handler,
-		child_data_change_handler,
+		child_edit_handler,
 		child_remove_handler,
 		child_data,
 		edit_data
@@ -65,7 +65,7 @@ const Expense_Group_Child = ( props ) => {
 				child_display_data={editableChildData}
 				child_state_data={child_data}
 				child_edit_state_data={child_edit_data}
-				child_data_change_handler={child_data_change_handler}
+				child_edit_handler={child_edit_handler}
 				child_click_handler={child_click_handler}
 			/>
 			:

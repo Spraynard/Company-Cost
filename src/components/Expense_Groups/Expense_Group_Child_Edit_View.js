@@ -11,9 +11,8 @@ import Select from "@material-ui/core/Select";
 const Expense_Group_Child_Edit_View =  ( props ) => {
 	const {
 		id,
-		child_state_data,
 		child_edit_state_data,
-		child_data_change_handler,
+		child_edit_handler,
 		child_click_handler,
 	} = props;
 
@@ -37,12 +36,12 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 	// Take child Display data and make an object that contains the data with each of the different types
 	// that are required in order to modify said data.
 	return (
-		<TableRow className="expense-group-child" data-id={id} onClick={() => child_click_handler( id, child_state_data.edit )}>
+		<TableRow data-id={id} onClick={() => child_click_handler()}>
 			{Object.keys( child_edit_state_data ).map(
 				( childDataKey, index ) =>
 					<TableCell
 						key={index}
-						padding="none"
+						style={{paddingRight: "0"}}
 						colSpan={
 							(
 								Object.keys(child_edit_state_data).length < 4 &&
@@ -55,7 +54,7 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 								<Select
 									value={child_edit_state_data[childDataKey]}
 									name={childDataKey}
-									onChange={( event ) => child_data_change_handler( id, event )}
+									onChange={( event ) => child_edit_handler( event )}
 									native={true}
 								>
 									{ select_values[childDataKey].map((item, index) =>
@@ -66,7 +65,7 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 									name={childDataKey}
 									value={child_edit_state_data[childDataKey]}
 									type={edit_value_types[childDataKey]}
-									onChange={( event ) => child_data_change_handler( id, event )}
+									onChange={( event ) => child_edit_handler( event )}
 								/>
 						}
 					</TableCell>
