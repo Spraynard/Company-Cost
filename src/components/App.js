@@ -14,7 +14,7 @@ import Cancel_Expense_Group_Edit_Button from "./Buttons/Cancel_Expense_Group_Edi
 import Edit_Expense_Group_Button from "./Buttons/Edit_Expense_Group_Button";
 import Expense_Group from "./Expense_Groups/Expense_Group";
 import Expense_Group_Child from "./Expense_Groups/Expense_Group_Child";
-import Expense_Group_Child_Table from "./Expense_Groups/Expense_Group_Child_Table";
+import Expense_Group_Table from "./Expense_Groups/Expense_Group_Table";
 import Expense_Group_Options_Dialog from "./Options_Dialogs/Expense_Group_Options_Dialog";
 import Groups_Window from "./Groups_Window";
 import Main_Menu from "./Menus/Main_Menu";
@@ -22,6 +22,11 @@ import Options_Dialog from "./Options_Dialogs/Options_Dialog";
 import Save_Expense_Group_Edit_Button from "./Buttons/Save_Expense_Group_Edit_Button";
 import Top_App_Bar from "./Top_App_Bar";
 import Expense_Group_Edit_Form from "./Expense_Group_Edit_Form";
+import Stats_Window_Item from "./Stats_Windows/Stats_Window_Item";
+import Remove_Expense_Group_Button from "./Buttons/Remove_Expense_Group_Button";
+import Open_Expense_Group_Options_Dialog_Button from "./Buttons/Open_Expense_Group_Options_Dialog_Button";
+import Typography from "@material-ui/core/Typography";
+
 
 // Redux Actions
 import {
@@ -55,9 +60,6 @@ import {
 	obtainExpenseGroupChildren,
 	reduceToBooleanByBoolean
 } from "../helpers/helpers";
-import Stats_Window_Item from "./Stats_Windows/Stats_Window_Item";
-import Remove_Expense_Group_Button from "./Buttons/Remove_Expense_Group_Button";
-import Open_Expense_Group_Options_Dialog_Button from "./Buttons/Open_Expense_Group_Options_Dialog_Button";
 
 /**
  * Overall controller for the App.
@@ -283,8 +285,13 @@ class App extends Component {
 					store.dispatch(editEntity({ id }));
 
 				// Action dispatched when we update an expense group child
-				const update_expense_group_child = event =>
-					store.dispatch(updateEntity({ id, [event.target.name]: event.target.value }));
+				const child_edit_handler = event =>
+					store.dispatch(
+						updateEntity({
+							id,
+							[event.target.name]: event.target.value
+						})
+					);
 
 				// Action dispatched when we delete an expense group child
 				// Notice the stopPropagation there. Yeah that's there for a reason.
@@ -299,7 +306,7 @@ class App extends Component {
 						child_data={child_obj}
 						edit_data={expense_group_entity_edit}
 						child_click_handler={edit_expense_group_child}
-						child_data_change_handler={update_expense_group_child}
+						child_edit_handler={child_edit_handler}
 						child_remove_handler={delete_expense_group_child}
 					/>
 				);
@@ -316,24 +323,28 @@ class App extends Component {
 			return (
 				<Expense_Group
 					id={group_id}
-					key={`expense-group-${group_id}`}
 					buttons_primary={primary_buttons}
 					buttons_admin={administrative_buttons}
 					buttons_editing={edit_view_buttons}
-					num_children={num_group_children}
-					is_editing={group_data.edit}
+					description={group_data.description}
 					editing_view={<Expense_Group_Edit_Form
 						buttons={edit_view_buttons}
 						update_handler={update_expense_group_edit(group_data.id)}
 						{...{ id : group_id, ...group_edit_data }}
 					/>}
-				>
-					<Expense_Group_Child_Table
-						childrenByIDState={expense_group_entity_edit}
-						childrenTotalCost={group_children_total_cost}
-						headers={table_headers}
-						parentGroupCostUOM={optionsValues.costUOM}
-					>{rendered_group_children}</Expense_Group_Child_Table>
+					is_editing={group_data.edit}
+					key={`expense-group-${group_id}`}
+					num_children={num_group_children}
+					title={group_data.title}
+				>{ num_group_children ?
+						<Expense_Group_Table
+							children_total_cost={group_children_total_cost}
+							headers={table_headers}
+							isChildInEdit={is_child_in_edit}
+							parentGroupCostUOM={optionsValues.costUOM}
+						>{rendered_group_children}</Expense_Group_Table>
+						:
+						<Typography style={{marginTop : "5px"}}>Add an expense below</Typography>}
 				</Expense_Group>
 			);
 		}
