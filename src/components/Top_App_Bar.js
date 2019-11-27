@@ -40,7 +40,13 @@ const styles = theme => ({
 	siteTitle : {
 		fontFamily : theme.typography.siteTitle.fontFamily,
 		flexGrow: 1,
-		color : theme.palette.secondary.contrastText
+		color : theme.palette.secondary.contrastText,
+		[theme.breakpoints.down("md")] : {
+			fontSize : theme.typography.h4.fontSize,
+		},
+		[theme.breakpoints.down("xs")] : {
+			fontSize : theme.typography.h6.fontSize,
+		}
 	}
 });
 
@@ -51,14 +57,20 @@ const Top_App_Bar = ( props, { store } ) => {
 	return (
 		<AppBar position="sticky" className={classes.root}>
 			<Toolbar>
-				<Typography className={classes.siteTitle} component="span" variant="h3">Company Cost</Typography>
+				<Typography
+					className={classes.siteTitle}
+					component="h1"
+					variant="h3"
+				>
+					Company Cost
+				</Typography>
 				<Open_Stats_Drawer_Button
-					display={{ xs : 'block', 'md' : 'none' }}
+					display={{ xs : "block", md : "none" }}
 					onClick={() => store.dispatch(openMainMenu())}
 				/>
 				<App_Bar_Stats_Window
 					onClick={() => store.dispatch(openAppOptionsDialog())}
-					display={{ xs: 'none', 'md': 'block' }}
+					display={{ xs: "none", md: "block" }}
 					{ ...other }
 				/>
 			</Toolbar>
