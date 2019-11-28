@@ -1,7 +1,4 @@
 import { PropTypes } from "prop-types";
-import Entity_Manipulation_Button from "./Buttons/Entity_Manipulation_Button";
-
-import { saveEntity, cancelEditEntity } from "../actions/entity_actions";
 
 import {
 	obtainEditableValues,
@@ -24,8 +21,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 import { withStyles } from "@material-ui/core/styles";
-import Save_Expense_Group_Edit_Button from "./Buttons/Save_Expense_Group_Edit_Button";
-import Cancel_Expense_Group_Edit_Button from "./Buttons/Cancel_Expense_Group_Edit_Button";
 
 // Material UI Styles
 const styles = {
@@ -49,7 +44,7 @@ const Expense_Group_Edit_Form = ( props, { store } ) => {
 
 	return (
 		<Card >
-			<form classes={{ root: classes.root}} >
+			<form classes={{ root: classes.root}} onSubmit={(e) => e.preventDefault()}>
 				<CardHeader
 					title={`Editing ${props.title}`}
 					subheader={`Creation Date ${timestamp}`}
@@ -84,11 +79,6 @@ const Expense_Group_Edit_Form = ( props, { store } ) => {
 							};
 						}
 
-						if ( input_type === "textarea" )
-						{
-							input_prop_object["multiline"] = true;
-						}
-
 						if ( input_type === "select" )
 						{
 							input_prop_object["InputProps"] = {
@@ -101,7 +91,7 @@ const Expense_Group_Edit_Form = ( props, { store } ) => {
 									{...input_prop_object}
 									select
 								>
-									{ possible_options_list.map( ( option, index ) => {
+									{ possible_options_list.map( option => {
 										return (
 											<MenuItem
 												key={option}
