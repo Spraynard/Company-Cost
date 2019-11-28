@@ -1,3 +1,4 @@
+import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -10,7 +11,7 @@ const styles = theme => ({
 	}
 });
 
-const Stats_Window_Item = withStyles(styles)(({ label, value, classes }) =>
+const Stats_Window_Item = React.memo(withStyles(styles)(({ label, value, classes }) =>
 	<div>
 		<Typography
 			variant="body1"
@@ -21,6 +22,6 @@ const Stats_Window_Item = withStyles(styles)(({ label, value, classes }) =>
 			color="inherit"
 			className={classes.value}>{value}</Typography>
 	</div>
-);
+), (prevProps, afterProps) => prevProps.value === afterProps.value);
 
 export default Stats_Window_Item;
