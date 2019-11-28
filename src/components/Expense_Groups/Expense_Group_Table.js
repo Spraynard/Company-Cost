@@ -13,7 +13,7 @@ import TableRow from "@material-ui/core/TableRow";
  */
 const Expense_Group_Table = ( props ) => {
 
-	const { children, children_total_cost, headers, isChildInEdit, parentGroupCostUOM } = props;
+	const { children, children_total_cost, headers, isChildInEdit, groupTotalUOM } = props;
 
 	const header = <TableHead><TableRow variant="header">{
 		headers.map((header, index) => <TableCell key={`table-header-${index}`}>{header}</TableCell>)
@@ -22,7 +22,7 @@ const Expense_Group_Table = ( props ) => {
 	const footer = <TableFooter style={{ opacity : ( isChildInEdit ) ? 0 : 1}}>
 		<TableRow variant="footer">
 			<TableCell>Total Cost:</TableCell>
-			<TableCell>{`$${(children_total_cost) ? children_total_cost.costFormat() : "0"} per ${parentGroupCostUOM}`}</TableCell>
+			<TableCell>{`$${(children_total_cost) ? children_total_cost.costFormat() : "0"} per ${groupTotalUOM}`}</TableCell>
 			<TableCell>Expenses:</TableCell>
 			<TableCell>{children.length}</TableCell>
 		</TableRow>

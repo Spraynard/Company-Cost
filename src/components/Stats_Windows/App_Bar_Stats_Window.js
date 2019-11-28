@@ -1,9 +1,11 @@
+import React from "react";
+
 // Material UI Imports
 import { emphasize } from "@material-ui/core/styles/colorManipulator";
 import { withStyles } from "@material-ui/core/styles";
 
 // Custom Component Imports
-import { Clickable } from "../Clickable";
+import { Clickable } from "../Generic/Clickable";
 import Stats_Window from "./Stats_Window";
 import { Box } from "@material-ui/core";
 
@@ -32,12 +34,12 @@ const styles = theme => ({
 	}
 });
 
-const App_Bar_Stats_Window = withStyles(styles)(({ onClick, display, ...props }) =>
+const App_Bar_Stats_Window = React.memo(withStyles(styles)(({ onClick, display, ...props }) =>
 	<Box display={display}>
 		<Clickable onClick={onClick}>
 			<Stats_Window {...props} />
 		</Clickable>
 	</Box>
-);
+), (beforeProps, afterProps) => ( JSON.stringify(beforeProps.metrics) === JSON.stringify(afterProps.metrics)))
 
 export default App_Bar_Stats_Window;

@@ -33,7 +33,7 @@ const Entity_Manipulation_Button = ({ classes, action, icon, text, ...other }) =
 		<Button
 			{...buttonProps}
 			className={classes.root}
-			onClick={(e) => action()}
+			onClick={(event) => action(event)}
 		>
 			{ icon ? icon
 				:

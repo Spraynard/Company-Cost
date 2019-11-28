@@ -4,7 +4,7 @@
 import { Component } from "react";
 import { PropTypes } from "prop-types";
 
-import * as readOnlyApplicationData from "../../data/read_only_application_data";
+import readOnlyApplicationData from "../../data/read_only_application_data";
 import readOnlyGroupData from "../../data/read_only_group_data.json";
 
 // Custom Components
@@ -22,7 +22,6 @@ import Options_Dialog from "./Options_Dialogs/Options_Dialog";
 import Save_Expense_Group_Edit_Button from "./Buttons/Save_Expense_Group_Edit_Button";
 import Top_App_Bar from "./Top_App_Bar";
 import Expense_Group_Edit_Form from "./Expense_Group_Edit_Form";
-import Stats_Window_Item from "./Stats_Windows/Stats_Window_Item";
 import Remove_Expense_Group_Button from "./Buttons/Remove_Expense_Group_Button";
 import Open_Expense_Group_Options_Dialog_Button from "./Buttons/Open_Expense_Group_Options_Dialog_Button";
 import Typography from "@material-ui/core/Typography";
@@ -132,15 +131,22 @@ class App extends Component {
 		const { expense_group_child_by_id } = store.getState();
 		const expense_group_children_count = Object.keys(expense_group_child_by_id).length;
 
+		/**
+		 * Finds id of item we clicked (hopefully)
+		 */
 		while ( ! child_id && clickTarget && clickTarget !== document )
 		{
-			if (clickTarget.dataset) {
+			if (clickTarget.dataset)
+			{
 				child_id = clickTarget.dataset.id;
 			}
 
 			clickTarget = clickTarget.parentNode;
 		}
 
+		/**
+		 * Remove edit status from every other expense group except the one currently being edited.
+		 */
 		for ( let i = 0; i <  expense_group_children_count; i++ )
 		{
 			let reference_child_id = Object.keys( expense_group_child_by_id )[i];
@@ -167,7 +173,6 @@ class App extends Component {
 		let dispatchAction;
 		let keyCode = e.which;
 		const { expense_group_child_by_id } = store.getState();
-
 		switch ( keyCode ) {
 			case 13: // Enter Key
 				dispatchAction = saveEntity;
@@ -233,9 +238,18 @@ class App extends Component {
 		);
 
 		const application_metrics = [
-			<Stats_Window_Item label="Groups" value={expense_groups.length} />,
-			<Stats_Window_Item label="Expenses" value={expense_group_children.length} />,
-			<Stats_Window_Item label="Total Cost" value={`${application_total_cost}/${application_options.costUOM}`} />
+			{
+				label: "Groups",
+				value: expense_groups.length ,
+			},
+			{
+				label: "Expenses",
+				value: expense_group_children.length ,
+			},
+			{
+				label: "Total Cost",
+				value: `$${application_total_cost.costFormat()}/${application_options.costUOM}`
+			}
 		];
 
 		/**
@@ -243,6 +257,7 @@ class App extends Component {
 		 */
 		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( group_id  => {
 			const group_data = expense_group_by_id[group_id];
+			const group_options = expense_group_options[group_id];
 			const { edit, ...group_edit_data } = group_data;
 			const group_children = obtainExpenseGroupChildren(group_id, expense_group_child_by_id);
 			const num_group_children = group_children.length;
@@ -316,7 +331,7 @@ class App extends Component {
 			const table_headers = [
 				"Title",
 				"Cost",
-				"CostUOM",
+				"UOM",
 				(is_child_in_edit) ? "" : "Delete",
 			];
 
@@ -329,7 +344,7 @@ class App extends Component {
 					description={group_data.description}
 					editing_view={<Expense_Group_Edit_Form
 						buttons={edit_view_buttons}
-						update_handler={update_expense_group_edit(group_data.id)}
+						update_handler={update_expense_group_edit(group_id)}
 						{...{ id : group_id, ...group_edit_data }}
 					/>}
 					is_editing={group_data.edit}
@@ -341,7 +356,7 @@ class App extends Component {
 							children_total_cost={group_children_total_cost}
 							headers={table_headers}
 							isChildInEdit={is_child_in_edit}
-							parentGroupCostUOM={optionsValues.costUOM}
+							groupTotalUOM={group_options.costUOM}
 						>{rendered_group_children}</Expense_Group_Table>
 						:
 						<Typography style={{marginTop : "5px"}}>Add an expense below</Typography>}
@@ -353,7 +368,7 @@ class App extends Component {
 		]);
 
 		return (
-			<div className="business-calculator">
+			<div>
 				<Top_App_Bar metrics={application_metrics}/>
 				<Groups_Window>{expense_groups_with_add_button}</Groups_Window>
 				<Main_Menu
