@@ -4,10 +4,8 @@
 		"size" : [ "default", "large", "extra-large" ]
 	},
 	"expense_group_options_labels" : {
-		"expense_group" : {
-			"costUOM" : "Time Unit Display of Group Cost",
-			"size" : "Group Size"
-		}
+		"costUOM": "Total Cost UOM",
+		"size": "Group Size"
 	},
 	"edit_subject_input_types" : {
 		"title" : "text",

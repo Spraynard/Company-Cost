@@ -7,27 +7,27 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
-    paper : {
-        background: theme.palette.gradients.secondRiverToTop, //'#185a9d',//'theme.palette.secondary.main,
-        color: theme.palette.secondary.contrastText,
-        padding: theme.spacing(2)
-    }
-})
+	paper : {
+		background: theme.palette.gradients.secondRiverToTop, //'#185a9d',//'theme.palette.secondary.main,
+		color: theme.palette.secondary.contrastText,
+		padding: theme.spacing(2)
+	}
+});
 
 const Main_Menu = withStyles(styles)( props => {
-    const {
-        classes,
-        isMenuOpen,
-        onMenuClose,
-        ...other
-    } = props;
+	const {
+		classes,
+		isMenuOpen,
+		onMenuClose,
+		...other
+	} = props;
 
-    return (
-        <Drawer classes={{ paper : classes.paper }} className={classes.root} open={isMenuOpen} onClose={onMenuClose} anchor='right'>
-            <Typography variant="h5" gutterBottom>Application Statistics</Typography>
-            <Main_Menu_Stats_Window { ...other}/>
-        </Drawer>
-    )
-})
+	return (
+		<Drawer classes={{ paper : classes.paper }} className={classes.root} open={isMenuOpen} onClose={onMenuClose} anchor='right'>
+			<Typography variant="h5" gutterBottom>Application Statistics</Typography>
+			<Main_Menu_Stats_Window { ...other}/>
+		</Drawer>
+	);
+});
 
-export default Main_Menu
+export default Main_Menu;

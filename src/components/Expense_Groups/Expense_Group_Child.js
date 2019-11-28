@@ -1,15 +1,11 @@
-//-- Helpers
-
-// import "./styles/Expense_Group_Child.css";
-
-// React
 import { PropTypes } from "prop-types";
+import Editable from "../Generic/Editable";
+import React from "react";
 
 // Custom
 import {
 	obtainSelectProperties,
 	capitalizeFirstLetter,
-	// moneyFormat
 } from "../../helpers/helpers";
 
 import {
@@ -26,6 +22,7 @@ import Expense_Group_Child_Edit_View from "./Expense_Group_Child_Edit_View";
 
 // Styles
 import { withStyles } from "@material-ui/core/styles";
+import { TableRow } from "@material-ui/core";
 
 const styles = () => ({
 	overflowHandler : {
@@ -39,57 +36,58 @@ const styles = () => ({
 	}
 });
 
-const Expense_Group_Child = ( props, { store } ) => {
+const Expense_Group_Child = React.memo(( props ) => {
 
 	const {
-		expense_group_child_by_id,
-		expense_group_entity_edit
-	} = store.getState();
-
-	const {
-		childID,
 		classes,
-		childClickHandler,
-		childDataChangeHandler,
-		childRemoveHandler,
+		child_click_handler,
+		child_edit_handler,
+		child_remove_handler,
+		child_data,
+		edit_data
 	} = props;
 
-	const fullChildData = expense_group_child_by_id[childID];
-	const fullChildEditData = expense_group_entity_edit[childID];
+	const { id, edit } = child_data;
 
-	const { edit } = fullChildData;
 
 	// Transform param allows us to take the input data and perform a functional transform on it.
-	const displayChildData = obtainSelectProperties( tableDataRef, fullChildData, {
+	const display_child_data = obtainSelectProperties( tableDataRef, child_data, {
 		transform : {
 			cost : cost => `$${cost.costFormat()}`,
 			costUOM : capitalizeFirstLetter,
 		}
 	});
 
-	const editableChildData = obtainSelectProperties( expenseGroupChildEditDataRef, fullChildData );
+	const editableChildData = obtainSelectProperties( expenseGroupChildEditDataRef, edit_data );
+	const child_edit_data = edit_data[id];
 
-	return (
-		( edit ) ?
-			<Expense_Group_Child_Edit_View
-				id={childID}
-				childDisplayData={editableChildData}
-				childStateData={fullChildData}
-				childEditStateData={fullChildEditData}
-				childDataChangeHandler={childDataChangeHandler}
-				childClickHandler={childClickHandler}
-			/>
-			:
+	return(
+		<Editable
+			isEdit={edit}
+			component="tr"
+			onClick={(e) => child_click_handler(e)}
+			editView={<Expense_Group_Child_Edit_View
+				id={id}
+				child_display_data={editableChildData}
+				child_state_data={child_data}
+				child_edit_state_data={child_edit_data}
+				child_edit_handler={child_edit_handler}
+				child_click_handler={child_click_handler}
+			/>}>
 			<Expense_Group_Child_Default_View
-				id={childID}
-				childClickHandler={childClickHandler}
-				childDisplayData={displayChildData}
-				childStateData ={fullChildData}
-				childRemoveHandler={childRemoveHandler}
+				id={id}
+				child_click_handler={child_click_handler}
+				child_display_data={display_child_data}
+				child_state_data={child_data}
+				child_remove_handler={child_remove_handler}
 				classes={classes}
 			/>
+		</Editable>
 	);
-};
+}, (prevProps, nextProps) => (
+	JSON.stringify(prevProps.child_data) === JSON.stringify(nextProps.child_data) &&
+	JSON.stringify(prevProps.edit_data) === JSON.stringify(nextProps.edit_data)
+));
 
 
 Expense_Group_Child.defaultProps = {
@@ -97,11 +95,7 @@ Expense_Group_Child.defaultProps = {
 };
 
 Expense_Group_Child.propTypes = {
-	childID : PropTypes.string.isRequired
-};
-
-Expense_Group_Child.contextTypes = {
-	store : PropTypes.object.isRequired,
+	child_data : PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Expense_Group_Child);

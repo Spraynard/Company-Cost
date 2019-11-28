@@ -65,7 +65,7 @@ const Top_App_Bar = ( props, { store } ) => {
 					Company Cost
 				</Typography>
 				<Open_Stats_Drawer_Button
-					display={{ xs : "block", md : "none" }}
+          display={{ xs : "block", md : "none" }}
 					onClick={() => store.dispatch(openMainMenu())}
 				/>
 				<App_Bar_Stats_Window

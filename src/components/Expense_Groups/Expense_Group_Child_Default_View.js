@@ -5,34 +5,24 @@ import CloseIcon from "@material-ui/icons/Close";
 const Expense_Group_Child_Default_View = props => {
 
 	const {
-		id,
-		childStateData,
-		childDisplayData,
-		childClickHandler,
-		childRemoveHandler,
+		child_display_data,
+		child_remove_handler,
 		classes,
 	} = props;
 
-	return (
-		<TableRow className="expense-group-child" data-id={id} onClick={() => childClickHandler( id, childStateData.edit )}>
-			{
-			// Default UI Display
-				Object.keys(childDisplayData).map(
-					( childDataKey, index ) => (
-						<TableCell key={index} padding="none">
-							{ ( childDataKey === "delete" ) ?
-								<CloseIcon
-									className={classes.deleteButton}
-									onClick={( event ) => childRemoveHandler( id, childStateData.parentID, event )}
-								/>
-								:
-								childDisplayData[childDataKey]
-							}
-						</TableCell>
-					)
-				)
-			}
-		</TableRow>
+	return Object.keys(child_display_data).map(
+		(childDataKey, index) => (
+			<TableCell data-id={props.id} key={index}>
+				{(childDataKey === "delete") ?
+					<CloseIcon
+						className={classes.deleteButton}
+						onClick={child_remove_handler}
+					/>
+					:
+					child_display_data[childDataKey]
+				}
+			</TableCell>
+		)
 	);
 };
 

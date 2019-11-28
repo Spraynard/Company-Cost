@@ -7,20 +7,20 @@
 import C from "../constants";
 
 export const resetAppData = () => ({
-    type: C.RESET_DATA
+	type: C.RESET_DATA
 });
 
 export const editApplicationOption = (input_object) => ({
-    ...input_object,
-    type: C.EDIT_APPLICATION_OPTION
+	...input_object,
+	type: C.EDIT_APPLICATION_OPTION
 });
 
 export const openAppOptionsDialog = () => ({
-    dialog_open: true,
-    type: C.EDIT_APPLICATION_OPTION
+	dialog_open: true,
+	type: C.EDIT_APPLICATION_OPTION
 });
 
 export const closeAppOptionsDialog = () => ({
-    dialog_open: false,
-    type: C.EDIT_APPLICATION_OPTION
+	dialog_open: false,
+	type: C.EDIT_APPLICATION_OPTION
 });
