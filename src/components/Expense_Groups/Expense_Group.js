@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 
+import Editable from "../Generic/Editable";
+
 const styles = theme => ({
 	root : {
 		...theme.mixins.gutters(),
@@ -43,18 +45,17 @@ const Expense_Group = ( props ) => {
 		is_editing,
 	} = props;
 
-	return ( is_editing ) ?
-		<Paper className={classes.root}>
-			{editing_view}
-		</Paper>
-		:
-		<Paper className={classes.root}>
-			<Box className={classes.adminButtonsContainer}>{buttons_admin}</Box>
-			<Typography component="h2" variant="h5" className="expense-group-name">{props.title}</Typography>
-			<Typography className={classes.expenseGroupDescription}>{props.description}</Typography>
-			{children}
-			<Box className={classes.primaryButtonsContainer}>{buttons_primary}</Box>
-		</Paper>;
+	return (
+		<Editable isEdit={is_editing} editView={<Paper className={classes.root}>{editing_view}</Paper>}>
+			<Paper className={classes.root}>
+				<Box className={classes.adminButtonsContainer}>{buttons_admin}</Box>
+				<Typography component="h2" variant="h5" className="expense-group-name">{props.title}</Typography>
+				<Typography className={classes.expenseGroupDescription}>{props.description}</Typography>
+				{children}
+				<Box className={classes.primaryButtonsContainer}>{buttons_primary}</Box>
+			</Paper>
+		</Editable>
+	);
 };
 
 Expense_Group.defaultProps = {
