@@ -65,18 +65,14 @@ const Options_Dialog = ( props ) => {
 		[];
 
 	return (
-		<Dialog
-			open={open}
-			onClose={onClose}
-			aria-labelledby="entity-options-dialog-title"
-		>
+		<Dialog open={open} onClose={onClose} aria-labelledby="entity-options-dialog-title">
 			<DialogTitle id="entity-options-dialog-title">{`${title} Options`}</DialogTitle>
 			<form
 				className={classes.root}
 			>
 				<Grid container
 					direction="column"
-					spacing={8}
+					spacing={4}
 				>
 					{options_items}
 				</Grid>
