@@ -1,14 +1,23 @@
 export const tableDataRef = ({
-	title : "",
-	cost : "",
-	costUOM : "",
-	delete : ""
+	title: "",
+	cost: "",
+	costUOM: "",
+	delete: ""
 });
 
-
-export const editDataRef = ({
+/**
+ * Structure containing a layout of the data that is available to be edited for an expense group
+ */
+export const expenseGroupEditDataRef = ({
 	title : "",
-	cost : "",
-	costUOM : "",
-	// description : "",
+	description : ""
+});
+
+/**
+ * Structure containing a layout of the data that is available to be edited for an expense group child
+ */
+export const expenseGroupChildEditDataRef = ({
+	title: "",
+	cost: "",
+	costUOM: "",
 });

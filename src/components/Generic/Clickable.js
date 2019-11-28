@@ -1,0 +1,1 @@
+export const Clickable = ({ children, onClick }) => <div onClick={onClick}>{ children }</div>;

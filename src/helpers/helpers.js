@@ -1,4 +1,5 @@
 export const extract_action_data = ( _obj ) => {
+	// eslint-disable-next-line no-unused-vars
 	let { id, type, ...actionData } = _obj;
 
 	return actionData;
@@ -114,3 +115,90 @@ export const obtainSelectProperties = ( a, b, _opts = {} ) => {
 };
 
 export const moneyFormat = cost => `$${cost}`;
+
+export const removeFromObject = ( key, object ) => {
+	// eslint-disable-next-line no-unused-vars
+	let { [key] : deleted, ...other } = object;
+	return other;
+};
+
+/**
+ * Given an array, removes as many keys in object as are in the array.
+ * If key is not in object, that's okay.
+ * @param {array} keys Filters these keys from our object
+ * @param {object} object Object to filter from
+ */
+export const filterFromObject = ( keys, object ) => {
+	if ( ! Array.isArray(keys) )
+	{
+		throw new Error(`You must supply an array for the keys parameter, ${keys} given`);
+	}
+
+	if ( ! keys.length )
+	{
+		return object;
+	}
+
+	const [ current, ...rest ] = keys;
+
+	if ( ! ( current in object )) {
+		return filterFromObject( rest, object );
+	}
+
+	return filterFromObject( rest, removeFromObject(current, object));
+};
+/**
+ * Reduces an object into a list of filtered keys.
+ * The keys that are returned are those of the objects whose given attribute equals a given value
+ * Filters to include a list of objects who have an attribute equal to the value
+ *
+ * @param {array} keyed_object - An object with keys
+ * @param {string} attribute - Attribute or property of object
+ * @param {any} value - Value to compare our attribute or property against
+ * @returns {array} - List of filtered object keys
+ */
+export const filterKeyedObjectListByAttribute = ( keyed_object, attribute, value ) =>
+	Object.keys(keyed_object)
+		.filter( key =>
+			keyed_object[key][attribute] === value
+		);
+
+/**
+ * Maps over a key list.
+ *
+ * @param {array} key_list - list of keys to map over
+ * @param {object} reference_object - object to extract data from
+ * @param {string} include_key - If given, attaches a key under a name given by the parameter
+ * @returns {array} - List of keyed object data in our reference object
+ */
+export const mapOverKeys = ( key_list, reference_object, include_key="" ) =>
+	key_list.map( key => ( include_key ) ?
+		{ [include_key] : key, ...reference_object[key] }
+		:
+		reference_object[key]
+	);
+
+/**
+ * Helper function to get a full list of children available for an expense group
+ *
+ * @param {string} id - id of the expense group you would like to find children for
+ * @param {object} children_object - full expense group children object
+ */
+export const obtainExpenseGroupChildren = ( id, children_object ) =>
+	mapOverKeys(
+		filterKeyedObjectListByAttribute( children_object, "parentID", id ),
+		children_object,
+		"id"
+	);
+
+/**
+ * Super unreadable function to reduce a list down to a boolean.
+ * @see App.js
+ * @see Expense_Group_Options_Dialog.js
+ * @param {array} list list of items to reduce to boolean by
+ * @param {any} comparison - 'string' or 'object' type.
+ * 							  A pair w/ left being an object and right being a string
+ * 							  A string will compare by a key lookup on the current list item
+ */
+export const reduceToBooleanByBoolean = (list, comparison) =>
+	list.reduce((isTrue, current) => (isTrue || (!isTrue && (Array.isArray(comparison)) ? comparison[0][current][comparison[1]] : current[comparison] )) ? true : false, false);

@@ -38,15 +38,23 @@ import {
 	application_options
 } from "./application_level_reducers";
 
+/**
+ * User Interface Specific Reducers
+ */
+
+import { user_interface } from "./user_interface_reducers";
+
+
 const appReducer = combineReducers({
-	expense_groups,
+	application_options,
 	expense_group_by_id,
-	expense_group_children,
 	expense_group_child_by_id,
+	expense_group_children,
 	expense_group_children_xref,
 	expense_group_entity_edit,
 	expense_group_options,
-	application_options
+	expense_groups,
+	user_interface
 });
 
 import testState from "../../data/test_state.json";

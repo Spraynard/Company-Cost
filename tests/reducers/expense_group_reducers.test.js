@@ -362,4 +362,4 @@ describe("Expense Group Options", () => {
 			}
 		});
 	});
-})
+});

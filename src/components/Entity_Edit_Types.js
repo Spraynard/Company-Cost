@@ -6,23 +6,23 @@ import {
 	cost_uom_values
 } from "../helpers/editHelpers";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 
 // MaterialUI
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import Input from "@material-ui/core/Input";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 
 const Base_Prop_Types = {
 	title : PropTypes.string,
 	input_type: PropTypes.string,
 	updateListener: PropTypes.func,
 	value : PropTypes.string
-}
+};
 
 export const Entity_Edit_Input = ( { title, value, input_type, options, input_props, select_props, updateListener } ) => {
 	return (
@@ -36,5 +36,5 @@ export const Entity_Edit_Input = ( { title, value, input_type, options, input_pr
 			inputProps={input_props}
 			selectProps={select_props}
 		/>
-	)
-}
+	);
+};

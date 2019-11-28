@@ -1,49 +1,34 @@
-import { PropTypes } from "prop-types";
-import Expense_Group from "./Expense_Group";
-
 // Material UI
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
-	toolbar : theme.mixins.toolbar,
-	content: {
-		flexGrow: 1,
+	root: {
 		padding: theme.spacing(3),
-		height: '100vh',
-	},
+		height: "100%",
+		width: "100%", // width and margin added to get over default material UI layout bugs
+		margin: 0,
+		...theme.mixins.toolbar
+	}
+});
 
-})
+/**
+ * Window to display our expense groups.
+ *
+ * Outputs a <Grid container/> with children in a <Grid item/>
+ * @param classes - styling classes
+ * @param addNew - Component used to add a new expense group to the list.
+ * @param props - Rest of passed in props.
+ */
+const Groups_Window = ({ classes, children }) => {
 
-const Groups_Window = (props, { store }) => {
-
-	const {
-		expense_group_by_id,
-		expense_group_child_by_id
-	} = store.getState();
-
-	const { classes } = props;
+	const grid_elements = children.map( ( child, index ) =>
+		<Grid item key={`groups-grid-elem-${index}`} xs={12} md={6} lg={4}>{child}</Grid>
+	);
 
 	return (
-		<main className={classes.content}>
-		<Grid container spacing={4} className={classes.toolbar}>
-		{
-			Object.keys(expense_group_by_id).map( expense_group_id => {
-				const expense_group_data = expense_group_by_id[expense_group_id];
-				return (
-					<Grid key={expense_group_id} item xs={12} md={6} lg={4}>
-						<Expense_Group id={expense_group_id} { ...expense_group_data } />
-					</Grid>
-				)
-			})
-		}
-		</Grid>
-		</main>
+		<Grid container className={classes.root} component="main" spacing={2}>{grid_elements}</Grid>
 	);
-};
-
-Groups_Window.contextTypes = {
-	store : PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Groups_Window);
