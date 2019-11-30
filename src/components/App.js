@@ -3,6 +3,7 @@
 
 import { Component } from "react";
 import { PropTypes } from "prop-types";
+import K from "../key_constants";
 
 import readOnlyApplicationData from "../../data/read_only_application_data";
 import readOnlyGroupData from "../../data/read_only_group_data.json";
@@ -68,7 +69,6 @@ class App extends Component {
 	constructor( props ) {
 		super( props );
 		this.expense_group_children = store.getState().expense_group_child_by_id;
-		this.handleClick = this.handleClick.bind(this);
 		this.handleKeypress = this.handleKeypress.bind(this);
 	}
 
@@ -113,71 +113,19 @@ class App extends Component {
 	}
 
 	/**
-	 * This is what explicitly controls the functionality
-	 * in which there is only one editable expense group child
-	 * available at a time.
-	 *
-	 * Handles clicks on a global application level.
-	 * Put event through through an algorithm that determines
-	 * whether our click target is a child of an expense_group.
-	 *
-	 * If that is the case, remove edit status from all
-	 * expense group children that are actively being edited
-	 * *except for* the one being clicked.
-	 */
-	handleClick( e ) {
-		let clickTarget = e.target;
-		let child_id = null;
-		const { expense_group_child_by_id } = store.getState();
-		const expense_group_children_count = Object.keys(expense_group_child_by_id).length;
-
-		/**
-		 * Finds id of item we clicked (hopefully)
-		 */
-		while ( ! child_id && clickTarget && clickTarget !== document )
-		{
-			if (clickTarget.dataset)
-			{
-				child_id = clickTarget.dataset.id;
-			}
-
-			clickTarget = clickTarget.parentNode;
-		}
-
-		/**
-		 * Remove edit status from every other expense group except the one currently being edited.
-		 */
-		for ( let i = 0; i <  expense_group_children_count; i++ )
-		{
-			let reference_child_id = Object.keys( expense_group_child_by_id )[i];
-
-			if ( reference_child_id === child_id )
-			{
-				continue;
-			}
-
-			const child_data = expense_group_child_by_id[ reference_child_id ];
-
-			if ( child_data.edit )
-			{
-				store.dispatch(saveEntity({ id : reference_child_id }));
-			}
-		}
-	}
-
-	/**
 	 * Handles keyboard actions on a global level of this component.
 	 * These affect any expense group child that is currently being edited.
 	 */
 	handleKeypress( e ) {
 		let dispatchAction;
 		let keyCode = e.which;
+
 		const { expense_group_child_by_id } = store.getState();
 		switch ( keyCode ) {
-			case 13: // Enter Key
+			case K.ENTER_KEY:
 				dispatchAction = saveEntity;
 				break;
-			case 27: // Escape Key
+			case K.ESCAPE_KEY:
 				dispatchAction = cancelEditEntity;
 				break;
 			default:
@@ -255,7 +203,7 @@ class App extends Component {
 		/**
 		 * Expense Group Specific Items
 		 */
-		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( group_id  => {
+		const expense_groups_with_add_button = Object.keys(expense_group_by_id).map( ( group_id, group_index )  => {
 			const group_data = expense_group_by_id[group_id];
 			const group_options = expense_group_options[group_id];
 			const { edit, ...group_edit_data } = group_data;
@@ -308,6 +256,8 @@ class App extends Component {
 						})
 					);
 
+				const child_save_handler = () => store.dispatch(saveEntity({id}));
+
 				// Action dispatched when we delete an expense group child
 				// Notice the stopPropagation there. Yeah that's there for a reason.
 				const delete_expense_group_child = event => {
@@ -320,9 +270,10 @@ class App extends Component {
 						key={`expense-group-${id}-child-${index}`}
 						child_data={child_obj}
 						edit_data={expense_group_entity_edit}
-						child_click_handler={edit_expense_group_child}
 						child_edit_handler={child_edit_handler}
 						child_remove_handler={delete_expense_group_child}
+						child_save_handler={child_save_handler}
+						edit_context_handler={edit_expense_group_child}
 					/>
 				);
 			});
