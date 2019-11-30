@@ -15,7 +15,8 @@ import {
 import {
 	logger,
 	saver,
-	expense_group_child_remove_helper,
+	expense_group_child_add_parent_id,
+	expense_group_child_only_one_at_a_time,
 	expense_group_edit_save_helper,
 	expense_group_remove_helper,
 	entity_edit_helper
@@ -28,7 +29,8 @@ export const store = ( initialState = stateData ) =>
 	applyMiddleware(
 		logger,
 		saver,
-		expense_group_child_remove_helper,
+		expense_group_child_add_parent_id,
+		expense_group_child_only_one_at_a_time,
 		expense_group_edit_save_helper,
 		expense_group_remove_helper,
 		entity_edit_helper
