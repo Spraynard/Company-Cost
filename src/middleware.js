@@ -16,7 +16,7 @@ import { saveEntity } from "./actions/entity_actions";
 export const logger = store => next => action => {
 	let result;
 
-	if ( process.env.NODE_ENV === "test" )
+	if ( process.env.NODE_ENV === "test" || process.env.NODE_ENV === "production" )
 	{
 		return next(action);
 	}
