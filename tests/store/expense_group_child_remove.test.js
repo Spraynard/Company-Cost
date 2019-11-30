@@ -12,10 +12,6 @@ import defaultState from "../../data/default_state.json";
 let action_1, // Adding expense group
 	action_2, // Adding expense group child
 	action_3, // Removing expense group child
-	action_1_params,
-	action_2_params,
-	expense_group_id,
-	expense_group_child_id,
 	group_title,
 	group_child_title,
 	group_child_desc,
@@ -30,53 +26,49 @@ cost = 29.35;
 costUOM = "hour";
 
 beforeAll(() => {
-	action_1_params = { title : group_title };
 
-	action_1 = addExpenseGroup(action_1_params);
+	// Add an expense group to the state
+	action_1 = addExpenseGroup({ title: group_title });
 
-	// Obtain the ID of the expense group
-	expense_group_id = action_1.id;
-
-	// Feed the expense group ID into this parameter here.
+	// Add an expense group child to our eexpense group made.
 	action_2 = addExpenseGroupChild({
 		title: group_child_title,
 		description: group_child_desc,
 		cost: cost,
 		costUOM: costUOM,
-		parentID: expense_group_id
+		parentID: action_1.id
 	});
 
-	expense_group_child_id = action_2.id;
+	// Remove the expense group child that was made.
+	action_3 = removeExpenseGroupChild({ id : action_2.id });
 
-	action_3 = removeExpenseGroupChild({ id : expense_group_child_id });
-
+	// Perform all of our actions.
 	test_store = store(defaultState);
-	// Adding the expense group
 	test_store.dispatch(action_1);
-	// Adding the expense group child
 	test_store.dispatch(action_2);
-	// Removing the expense group child
 	test_store.dispatch(action_3);
 });
 
-describe("Expense Group Children", () => {
+describe("Expense Group Children State", () => {
 	test("Items in array have been removed", () => {
-		let expense_group_children = test_store.getState()["expense_group_children"];
+		const { expense_group_children } = test_store.getState();
+
 		expect(expense_group_children).toEqual([]);
 	});
 });
 
-describe("Expense Group Child By ID", () => {
+describe("Expense Group Child By ID State", () => {
 	test("Previous expense groups that have been added are now taken out of the object", () => {
-		let expense_group_child_by_id = test_store.getState()["expense_group_child_by_id"];
+		const { expense_group_child_by_id } = test_store.getState();
 
 		expect(expense_group_child_by_id).toEqual({});
 	});
 });
 
-describe("Expense Group Children XREF", () => {
-	test("On child removal, takes out the whole parent expense group", () => {
-		let expense_group_children_xref = test_store.getState()["expense_group_children_xref"];
+describe("Expense Group Children XREF State", () => {
+	test("Should reflect the state of children assigned to this expense group. Even when empty.", () => {
+		const { expense_group_children_xref } = test_store.getState();
+
 		expect(expense_group_children_xref).toEqual({
 			[ action_1.id ] : []
 		});

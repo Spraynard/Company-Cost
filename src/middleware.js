@@ -45,12 +45,7 @@ export const saver = store => next => action => {
  */
 export const expense_group_child_add_parent_id = store => next => action => {
 
-	if ( action.hasOwnProperty("parentID") )
-	{
-		return next(action);
-	}
-
-	if ( action.type !== C.REMOVE_EXPENSE_GROUP_CHILD )
+	if ( action.type !== C.REMOVE_EXPENSE_GROUP_CHILD || typeof action.parentID !== "undefined" )
 	{
 		return next(action);
 	}
@@ -176,7 +171,7 @@ export const expense_group_remove_helper = store => next => action => {
  * This function performs operations in which we ensure that there is only
  * one expense group child being edited at a time.
  */
-export const expense_group_child_only_one_at_a_time = store => next => async action => {
+export const expense_group_child_only_one_at_a_time = store => next => action => {
 	if ( action.type !== C.EDIT_ENTITY )
 	{
 		return next(action);
@@ -187,14 +182,21 @@ export const expense_group_child_only_one_at_a_time = store => next => async act
 		expense_group_child_by_id
 	} = store.getState();
 
-	const children_data = expense_group_children.map( child_id => ({ id: child_id, ...expense_group_child_by_id[child_id] }) );
+	if ( !expense_group_child_by_id.hasOwnProperty(action.id) )
+	{
+		return next(action);
+	}
 
-	await children_data.forEach( child_object => {
-		if ( child_object.edit )
-		{
-			store.dispatch(saveEntity({ id : child_object.id }));
+	const children_data = expense_group_children.map( child_id =>
+		({ id: child_id, ...expense_group_child_by_id[child_id] })
+	);
+
+	for ( const child_object of children_data )
+	{
+		if (child_object.edit) {
+			store.dispatch(saveEntity({ id: child_object.id }));
 		}
-	});
+	}
 
 	return next(action);
 };

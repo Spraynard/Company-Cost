@@ -128,18 +128,16 @@ export const expense_group_by_id = ( state={}, action ) => {
 		 */
 		case C.SAVE_ENTITY:
 			// Checking if ID is in this portion of state.
-			if ( typeof state[ action.id ] === "undefined" )
+			if ( ! state.hasOwnProperty(action.id) )
 			{
 				return state;
 			}
 
-			let { id, type, ...action_data } = action;
-
 			return {
 				...state,
-				[ action.id ] : {
+				[action.id] : {
 					...state[action.id], // This contains all of the regular data from the state object, possibly to be overwritten
-					...action_data, // This will contain all of the data that was edited and is now getting saved.
+					...actionData, // This will contain all of the data that was edited and is now getting saved.
 					edit : false
 				}
 			};
