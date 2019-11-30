@@ -48,6 +48,7 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 				{ // Loop check for "select" displays a select element filled with specific items for that option.
 					( edit_value_types[childDataKey] === "select" ) ?
 						<Select
+							inputProps={{ "aria-label": `expense-${childDataKey}` }}
 							value={child_edit_state_data[childDataKey]}
 							name={childDataKey}
 							onChange={( event ) => child_edit_handler( event )}
@@ -58,6 +59,7 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 						</Select>
 						:
 						<InputBase
+							inputProps={{"aria-label" : `expense-${childDataKey}`}}
 							name={childDataKey}
 							value={child_edit_state_data[childDataKey]}
 							type={edit_value_types[childDataKey]}

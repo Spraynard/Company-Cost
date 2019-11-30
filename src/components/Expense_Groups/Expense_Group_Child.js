@@ -2,6 +2,8 @@ import { PropTypes } from "prop-types";
 import Editable from "../Generic/Editable";
 import React from "react";
 
+import { expense_group_child_keydown_event_listener } from "../../event_handlers";
+
 // Custom
 import {
 	obtainSelectProperties,
@@ -22,7 +24,6 @@ import Expense_Group_Child_Edit_View from "./Expense_Group_Child_Edit_View";
 
 // Styles
 import { withStyles } from "@material-ui/core/styles";
-import { TableRow } from "@material-ui/core";
 
 const styles = () => ({
 	overflowHandler : {
@@ -40,14 +41,25 @@ const Expense_Group_Child = React.memo(( props ) => {
 
 	const {
 		classes,
-		child_click_handler,
 		child_edit_handler,
 		child_remove_handler,
+		child_save_handler,
 		child_data,
-		edit_data
+		edit_data,
+		edit_context_handler,
+		...other
 	} = props;
 
 	const { id, edit } = child_data;
+
+	/**
+	 * When a user has an expense group child focused
+	 * through tab, they should be able to press the "space"
+	 * key, or the enter key, and open up the edit context of our
+	 * child.
+	 * @param {object} event keyDown event
+	 */
+	const handleKeyDown = expense_group_child_keydown_event_listener(props);
 
 
 	// Transform param allows us to take the input data and perform a functional transform on it.
@@ -63,24 +75,28 @@ const Expense_Group_Child = React.memo(( props ) => {
 
 	return(
 		<Editable
-			isEdit={edit}
 			component="tr"
-			onClick={(e) => child_click_handler(e)}
+			data-id={id}
 			editView={<Expense_Group_Child_Edit_View
 				id={id}
 				child_display_data={editableChildData}
 				child_state_data={child_data}
 				child_edit_state_data={child_edit_data}
 				child_edit_handler={child_edit_handler}
-				child_click_handler={child_click_handler}
-			/>}>
+				edit_context_handler={edit_context_handler}
+			/>}
+			isEdit={edit}
+			onKeyDown={handleKeyDown}
+			onClick={(e) => edit_context_handler(e)}
+			tabIndex={0}
+			{...other}>
 			<Expense_Group_Child_Default_View
 				id={id}
-				child_click_handler={child_click_handler}
 				child_display_data={display_child_data}
 				child_state_data={child_data}
 				child_remove_handler={child_remove_handler}
 				classes={classes}
+				edit_context_handler={edit_context_handler}
 			/>
 		</Editable>
 	);
