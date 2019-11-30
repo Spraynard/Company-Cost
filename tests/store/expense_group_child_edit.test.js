@@ -4,7 +4,7 @@ import { store } from "../../src/store";
 import {
 	addExpenseGroup,
 	addExpenseGroupChild,
-} from "../../src/actions/expense_group_actions"
+} from "../../src/actions/expense_group_actions";
 
 import {
 	saveEntity,
@@ -44,6 +44,7 @@ beforeAll(() => {
 		costUOM: costUOM,
 		parentID: expense_group_id
 	});
+
 	expense_group_child_id = action_2.id;
 
 	// action_3 - Specify start to editing
@@ -84,6 +85,38 @@ describe("Expense Group Child By ID", () => {
 		const { expense_group_child_by_id } = test_store.getState();
 
 		expect( expense_group_child_by_id[expense_group_child_id].edit ).toBeFalsy();
+	});
+
+	test("Defaults childs UOM value to \"PER HOUR\" if given a cost", async () => {
+		const add_child_action = addExpenseGroupChild({ parentID: expense_group_id });
+		const edit_child_action = editEntity({ id : add_child_action.id });
+		const update_child_action = updateEntity({ id : add_child_action.id, cost : 50.00 });
+		const save_child_action = saveEntity({ id : add_child_action.id });
+
+		await test_store.dispatch(add_child_action);
+		await test_store.dispatch(edit_child_action);
+		await test_store.dispatch(update_child_action);
+		await test_store.dispatch(save_child_action);
+
+		const { expense_group_child_by_id } = test_store.getState();
+
+		expect( expense_group_child_by_id[add_child_action.id].costUOM ).toBe("hour");
+	});
+
+	test("Does not apply costUOM default if not given a cost", async () => {
+		const add_child_action = addExpenseGroupChild({ parentID: expense_group_id });
+		const edit_child_action = editEntity({ id: add_child_action.id });
+		const update_child_action = updateEntity({ id: add_child_action.id, title: "This is the updated child here!!!!" });
+		const save_child_action = saveEntity({ id: add_child_action.id });
+
+		await test_store.dispatch(add_child_action);
+		await test_store.dispatch(edit_child_action);
+		await test_store.dispatch(update_child_action);
+		await test_store.dispatch(save_child_action);
+
+		const { expense_group_child_by_id } = test_store.getState();
+
+		expect(expense_group_child_by_id[add_child_action.id].costUOM).toBe("");
 	});
 });
 

@@ -83,10 +83,16 @@ export const expense_group_edit_save_helper = store => next => action => {
 	// as numbers, not strings.
 	if ( isIDAnExpenseGroupChild )
 	{
-		edited_item_content.cost = ( typeof edited_item_content.cost === "undefined" ) ?
-			0.00
+		edited_item_content.cost = (edited_item_content.cost) ?
+			parseFloat(edited_item_content.cost)
 			:
-			parseFloat( edited_item_content.cost );
+			0.00;
+
+
+		if ( ! edited_item_content.costUOM && parseInt(edited_item_content.cost) )
+		{
+			edited_item_content.costUOM = "hour";
+		}
 	}
 
 	// Insert edited item content into the action. This is a much needed procedure.
@@ -94,6 +100,9 @@ export const expense_group_edit_save_helper = store => next => action => {
 		...action,
 		...edited_item_content
 	};
+
+	console.log("Action");
+	console.log(action);
 
 	// Returning the next action should delete the item out of the expense_group_edit_obj state
 	return next(action);
