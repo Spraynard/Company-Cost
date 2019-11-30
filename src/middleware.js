@@ -10,6 +10,7 @@ import {
 	expenseGroupEditDataRef,
 	expenseGroupChildEditDataRef
 } from "./dataReferenceObjects";
+import { saveEntity } from "./actions/entity_actions";
 
 // Log actions to the console as we dispatch them
 export const logger = store => next => action => {
@@ -42,23 +43,21 @@ export const saver = store => next => action => {
  * Basically, if we are missing a parent ID from our action ( which is used by the expense_group_child_xref to filter out the expense group children )
  * we will add that data on the action based on our overall state.
  */
-export const expense_group_child_remove_helper = store => next => action => {
-	// Find out what kind of action we have
-	if ( action.type === C.REMOVE_EXPENSE_GROUP_CHILD && typeof action.parentID === "undefined" )
-	{
-		let state = store.getState();
-		let child_by_id_obj = state.expense_group_child_by_id;
-		/**
-		 * action.id is going to be the ID of the expense group child because of how
-		 * C.REMOVE_EXPENSE_GROUP_CHILD is set up.
-		 */
-		let childrens_parent_id = child_by_id_obj[action.id].parentID;
+export const expense_group_child_add_parent_id = store => next => action => {
 
-		// Now we inject the parentID into the action
-		action.parentID = childrens_parent_id;
+	if ( action.hasOwnProperty("parentID") )
+	{
+		return next(action);
 	}
 
-	return next(action);
+	if ( action.type !== C.REMOVE_EXPENSE_GROUP_CHILD )
+	{
+		return next(action);
+	}
+
+	const { expense_group_child_by_id } = store.getState();
+
+	return next({ ...action, parentID : expense_group_child_by_id[action.id].parentID });
 };
 
 /**
@@ -157,16 +156,45 @@ export const entity_edit_helper = store => next => action => {
  */
 export const expense_group_remove_helper = store => next => action => {
 
-	if ( action.type === C.REMOVE_EXPENSE_GROUP )
+	if ( action.type !== C.REMOVE_EXPENSE_GROUP )
 	{
-		const expense_group_children_xref = store.getState()["expense_group_children_xref"];
-		let expense_group_children_xref_ids = expense_group_children_xref[action.id];
-
-		action = {
-			...action,
-			expense_group_children_xref_ids
-		};
+		return next(action);
 	}
+
+	const expense_group_children_xref = store.getState()["expense_group_children_xref"];
+	let expense_group_children_xref_ids = expense_group_children_xref[action.id];
+
+	action = {
+		...action,
+		expense_group_children_xref_ids
+	};
+
+	return next(action);
+};
+
+/**
+ * This function performs operations in which we ensure that there is only
+ * one expense group child being edited at a time.
+ */
+export const expense_group_child_only_one_at_a_time = store => next => async action => {
+	if ( action.type !== C.EDIT_ENTITY )
+	{
+		return next(action);
+	}
+
+	const {
+		expense_group_children,
+		expense_group_child_by_id
+	} = store.getState();
+
+	const children_data = expense_group_children.map( child_id => ({ id: child_id, ...expense_group_child_by_id[child_id] }) );
+
+	await children_data.forEach( child_object => {
+		if ( child_object.edit )
+		{
+			store.dispatch(saveEntity({ id : child_object.id }));
+		}
+	});
 
 	return next(action);
 };
