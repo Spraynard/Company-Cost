@@ -2,7 +2,7 @@ const path = require("path");
 
 var config = {
 	mode : "development",
-	entry : "./src/index.js",
+	entry : ["babel-polyfill", "./src/index.js"],
 	output : {
 		filename: "public/main.js",
 		path: path.resolve(__dirname, "dist"),
