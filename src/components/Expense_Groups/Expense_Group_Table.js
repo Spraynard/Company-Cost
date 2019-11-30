@@ -31,7 +31,9 @@ const Expense_Group_Table = ( props ) => {
 	return (
 		<Table size="small">
 			{header}
-			<TableBody>{children}</TableBody>
+			<TableBody>
+				{children}
+			</TableBody>
 			{footer}
 		</Table>
 	);
