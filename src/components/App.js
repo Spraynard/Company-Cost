@@ -113,6 +113,50 @@ class App extends Component {
 	}
 
 	/**
+	 * Handles clicks on a global application level.
+	 * Put event through through an algorithm that determines
+	 * whether our click target is a child of an expense_group.
+	 *
+	 * If that is the case, remove edit status from all
+	 * expense group children that are actively being edited
+	 * *except for* the one being clicked.
+	 */
+	handleClick(e) {
+		let clickTarget = e.target;
+		let child_id = null;
+		const { expense_group_child_by_id } = store.getState();
+		const expense_group_children_count = Object.keys(expense_group_child_by_id).length;
+
+		/**
+		 * Finds id of item we clicked (hopefully)
+		 */
+		while (!child_id && clickTarget && clickTarget !== document) {
+			if (clickTarget.dataset) {
+				child_id = clickTarget.dataset.id;
+			}
+
+			clickTarget = clickTarget.parentNode;
+		}
+
+		/**
+		 * Remove edit status from every other expense group except the one currently being edited.
+		 */
+		for (let i = 0; i < expense_group_children_count; i++) {
+			let reference_child_id = Object.keys(expense_group_child_by_id)[i];
+
+			if (reference_child_id === child_id) {
+				continue;
+			}
+
+			const child_data = expense_group_child_by_id[reference_child_id];
+
+			if (child_data.edit) {
+				store.dispatch(saveEntity({ id: reference_child_id }));
+			}
+		}
+	}
+
+	/**
 	 * Handles keyboard actions on a global level of this component.
 	 * These affect any expense group child that is currently being edited.
 	 */
