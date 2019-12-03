@@ -27,7 +27,6 @@ import Remove_Expense_Group_Button from "./Buttons/Remove_Expense_Group_Button";
 import Open_Expense_Group_Options_Dialog_Button from "./Buttons/Open_Expense_Group_Options_Dialog_Button";
 import Typography from "@material-ui/core/Typography";
 
-
 /** Redux Actions */
 import {
 	resetAppData,
