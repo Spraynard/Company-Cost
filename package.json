@@ -1,6 +1,5 @@
 {
   "name": "company_cost",
-  "version": "0.0.1",
   "description": "Get the operating cost of your company with this app",
   "private": "true",
   "scripts": {
