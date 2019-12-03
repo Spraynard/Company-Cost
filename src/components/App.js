@@ -296,15 +296,15 @@ class App extends Component {
 
 				// Action dispatched when we update an expense group child
 				const child_update_handler = event =>
-					store.dispatch(
-						updateEntity({
-							id,
-							...expense_group_child_validator(
-								event.target.name,
-								event.target.value
-							)
-						})
-					);
+					( expense_group_child_validator( event.target.name, event.target.value ) ) ?
+						store.dispatch(
+							updateEntity({
+								id,
+								[event.target.name] : event.target.value
+							})
+						)
+						:
+						null;
 
 				const child_save_handler = () => store.dispatch(saveEntity({id}));
 

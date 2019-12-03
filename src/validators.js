@@ -14,5 +14,5 @@ export const expense_group_child_validator = ( name, value ) => {
 			regex = /.*/g;
 	}
 
-	return regex.test( value ) ? { [name] : value } : {};
+	return regex.test( value );
 };
