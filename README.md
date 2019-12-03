@@ -1,4 +1,4 @@
-# Company Cost :money_with_wings: :page_with_curl:
+# (Company Cost Logo)[docs/public/logos/company_cost_logo_100x100.png] Company Cost :money_with_wings: :page_with_curl:
 An app that allows users to track the operating cost of business operations. Also can provide an even more insightful look into your personal life by giving a basic view of your budget.
 
 ## App Documentation / How-To
