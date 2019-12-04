@@ -101,9 +101,6 @@ export const expense_group_edit_save_helper = store => next => action => {
 		...edited_item_content
 	};
 
-	console.log("Action");
-	console.log(action);
-
 	// Returning the next action should delete the item out of the expense_group_edit_obj state
 	return next(action);
 };

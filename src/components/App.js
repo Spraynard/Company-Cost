@@ -27,8 +27,7 @@ import Remove_Expense_Group_Button from "./Buttons/Remove_Expense_Group_Button";
 import Open_Expense_Group_Options_Dialog_Button from "./Buttons/Open_Expense_Group_Options_Dialog_Button";
 import Typography from "@material-ui/core/Typography";
 
-
-// Redux Actions
+/** Redux Actions */
 import {
 	resetAppData,
 	editApplicationOption,
@@ -54,12 +53,15 @@ import {
 	removeExpenseGroupChild
 } from "../actions/expense_group_actions";
 
-// Helper Functions
+/** Helper Functions */
 import {
 	obtainChildCostTotal,
 	obtainExpenseGroupChildren,
 	reduceToBooleanByBoolean
 } from "../helpers/helpers";
+
+/** Validation Functions */
+import { expense_group_child_validator } from "../validators";
 
 /**
  * Overall controller for the App.
@@ -292,13 +294,16 @@ class App extends Component {
 					store.dispatch(editEntity({ id }));
 
 				// Action dispatched when we update an expense group child
-				const child_edit_handler = event =>
-					store.dispatch(
-						updateEntity({
-							id,
-							[event.target.name]: event.target.value
-						})
-					);
+				const child_update_handler = event =>
+					( expense_group_child_validator( event.target.name, event.target.value ) ) ?
+						store.dispatch(
+							updateEntity({
+								id,
+								[event.target.name] : event.target.value
+							})
+						)
+						:
+						null;
 
 				const child_save_handler = () => store.dispatch(saveEntity({id}));
 
@@ -314,7 +319,7 @@ class App extends Component {
 						key={`expense-group-${id}-child-${index}`}
 						child_data={child_obj}
 						edit_data={expense_group_entity_edit}
-						child_edit_handler={child_edit_handler}
+						child_update_handler={child_update_handler}
 						child_remove_handler={delete_expense_group_child}
 						child_save_handler={child_save_handler}
 						edit_context_handler={edit_expense_group_child}
