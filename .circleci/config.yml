@@ -14,7 +14,6 @@ commands:
               # fallback to using the latest cache if no exact match is found
               - v1-dependencies-
 
-
 jobs:
   build:
     executor: basic-setup
@@ -51,12 +50,12 @@ workflows:
     jobs:
       - build
       - test:
-        requires:
-          - build
+          requires:
+            - build
       # Only deploys on master branch
       - deploy:
-        requires:
-          - test
-        filters:
-          branches:
-            only: master
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
