@@ -10,7 +10,7 @@ import Select from "@material-ui/core/Select";
 const Expense_Group_Child_Edit_View =  ( props ) => {
 	const {
 		child_edit_state_data,
-		child_edit_handler,
+		child_update_handler,
 	} = props;
 
 	const edit_value_types = {
@@ -51,7 +51,7 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 							inputProps={{ "aria-label": `expense-${childDataKey}` }}
 							value={child_edit_state_data[childDataKey]}
 							name={childDataKey}
-							onChange={( event ) => child_edit_handler( event )}
+							onChange={( event ) => child_update_handler( event )}
 							native={true}
 						>
 							{ select_values[childDataKey].map((item, index) =>
@@ -63,7 +63,7 @@ const Expense_Group_Child_Edit_View =  ( props ) => {
 							name={childDataKey}
 							value={child_edit_state_data[childDataKey]}
 							type={edit_value_types[childDataKey]}
-							onChange={( event ) => child_edit_handler( event )}
+							onChange={( event ) => child_update_handler( event )}
 						/>
 				}
 			</TableCell>

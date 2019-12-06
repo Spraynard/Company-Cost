@@ -41,7 +41,7 @@ const Expense_Group_Child = React.memo(( props ) => {
 
 	const {
 		classes,
-		child_edit_handler,
+		child_update_handler,
 		child_remove_handler,
 		child_save_handler,
 		child_data,
@@ -82,7 +82,7 @@ const Expense_Group_Child = React.memo(( props ) => {
 				child_display_data={editableChildData}
 				child_state_data={child_data}
 				child_edit_state_data={child_edit_data}
-				child_edit_handler={child_edit_handler}
+				child_update_handler={child_update_handler}
 				edit_context_handler={edit_context_handler}
 			/>}
 			isEdit={edit}
