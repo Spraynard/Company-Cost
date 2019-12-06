@@ -41,7 +41,7 @@ jobs:
           command: |
             npm run build
             git config user.email \""$DEPLOY_USER_EMAIL"\"
-            git config user.name \""$DEPLOY_USER_NAME"\""
+            git config user.name \""$DEPLOY_USER_NAME"\"
             git add .
             git commit -m "CIRCLE CI DEPLOYMENT"
             git push origin master
