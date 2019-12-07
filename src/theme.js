@@ -1,5 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
-import { lighten } from "@material-ui/core/styles/colorManipulator";
+import { fade, lighten, darken } from "@material-ui/core/styles/colorManipulator";
 import "./fonts/fonts.css";
 
 const defaultTheme = createMuiTheme({
@@ -34,6 +34,21 @@ export const CompanyCostTheme = createMuiTheme({
 				color: "#fff"
 			}
 		},
+		MuiTable : {
+			// root : {
+			// 	borderCollapse : "separate",
+			// 	borderSpacing : "0px"
+			// }
+		},
+		// MuiTableBody : { // This override will remove the borders on all body table cells on hover
+		// 	root : {
+		// 		"&:hover" : {
+		// 			"& .MuiTableCell-body" : {
+		// 				border : "none"
+		// 			}
+		// 		}
+		// 	}
+		// },
 		MuiTableCell : {
 			head : {
 				borderColor: defaultTheme.palette.primary.main,
@@ -57,6 +72,22 @@ export const CompanyCostTheme = createMuiTheme({
 		MuiTableRow: {
 			root: {
 				height: 24,
+				// "&:hover" : {
+				// 	"& .MuiTableCell-body" : {
+				// 		borderBottom: `1px solid
+				// 		${
+				// 			defaultTheme.palette.type === "light"
+				// 			? lighten(fade(defaultTheme.palette.divider, 1), 0.88)
+				// 			: darken(fade(defaultTheme.palette.divider, 1), 0.68)
+				// 		}`,
+				// 		borderTop: `1px solid
+				// 		${
+				// 			defaultTheme.palette.type === "light"
+				// 				? lighten(fade(defaultTheme.palette.divider, 1), 0.88)
+				// 				: darken(fade(defaultTheme.palette.divider, 1), 0.68)
+				// 			}`,
+				// 	}
+				// },
 			},
 			head: {
 				height: 32

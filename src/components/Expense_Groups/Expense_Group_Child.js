@@ -1,5 +1,4 @@
 import { PropTypes } from "prop-types";
-import Editable from "../Generic/Editable";
 import React from "react";
 
 import { expense_group_child_keydown_event_listener } from "../../event_handlers";
@@ -19,11 +18,11 @@ import {
 
 import Expense_Group_Child_Default_View from "./Expense_Group_Child_Default_View";
 import Expense_Group_Child_Edit_View from "./Expense_Group_Child_Edit_View";
-
-//-- Material UI
+import Editable from "../Generic/Editable";
 
 // Styles
 import { withStyles } from "@material-ui/core/styles";
+import { TableRow } from "@material-ui/core";
 
 const styles = () => ({
 	overflowHandler : {
@@ -37,7 +36,7 @@ const styles = () => ({
 	}
 });
 
-const Expense_Group_Child = React.memo(( props ) => {
+const Expense_Group_Child = React.memo( props => {
 
 	const {
 		classes,
@@ -75,7 +74,7 @@ const Expense_Group_Child = React.memo(( props ) => {
 
 	return(
 		<Editable
-			component="tr"
+			component={TableRow}
 			data-id={id}
 			editView={<Expense_Group_Child_Edit_View
 				id={id}
@@ -88,6 +87,8 @@ const Expense_Group_Child = React.memo(( props ) => {
 			isEdit={edit}
 			onKeyDown={handleKeyDown}
 			onClick={(e) => edit_context_handler(e)}
+			onFocus={(e) => handleFocus(e)}
+			onBlur={(e) => handleBlur(e)}
 			tabIndex={0}
 			{...other}>
 			<Expense_Group_Child_Default_View
@@ -104,11 +105,6 @@ const Expense_Group_Child = React.memo(( props ) => {
 	JSON.stringify(prevProps.child_data) === JSON.stringify(nextProps.child_data) &&
 	JSON.stringify(prevProps.edit_data) === JSON.stringify(nextProps.edit_data)
 ));
-
-
-Expense_Group_Child.defaultProps = {
-	title : "Expense"
-};
 
 Expense_Group_Child.propTypes = {
 	child_data : PropTypes.object.isRequired

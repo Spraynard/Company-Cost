@@ -307,6 +307,8 @@ class App extends Component {
 
 				const child_save_handler = () => store.dispatch(saveEntity({id}));
 
+				const child_focus_handler = (event) => console.log(event);
+				const child_blur_handler = (event) => console.log(event);
 				// Action dispatched when we delete an expense group child
 				// Notice the stopPropagation there. Yeah that's there for a reason.
 				const delete_expense_group_child = event => {
@@ -316,13 +318,15 @@ class App extends Component {
 
 				return (
 					<Expense_Group_Child
-						key={`expense-group-${id}-child-${index}`}
+						child_blur_handler={child_blur_handler}
 						child_data={child_obj}
-						edit_data={expense_group_entity_edit}
-						child_update_handler={child_update_handler}
+						child_edit_handler={child_edit_handler}
+						child_focus_handler={child_focus_handler}
 						child_remove_handler={delete_expense_group_child}
 						child_save_handler={child_save_handler}
 						edit_context_handler={edit_expense_group_child}
+						edit_data={expense_group_entity_edit}
+						key={`expense-group-${id}-child-${index}`}
 					/>
 				);
 			});
