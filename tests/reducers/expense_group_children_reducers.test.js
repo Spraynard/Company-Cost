@@ -11,11 +11,16 @@ import {
 
 // Importing actions to use. These should work and be tested out correctly.
 import {
-	addExpenseGroupChild,
-	removeExpenseGroupChild,
 	removeExpenseGroup,
 	addExpenseGroup,
 } from "../../src/actions/expense_group_actions";
+
+import {
+	addExpenseGroupChild,
+	removeExpenseGroupChild,
+	selectExpenseGroupChild,
+	unselectExpenseGroupChild
+} from "../../src/actions/expense_group_child_actions";
 
 import {
 	editEntity,
@@ -99,6 +104,7 @@ describe("Expense Group Child By ID", () => {
 		var returnedID = action.id;
 
 		var results = expense_group_child_by_id( state, action );
+
 		expect( results ).toEqual({
 			[ returnedID ] : {
 				title : action.title,
@@ -106,6 +112,7 @@ describe("Expense Group Child By ID", () => {
 				cost : action.cost,
 				costUOM : action.costUOM,
 				parentID : 1,
+				selected : false,
 				timestamp : action.timestamp,
 				edit : false
 			}
@@ -121,14 +128,6 @@ describe("Expense Group Child By ID", () => {
 			costUOM : "hour",
 			parentID : 0
 		});
-
-		var { action_1_id, ...rest_1 } = action_1;
-		// Set up an initialized state;
-		var expense_group_child_by_id_object = {
-			[action_1_id] : {
-				...rest_1
-			}
-		};
 
 		state = expense_group_child_by_id(
 			state,
@@ -156,6 +155,7 @@ describe("Expense Group Child By ID", () => {
 				cost : action_2.cost,
 				costUOM : action_2.costUOM,
 				parentID : 0,
+				selected : false,
 				timestamp : action_2.timestamp,
 				edit : false,
 			}
@@ -320,6 +320,31 @@ describe("Expense Group Child By ID", () => {
 
 		// Check to see that we have successfully canceled an edit.
 		expect(results[action_1.id].edit).toBeFalsy();
+	});
+
+	test("Will set an expense group child as selected", () => {
+		let action_1 = addExpenseGroupChild(expense_group_child_action_helper);
+		let action_2 = selectExpenseGroupChild({ id: action_1.id });
+
+		state = expense_group_child_by_id(
+			expense_group_child_by_id( state, action_1 ),
+			action_2
+		);
+
+		expect(state[action_1.id].selected).toBeTruthy();
+	});
+
+	test("Will set an expense group child as unselected", () => {
+		let action_1 = addExpenseGroupChild({ selected : true, ...expense_group_child_action_helper });
+		let action_2 = unselectExpenseGroupChild({ id: action_1.id });
+
+		state = expense_group_child_by_id(
+			expense_group_child_by_id( state, action_1 ),
+			action_2
+		);
+
+		expect(state[action_1.id].selected).toBeFalsy();
+
 	});
 });
 

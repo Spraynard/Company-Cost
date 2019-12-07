@@ -46,12 +46,15 @@ import {
 
 import {
 	addExpenseGroup,
-	addExpenseGroupChild,
+	removeExpenseGroup,
 	closeExpenseGroupOptionsDialog,
 	openExpenseGroupOptionsDialog,
-	removeExpenseGroup,
-	removeExpenseGroupChild
 } from "../actions/expense_group_actions";
+
+import {
+	addExpenseGroupChild,
+	removeExpenseGroupChild
+} from "../actions/expense_group_child_actions";
 
 /** Helper Functions */
 import {
@@ -294,7 +297,7 @@ class App extends Component {
 					store.dispatch(editEntity({ id }));
 
 				// Action dispatched when we update an expense group child
-				const child_update_handler = event =>
+				const child_edit_handler = event =>
 					( expense_group_child_validator( event.target.name, event.target.value ) ) ?
 						store.dispatch(
 							updateEntity({
@@ -326,6 +329,8 @@ class App extends Component {
 						child_save_handler={child_save_handler}
 						edit_context_handler={edit_expense_group_child}
 						edit_data={expense_group_entity_edit}
+						handle_focus={( event ) => console.log(event)}
+						handle_blur={( event ) => console.log(event)}
 						key={`expense-group-${id}-child-${index}`}
 					/>
 				);

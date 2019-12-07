@@ -41,61 +41,56 @@ export const expense_group_children = ( state=[], action ) => {
  */
 export const expense_group_child_by_id = ( state={}, action ) => {
 
-	if ( ( typeof action.type ) === "undefined" )
+	const { id, type, ...action_data } = action;
+
+	if ( typeof type === "undefined" )
 	{
 		return state;
 	}
 
-	switch ( action.type ) {
+	switch ( type ) {
 		case C.ADD_EXPENSE_GROUP_CHILD:
 			return {
 				...state,
-				[ action.id ] : {
-					title : action.title,
-					description : action.description,
-					cost : action.cost,
-					costUOM : action.costUOM,
-					timestamp : action.timestamp,
-					parentID : action.parentID,
-					edit : action.edit
-				}
+				[ id ] : action_data
 			};
 
 		case C.REMOVE_EXPENSE_GROUP_CHILD:
-			return filterFromObject([action.id.toString()], state);
+			return filterFromObject([id.toString()], state);
 
 		case C.EDIT_ENTITY:
 			// Checking if ID is in this portion of state.
-			if ( typeof state[ action.id ] === "undefined" )
+			if ( typeof state[ id ] === "undefined" )
 			{
 				return state;
 			}
 
 			return {
 				...state,
-				[ action.id ] : {
-					...state[action.id],
+				[ id ] : {
+					...state[id],
 					edit : true
 				}
 			};
 
 		case C.REMOVE_EXPENSE_GROUP:
-			return filterFromObject(Object.keys(state).filter(child_id => state[child_id].parentID === action.id), state);
+			return filterFromObject(
+				Object.keys(state).filter(child_id => state[child_id].parentID === id),
+				state
+			);
 
 
 		case C.SAVE_ENTITY:
 			// Checking if ID is in this portion of state.
-			if ( typeof state[ action.id ] === "undefined" )
+			if ( typeof state[ id ] === "undefined" )
 			{
 				return state;
 			}
 
-			let { id, type, ...action_data } = action;
-
 			return {
 				...state,
-				[ action.id ] : {
-					...state[action.id],
+				[ id ] : {
+					...state[id],
 					...action_data,
 					edit : false
 				}
@@ -103,16 +98,29 @@ export const expense_group_child_by_id = ( state={}, action ) => {
 
 		case C.CANCEL_EDIT_ENTITY:
 			// Checking if ID is in this portion of state.
-			if ( typeof state[ action.id ] === "undefined" )
+			if ( typeof state[ id ] === "undefined" )
 			{
 				return state;
 			}
 
 			return {
 				...state,
-				[ action.id ] : {
-					...state[action.id],
+				[ id ] : {
+					...state[id],
 					edit : false
+				}
+			};
+
+		case C.SET_SELECTED:
+			if ( typeof state[id] === "undefined" )
+			{
+				return state;
+			}
+			return {
+				...state,
+				[id] : {
+					...state[id],
+					selected : action_data.selected
 				}
 			};
 

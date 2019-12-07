@@ -40,12 +40,14 @@ const Expense_Group_Child = React.memo( props => {
 
 	const {
 		classes,
-		child_update_handler,
+		child_edit_handler,
 		child_remove_handler,
 		child_save_handler,
 		child_data,
 		edit_data,
 		edit_context_handler,
+		handle_focus,
+		handle_blur,
 		...other
 	} = props;
 
@@ -81,14 +83,14 @@ const Expense_Group_Child = React.memo( props => {
 				child_display_data={editableChildData}
 				child_state_data={child_data}
 				child_edit_state_data={child_edit_data}
-				child_update_handler={child_update_handler}
+				child_edit_handler={child_edit_handler}
 				edit_context_handler={edit_context_handler}
 			/>}
 			isEdit={edit}
 			onKeyDown={handleKeyDown}
 			onClick={(e) => edit_context_handler(e)}
-			onFocus={(e) => handleFocus(e)}
-			onBlur={(e) => handleBlur(e)}
+			onFocus={(e) => handle_focus(e)}
+			onBlur={(e) => handle_blur(e)}
 			tabIndex={0}
 			{...other}>
 			<Expense_Group_Child_Default_View
