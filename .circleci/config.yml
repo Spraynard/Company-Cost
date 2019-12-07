@@ -1,69 +1,37 @@
-version: 2.1
-executors:
-  basic-setup:
-    docker:
-      - image: circleci/node:7.10
-    working_directory: ~/repo
-commands:
-  get-cached:
-    description: obtains cached dependencies, if any.
-    steps:
-      - restore_cache:
-            keys:
-              - v1-dependencies-{{ checksum "package.json" }}
-              # fallback to using the latest cache if no exact match is found
-              - v1-dependencies-
-
-parameters:
-  circleci_deploy_to_gh_pages:
-    type: boolean
-    default: false
-
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
 jobs:
   build:
-    executor: basic-setup
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:7.10
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
     steps:
       - checkout
-      - get-cached
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
       - run: npm install
+
       - save_cache:
-          key: v1-dependencies-{{ checksum "package.json" }}
           paths:
             - node_modules
-  test:
-    executor: basic-setup
-    steps:
-      - checkout
-      - get-cached
-      - run: npm run test
-  deploy:
-    executor: basic-setup
-    steps:
-      - get-cached
-      - run:
-          name: Deploy docs/ to master
-          command: |
-            npm run build
-            git checkout master
-            git pull master
-            git config user.email \""$DEPLOY_USER_EMAIL"\"
-            git config user.name \""$DEPLOY_USER_NAME"\"
-            git add .
-            git commit -m "CIRCLE CI DEPLOYMENT"
-            git push origin master
+          key: v1-dependencies-{{ checksum "package.json" }}
 
-workflows:
-  version: 2
-  build-test-deploy:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
-      # Only deploys on master branch
-      - deploy:
-          requires:
-            - test
-          filters:
-            branches:
-              only: deploy
+      # run tests!
+      - run: npm run test
