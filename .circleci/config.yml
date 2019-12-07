@@ -14,6 +14,11 @@ commands:
               # fallback to using the latest cache if no exact match is found
               - v1-dependencies-
 
+parameters:
+  circleci_deploy_to_gh_pages:
+    type: boolean
+    default: false
+
 jobs:
   build:
     executor: basic-setup
@@ -34,12 +39,13 @@ jobs:
   deploy:
     executor: basic-setup
     steps:
-      - checkout
       - get-cached
       - run:
-          name: Build and Deploy
+          name: Deploy docs/ to master
           command: |
             npm run build
+            git checkout master
+            git pull master
             git config user.email \""$DEPLOY_USER_EMAIL"\"
             git config user.name \""$DEPLOY_USER_NAME"\"
             git add .
@@ -60,4 +66,4 @@ workflows:
             - test
           filters:
             branches:
-              only: master
+              only: deploy
