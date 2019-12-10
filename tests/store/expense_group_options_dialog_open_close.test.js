@@ -12,15 +12,8 @@ import defaultState from "../../data/default_state.json";
 let test_store;
 let id;
 let action;
-let action_2;
-let default_costUOM;
-let default_size;
-let default_expense_group_options_obj;
 
 let title = "A Test Expense Group";
-
-let edited_option_costUOM = "week";
-let edited_option_size = "large";
 
 beforeAll(() => {
 	test_store = store(defaultState);
@@ -39,7 +32,7 @@ describe("Expense Group Options Dialog Operations", () => {
 
 		expect(expense_group_option).toEqual({
 			costUOM : "day",
-			size : "default",
+			// size : "default",
 			dialog_open : true
 		});
 	});
@@ -53,7 +46,7 @@ describe("Expense Group Options Dialog Operations", () => {
 
 		expect(expense_group_option).toEqual({
 			costUOM : "day",
-			size : "default",
+			// size : "default",
 			dialog_open : false
 		});
 	});

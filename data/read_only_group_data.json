@@ -1,11 +1,15 @@
 {
 	"expense_group_options" : {
-		"costUOM" : [ "hour", "day", "week", "month", "year" ],
-		"size" : [ "default", "large", "extra-large" ]
+		"costUOM" : [ "hour", "day", "week", "month", "year" ]
+	},
+	"expense_group_removed_properties" : {
+		"size" : {
+			"options" : [ "default", "large", "extra-large" ],
+			"labels" : "Group Size"
+		}
 	},
 	"expense_group_options_labels" : {
-		"costUOM": "Total Cost UOM",
-		"size": "Group Size"
+		"costUOM": "Total Cost UOM"
 	},
 	"edit_subject_input_types" : {
 		"title" : "text",
