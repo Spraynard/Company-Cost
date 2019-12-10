@@ -1,7 +1,11 @@
 import ContextSwitcher from "./ContextSwitcher";
 /**
- * Editable is a generic component that is basically a "context switcher",
- * but here the context switches on whether or not we are "in edit" or not.
+ * Generic display component that provides an abstraction over our ContextSwitcher.
+ *
+ * The context here is based on whether or not our editable component is being edited.
+ *
+ * @param {bool} isEdit - Boolean as to whether this component is being edited.
+ * @param {Component} editView - The view shown when being edited.
  */
 const Editable = ({ isEdit, editView, ...props }) =>
 	<ContextSwitcher switchContext={isEdit} switchedView={editView} {...props}/>;

@@ -363,9 +363,7 @@ class App extends Component {
 				</Expense_Group>
 			);
 		}
-		).concat([
-			<Add_Expense_Group_UI_Button key={"expense-group-add-button"} action={() => store.dispatch(addExpenseGroup())}/>
-		]);
+		).concat(<Add_Expense_Group_UI_Button key={"expense-group-add-button"} action={() => store.dispatch(addExpenseGroup())}/>);
 
 		return (
 			<div>
