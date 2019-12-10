@@ -1,5 +1,6 @@
 import { PropTypes } from "prop-types";
 import React from "react";
+import Remove_Expense_Group_Child_Button from "../Buttons/Remove_Expense_Group_Child_Button";
 
 import { expense_group_child_keydown_event_listener } from "../../event_handlers";
 
@@ -25,15 +26,12 @@ import { withStyles } from "@material-ui/core/styles";
 import { TableRow } from "@material-ui/core";
 
 const styles = () => ({
-	overflowHandler : {
-		whiteSpace : "nowrap",
-		overflow : "hidden",
-		textOverflow : "ellipsis"
+	root: {
+		// overflow : "hidden",
+		// textOverflow : "ellipsis",
+		// whiteSpace : "nowrap",
+		cursor: "pointer"
 	},
-	// Deletes expense from expense group
-	deleteButton : {
-		cursor : "pointer"
-	}
 });
 
 const Expense_Group_Child = React.memo( props => {
@@ -42,7 +40,6 @@ const Expense_Group_Child = React.memo( props => {
 		classes,
 		child_edit_handler,
 		child_remove_handler,
-		child_save_handler,
 		child_data,
 		edit_data,
 		edit_context_handler,
@@ -92,13 +89,13 @@ const Expense_Group_Child = React.memo( props => {
 			onFocus={(e) => handle_focus(e)}
 			onBlur={(e) => handle_blur(e)}
 			tabIndex={0}
+			className={classes.root}
 			{...other}>
 			<Expense_Group_Child_Default_View
 				id={id}
 				child_display_data={display_child_data}
 				child_state_data={child_data}
-				child_remove_handler={child_remove_handler}
-				classes={classes}
+				delete_button={<Remove_Expense_Group_Child_Button onClick={child_remove_handler}/>}
 				edit_context_handler={edit_context_handler}
 			/>
 		</Editable>

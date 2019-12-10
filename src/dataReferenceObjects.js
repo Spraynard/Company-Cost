@@ -2,7 +2,6 @@ export const tableDataRef = ({
 	title: "",
 	cost: "",
 	costUOM: "",
-	delete: ""
 });
 
 /**
