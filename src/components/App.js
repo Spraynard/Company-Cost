@@ -291,13 +291,13 @@ class App extends Component {
 				const { id, edit } = child_obj;
 
 				// Action dispatched when we edit an expense group child
-				const edit_expense_group_child = () => ( edit ) ?
+				const child_edit_handler = () => ( edit ) ?
 					null
 					:
 					store.dispatch(editEntity({ id }));
 
 				// Action dispatched when we update an expense group child
-				const child_edit_handler = event =>
+				const child_update_handler = event =>
 					( expense_group_child_validator( event.target.name, event.target.value ) ) ?
 						store.dispatch(
 							updateEntity({
@@ -308,10 +308,9 @@ class App extends Component {
 						:
 						null;
 
-				const child_save_handler = () => store.dispatch(saveEntity({id}));
 
-				const child_focus_handler = (event) => console.log(event);
-				const child_blur_handler = (event) => console.log(event);
+				const child_focus_handler = ( event ) => console.log(event);
+				const child_blur_handler = ( event ) => console.log(event);
 				// Action dispatched when we delete an expense group child
 				// Notice the stopPropagation there. Yeah that's there for a reason.
 				const delete_expense_group_child = event => {
@@ -321,16 +320,13 @@ class App extends Component {
 
 				return (
 					<Expense_Group_Child
-						child_blur_handler={child_blur_handler}
 						child_data={child_obj}
 						child_edit_handler={child_edit_handler}
-						child_focus_handler={child_focus_handler}
 						child_remove_handler={delete_expense_group_child}
-						child_save_handler={child_save_handler}
-						edit_context_handler={edit_expense_group_child}
+						child_update_handler={child_update_handler}
 						edit_data={expense_group_entity_edit}
-						handle_focus={( event ) => console.log(event)}
-						handle_blur={( event ) => console.log(event)}
+						handle_focus={child_focus_handler}
+						handle_blur={child_blur_handler}
 						key={`expense-group-${id}-child-${index}`}
 					/>
 				);
