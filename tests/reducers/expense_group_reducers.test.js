@@ -278,7 +278,7 @@ describe("Expense Group Options", () => {
 	});
 
 	test("Returns given state when updated without an action type", () => {
-		let action = { costUOM : "week", size : "large" };
+		let action = { costUOM : "week" };
 
 		state = expense_group_options( state, action );
 
@@ -293,7 +293,6 @@ describe("Expense Group Options", () => {
 		expect(state).toEqual({
 			[ action.id ] : {
 				costUOM : "day",
-				size : "default",
 				dialog_open : false
 			}
 		});
@@ -314,7 +313,6 @@ describe("Expense Group Options", () => {
 		let action_2 = editEntityOption({
 			id : action_1.id,
 			costUOM : "week",
-			size : "large"
 		});
 
 		state = expense_group_options( state, action_1 );
@@ -323,7 +321,6 @@ describe("Expense Group Options", () => {
 		expect(state).toEqual({
 			[ action_1.id ] : {
 				costUOM : "week",
-				size : "large",
 				dialog_open : false
 			}
 		});
@@ -339,7 +336,6 @@ describe("Expense Group Options", () => {
 		expect(state).toEqual({
 			[ action_1.id ] : {
 				costUOM : "day",
-				size : "default",
 				dialog_open : true
 			}
 		});
@@ -357,7 +353,6 @@ describe("Expense Group Options", () => {
 		expect(state).toEqual({
 			[ action_1.id ] : {
 				costUOM : "day",
-				size : "default",
 				dialog_open : false
 			}
 		});

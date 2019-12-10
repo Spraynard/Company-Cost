@@ -22,6 +22,8 @@ import {
 	entity_edit_helper
 } from "./middleware";
 
+import config from "../config/app_config";
+
 // Default State or test state
 import stateData from "../data/default_state.json";
 
@@ -36,7 +38,7 @@ export const store = ( initialState = stateData ) =>
 		entity_edit_helper
 	)( createStore )(
 		rootReducer,
-		( localStorage["company_cost_store"] ) ?
-			JSON.parse( localStorage["company_cost_store"] ) :
+		( localStorage[`${config["localstorage-store-prefix"]}-${config["localstorage-store-name"]}`] ) ?
+			JSON.parse( localStorage[`${config["localstorage-store-prefix"]}-${config["localstorage-store-name"]}`] ) :
 			initialState
 	);

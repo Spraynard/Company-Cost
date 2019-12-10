@@ -10,12 +10,10 @@
     "expense_group_options" : {
         "2f308d80-d1e3-4aaf-80b7-1b9cb3d74d6d" : {
             "costUOM" : "day",
-            "size" : "default",
             "dialog_open" : false
         },
         "2f308d81-d1e3-4aaf-80b7-1b9cb3d74d6d" : {
             "costUOM": "day",
-            "size": "default",
             "dialog_open": false
         }
     },
