@@ -12,6 +12,8 @@ import {
 } from "./dataReferenceObjects";
 import { saveEntity } from "./actions/entity_actions";
 
+import config from "../config/app_config";
+
 // Log actions to the console as we dispatch them
 export const logger = store => next => action => {
 	let result;
@@ -34,7 +36,7 @@ export const logger = store => next => action => {
 // mocked here in this program under "local_stoarage_mock.js"
 export const saver = store => next => action => {
 	let result = next(action);
-	localStorage["company_cost_store"] = JSON.stringify(store.getState());
+	localStorage[`${config["localstorage-store-prefix"]}-${config["localstorage-store-name"]}`] = JSON.stringify(store.getState());
 	return result;
 };
 
