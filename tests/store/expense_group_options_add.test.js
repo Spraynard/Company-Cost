@@ -34,7 +34,7 @@ describe("Expense Group Options", () => {
 		expect(expense_group_option.costUOM).toBe("day");
 	});
 
-	test("Adds Default Size Value", () => {
-		expect(expense_group_option.size).toBe("default");
-	});
+	// test("Adds Default Size Value", () => {
+	// 	expect(expense_group_option.size).toBe("default");
+	// });
 });
