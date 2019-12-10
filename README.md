@@ -51,6 +51,11 @@ After you are done editing, either click/tap anywhere not on the currently editi
 #### Reading Your Expense Report
 Coming Soon.
 
+### FAQ
+
+* Q: The application wont load / is just a white screen
+    - Try clearing your `localStorage`. In the developer console (F12 or ctrl+shift+c or cmd+shift+c) enter `localStorage.clear()` and reload the page.
+
 ### Future Updates
 
 * :sunglasses: Updating to a more mobile friendly interface.
