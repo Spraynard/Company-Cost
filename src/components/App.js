@@ -53,7 +53,9 @@ import {
 
 import {
 	addExpenseGroupChild,
-	removeExpenseGroupChild
+	removeExpenseGroupChild,
+	selectExpenseGroupChild,
+	unselectExpenseGroupChild,
 } from "../actions/expense_group_child_actions";
 
 /** Helper Functions */
@@ -309,8 +311,9 @@ class App extends Component {
 						null;
 
 
-				const child_focus_handler = ( event ) => console.log(event);
-				const child_blur_handler = ( event ) => console.log(event);
+				const child_focus_handler = () =>  store.dispatch(selectExpenseGroupChild({id}));
+				const child_blur_handler = () => store.dispatch(unselectExpenseGroupChild({id}));
+
 				// Action dispatched when we delete an expense group child
 				// Notice the stopPropagation there. Yeah that's there for a reason.
 				const delete_expense_group_child = event => {

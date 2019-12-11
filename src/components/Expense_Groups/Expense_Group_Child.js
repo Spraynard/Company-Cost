@@ -70,6 +70,7 @@ const Expense_Group_Child = React.memo( props => {
 
 	return(
 		<Editable
+			className={classes.root}
 			component={TableRow}
 			data-id={id}
 			editView={<Expense_Group_Child_Edit_View
@@ -85,13 +86,13 @@ const Expense_Group_Child = React.memo( props => {
 			onFocus={handle_focus}
 			onBlur={handle_blur}
 			tabIndex={0}
-			className={classes.root}
+			selected={child_data.selected}
 			{...other}>
 			<Expense_Group_Child_Default_View
 				id={id}
 				child_display_data={display_child_data}
 				child_state_data={child_data}
-				delete_button={<Remove_Expense_Group_Child_Button onClick={child_remove_handler}/>}
+				delete_button={<Remove_Expense_Group_Child_Button tabIndex={-1} onClick={child_remove_handler}/>}
 			/>
 		</Editable>
 	);
